@@ -31,3 +31,15 @@
 + a06, a05, Links muito bons de PHP; PHP CheatSheet; Novas ideias do que estudar
 + next: 04 e a03
 
+## 06/05/2025
+
++ Tmepo: 00:19 - 00: 00:40
++ a04, e a03 quick
++ next: a02 a a01
+
+## 07/05/2025
+
++ 20:50 - 21:35
++ a02 e 01; termos gerais; cwe gerais; ferramentas par aphp
++ next:  Organizer MD de tudo; Start criar Cnavas do Top OWasp; PHP medidas de código
+

@@ -7,7 +7,7 @@
     👉 Uso incorreto de criptografia ou ausência dela, como dados sensíveis armazenados ou transmitidos sem proteção adequada (ex: sem HTTPS, senhas sem hash).
 
 3. **A03:2021 - Injeção (Injection)**  
-    👉 Quando comandos maliciosos são inseridos na aplicação (ex: **SQL Injection**, **Command Injection**) e são interpretados pelo sistema.
+    👉 Quando comandos maliciosos são injetados (mandados pelo usuário para o server) na aplicação (ex: **SQL Injection**, **Command Injection**) e são interpretados pelo sistema.
 
 4. **A04:2021 - Design Inseguro (Insecure Design)**  
     👉 Falta de princípios seguros desde a concepção do sistema, como ausência de validações ou lógicas mal planejadas que abrem brechas.
@@ -30,7 +30,7 @@
 10. **A10:2021 - Server-Side Request Forgery (SSRF)**  
     👉 A aplicação é induzida a fazer requisições para servidores internos que não deveriam estar expostos (ex: acessar `localhost` ou serviços internos via input do usuário).
 
-## Tabela
+# Tabela
 
 |                         Top10                         | CWEs Mapped | Max Incidence Rate | Avg Incidence Rate | Avg Weighted Exploit | Avg Weighted Impact | Max Coverage | Avg Coverage | Total Occurrences | Total CVEs |
 |:-----------------------------------------------------:|:-----------:|:------------------:|:------------------:|:--------------------:|:-------------------:|:------------:|:------------:|:-----------------:|:----------:|
