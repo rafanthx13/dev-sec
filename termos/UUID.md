@@ -78,7 +78,6 @@ Se quiser, posso te mostrar como gerar UUIDs em PHP e até criar um helper pra i
 
 Quer um exemplo prático de uso em PHP?
 
-
 ## Q2
 
 > Existem outra técnicas de obfuscação?
@@ -126,6 +125,7 @@ São bibliotecas específicas para gerar identificadores curtos e únicos com ob
   $hashids = new \Hashids\Hashids('this is my salt');
   $hash = $hashids->encode(123); // -> "Njds"
   ```
+
 * [NanoID](https://github.com/hidehalo/nanoid-php)
 
   ```php
@@ -184,5 +184,3 @@ Obfuscação é como usar cortina em casa: não impede o ladrão de entrar, mas 
 ---
 
 Quer que eu gere um exemplo prático com alguma dessas técnicas?
-
-

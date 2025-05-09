@@ -27,7 +27,7 @@
 ## Do owap top 10
 
 + A10:2021-Server-Side Request Forgery is added from the Top 10 community survey (#1). The data shows a relatively low incidence rate with above average testing coverage, along with above-average ratings for Exploit and Impact potential. This category represents the scenario where the security community members are telling us this is important, even though it’s not illustrated in the data at this time.
-  -É uma categoria nova se comapra 2017 com 2021
+    + É uma categoria nova se comapra 2017 com 2021
 
 ## O que é
 

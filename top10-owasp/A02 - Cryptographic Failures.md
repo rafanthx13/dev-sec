@@ -18,28 +18,27 @@ Subindo uma posição para #2, anteriormente conhecido como  _Exposição de Dad
 
 A primeira coisa é determinar as necessidades de proteção dos dados em trânsito e armazenados. Por exemplo, senhas, número de cartão de crédito, registros de saúde, informações pessoas e segredos de negócios que requerem proteção extra, principalmente se esses dados se enquadrarem nas leis de privacidade, alguns exemplos são a da Europa General Data Protection Regulation (GDPR) ou regulamentos de proteção de dados financeiros, como PCI Data Security Standard (PCI DSS). Para todos esses dados:
 
--   Todos os dados são transmitidos em texto não criptografado? Isso diz respeito a protocolos como HTTP, SMTP, FTP também usando atualizações TLS como STARTTLS. O tráfego externo da Internet é perigoso. Verifique todo o tráfego interno, por exemplo, entre balanceadores de carga, servidores da web ou sistemas  _back-end_.
-    
--   Algum algoritmo ou protocolo criptográfico antigo ou fraco é usado por padrão ou em código mais antigo?
-    
--   As chaves criptográficas padrão em uso, são chaves criptográficas geradas fracas ou reutilizadas, faltando o gerenciamento ou rotação de chaves adequado? As chaves criptográficas são verificadas nos repositórios de código-fonte?
-    
--   A criptografia não é aplicada, por exemplo, há alguma diretiva de segurança de cabeçalhos HTTP (navegador) ou cabeçalhos ausentes?
-    
--   O certificado do servidor recebido e a cadeia de confiança estão devidamente validados?
-    
--   Os vetores de inicialização são ignorados, reutilizados ou não gerados suficientemente seguros para o modo criptográfico de operação? Está em uso um modo de operação inseguro, como o ECB? A criptografia é usada quando a criptografia autenticada é a mais apropriada?
-    
--   As senhas estão sendo usadas como chaves criptográficas na ausência de uma função de derivação de chave de base de senha?
-    
--   A aleatoriedade é usada para fins criptográficos que não foram projetados para atender aos requisitos criptográficos? Mesmo se a função correta for escolhida, ela precisa ser propagada pelo desenvolvedor e, se não, o desenvolvedor sobrescreveu a forte funcionalidade de propagação incorporada a ela com uma semente que carece de entropia/imprevisibilidade suficiente?
-    
--   Estão em uso funções hash obsoletas, como MD5 ou SHA1, ou funções hash não criptográficas usadas quando funções hash criptográficas são necessárias?
-    
--   Estão em uso métodos de preenchimento criptográfico obsoletos, como PKCS número 1 v1.5?
-    
--   As mensagens de erro criptográficas ou as informações do canal lateral podem ser exploradas, por exemplo, na forma de ataques oracle de preenchimento?
-    
+- Todos os dados são transmitidos em texto não criptografado? Isso diz respeito a protocolos como HTTP, SMTP, FTP também usando atualizações TLS como STARTTLS. O tráfego externo da Internet é perigoso. Verifique todo o tráfego interno, por exemplo, entre balanceadores de carga, servidores da web ou sistemas  _back-end_.
+
+- Algum algoritmo ou protocolo criptográfico antigo ou fraco é usado por padrão ou em código mais antigo?
+
+- As chaves criptográficas padrão em uso, são chaves criptográficas geradas fracas ou reutilizadas, faltando o gerenciamento ou rotação de chaves adequado? As chaves criptográficas são verificadas nos repositórios de código-fonte?
+
+- A criptografia não é aplicada, por exemplo, há alguma diretiva de segurança de cabeçalhos HTTP (navegador) ou cabeçalhos ausentes?
+
+- O certificado do servidor recebido e a cadeia de confiança estão devidamente validados?
+
+- Os vetores de inicialização são ignorados, reutilizados ou não gerados suficientemente seguros para o modo criptográfico de operação? Está em uso um modo de operação inseguro, como o ECB? A criptografia é usada quando a criptografia autenticada é a mais apropriada?
+
+- As senhas estão sendo usadas como chaves criptográficas na ausência de uma função de derivação de chave de base de senha?
+
+- A aleatoriedade é usada para fins criptográficos que não foram projetados para atender aos requisitos criptográficos? Mesmo se a função correta for escolhida, ela precisa ser propagada pelo desenvolvedor e, se não, o desenvolvedor sobrescreveu a forte funcionalidade de propagação incorporada a ela com uma semente que carece de entropia/imprevisibilidade suficiente?
+
+- Estão em uso funções hash obsoletas, como MD5 ou SHA1, ou funções hash não criptográficas usadas quando funções hash criptográficas são necessárias?
+
+- Estão em uso métodos de preenchimento criptográfico obsoletos, como PKCS número 1 v1.5?
+
+- As mensagens de erro criptográficas ou as informações do canal lateral podem ser exploradas, por exemplo, na forma de ataques oracle de preenchimento?
 
 Consulte ASVS Crypto (V7), Data Protection (V9) e SSL/TLS (V10)
 
@@ -47,36 +46,35 @@ Consulte ASVS Crypto (V7), Data Protection (V9) e SSL/TLS (V10)
 
 Faça o seguinte, no mínimo, e consulte as referências:
 
--   Classifique os dados processados, armazenados ou transmitidos por um aplicativo. Identifique quais dados são confidenciais de acordo com as leis de privacidade, requisitos regulamentares ou necessidades de negócios.
-    
--   Não armazene dados confidenciais desnecessariamente. Descarte-o o mais rápido possível ou use tokenização compatível com PCI DSS ou mesmo truncamento. Os dados não retidos não podem ser roubados.
-    
--   Certifique-se de criptografar todos os dados confidenciais armazenados.
-    
--   Certifique-se de que algoritmos, protocolos e senhas de padrão forte e atualizados estejam em vigor; use o gerenciamento de senhas adequado.
-    
--   Criptografe todos os dados em trânsito com protocolos seguros, como TLS com cifras de sigilo de encaminhamento (FS), priorização de cifras pelo servidor e parâmetros seguros. Aplique a criptografia usando diretivas como HTTP Strict Transport Security (HSTS).
-    
--   Desative o armazenamento em cache para respostas que contenham dados confidenciais.
-    
--   Aplique os controles de segurança necessários de acordo com a classificação de dados.
-    
--   Não use protocolos legados, como FTP e SMTP, para transportar dados confidenciais.
-    
--   Armazene senhas usando fortes funções de hash adaptáveis e saltadas com um fator de trabalho (fator de atraso), como Argon2, scrypt, bcrypt ou PBKDF2.
-    
--   Os vetores de inicialização devem ser escolhidos de acordo com o modo de operação. Para muitos modos, isso significa usar um CSPRNG (gerador de números pseudo-aleatórios criptograficamente seguro). Para modos que requerem um nonce, o vetor de inicialização (IV) não precisa de um CSPRNG. Em todos os casos, o IV nunca deve ser usado duas vezes para uma chave fixa.
-    
--   Sempre use criptografia autenticada em vez de apenas criptografia.
-    
--   As chaves devem ser geradas de forma criptograficamente aleatória e armazenadas na memória como um  _array_  de  _bytes_. Se uma senha for usada, ela deve ser convertida em uma chave por meio de uma função de derivação de chave de base de senha apropriada.
-    
--   Certifique-se de que a aleatoriedade criptográfica seja usada quando apropriado e que não tenha sido usada uma semente de uma forma previsível ou com baixa entropia. A maioria das APIs modernas não exige que o desenvolvedor propague o CSPRNG para obter segurança.
-    
--   Evite funções criptográficas e esquemas de preenchimento obsoletos, como MD5, SHA1, PKCS número 1 v1.5.
-    
--   Verifique de forma independente a eficácia das configurações.
-    
+- Classifique os dados processados, armazenados ou transmitidos por um aplicativo. Identifique quais dados são confidenciais de acordo com as leis de privacidade, requisitos regulamentares ou necessidades de negócios.
+
+- Não armazene dados confidenciais desnecessariamente. Descarte-o o mais rápido possível ou use tokenização compatível com PCI DSS ou mesmo truncamento. Os dados não retidos não podem ser roubados.
+
+- Certifique-se de criptografar todos os dados confidenciais armazenados.
+
+- Certifique-se de que algoritmos, protocolos e senhas de padrão forte e atualizados estejam em vigor; use o gerenciamento de senhas adequado.
+
+- Criptografe todos os dados em trânsito com protocolos seguros, como TLS com cifras de sigilo de encaminhamento (FS), priorização de cifras pelo servidor e parâmetros seguros. Aplique a criptografia usando diretivas como HTTP Strict Transport Security (HSTS).
+
+- Desative o armazenamento em cache para respostas que contenham dados confidenciais.
+
+- Aplique os controles de segurança necessários de acordo com a classificação de dados.
+
+- Não use protocolos legados, como FTP e SMTP, para transportar dados confidenciais.
+
+- Armazene senhas usando fortes funções de hash adaptáveis e saltadas com um fator de trabalho (fator de atraso), como Argon2, scrypt, bcrypt ou PBKDF2.
+
+- Os vetores de inicialização devem ser escolhidos de acordo com o modo de operação. Para muitos modos, isso significa usar um CSPRNG (gerador de números pseudo-aleatórios criptograficamente seguro). Para modos que requerem um nonce, o vetor de inicialização (IV) não precisa de um CSPRNG. Em todos os casos, o IV nunca deve ser usado duas vezes para uma chave fixa.
+
+- Sempre use criptografia autenticada em vez de apenas criptografia.
+
+- As chaves devem ser geradas de forma criptograficamente aleatória e armazenadas na memória como um  _array_  de  _bytes_. Se uma senha for usada, ela deve ser convertida em uma chave por meio de uma função de derivação de chave de base de senha apropriada.
+
+- Certifique-se de que a aleatoriedade criptográfica seja usada quando apropriado e que não tenha sido usada uma semente de uma forma previsível ou com baixa entropia. A maioria das APIs modernas não exige que o desenvolvedor propague o CSPRNG para obter segurança.
+
+- Evite funções criptográficas e esquemas de preenchimento obsoletos, como MD5, SHA1, PKCS número 1 v1.5.
+
+- Verifique de forma independente a eficácia das configurações.
 
 ## Exemplos de Cenários de Ataque
 
@@ -88,20 +86,19 @@ Faça o seguinte, no mínimo, e consulte as referências:
 
 ## Referências
 
--   [OWASP Proactive Controls: Protect Data Everywhere](https://owasp.org/www-project-proactive-controls/v3/en/c8-protect-data-everywhere)
-    
--   [OWASP Application Security Verification Standard (V7, 9, 10)](https://owasp.org/www-project-application-security-verification-standard)
-    
--   [OWASP Cheat Sheet: Transport Layer Protection](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html)
-    
--   [OWASP Cheat Sheet: User Privacy Protection](https://cheatsheetseries.owasp.org/cheatsheets/User_Privacy_Protection_Cheat_Sheet.html)
-    
--   [OWASP Cheat Sheet: Password and Cryptographic Storage](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
-    
--   [OWASP Cheat Sheet: HSTS](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html)
-    
--   [OWASP Testing Guide: Testing for weak cryptography](https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/09-Testing_for_Weak_Cryptography/README)
-    
+- [OWASP Proactive Controls: Protect Data Everywhere](https://owasp.org/www-project-proactive-controls/v3/en/c8-protect-data-everywhere)
+
+- [OWASP Application Security Verification Standard (V7, 9, 10)](https://owasp.org/www-project-application-security-verification-standard)
+
+- [OWASP Cheat Sheet: Transport Layer Protection](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html)
+
+- [OWASP Cheat Sheet: User Privacy Protection](https://cheatsheetseries.owasp.org/cheatsheets/User_Privacy_Protection_Cheat_Sheet.html)
+
+- [OWASP Cheat Sheet: Password and Cryptographic Storage](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+
+- [OWASP Cheat Sheet: HSTS](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html)
+
+- [OWASP Testing Guide: Testing for weak cryptography](https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/09-Testing_for_Weak_Cryptography/README)
 
 ## Lista dos CWEs Mapeados
 
@@ -183,28 +180,28 @@ Criptografia não é só “ativar HTTPS”. Trata-se de proteger dados **em rep
 
 ## ⚠️ Exemplos comuns de falhas
 
-* Transmitir dados sensíveis sem HTTPS (em texto claro).
-* Usar algoritmos criptográficos inseguros, como **MD5**, **SHA-1** ou **DES**.
-* Gerenciar mal as chaves (armazenadas em código, sem rotação, sem proteção adequada).
-* Não criptografar dados sensíveis armazenados, como CPF, cartão, senhas (sem `bcrypt`, `argon2`, `scrypt`, etc.).
-* Usar cifras simétricas com **chaves fracas** ou **modos de operação inseguros** (ex: ECB).
-* Erros em protocolos de handshake ou autenticação mútua.
+- Transmitir dados sensíveis sem HTTPS (em texto claro).
+- Usar algoritmos criptográficos inseguros, como **MD5**, **SHA-1** ou **DES**.
+- Gerenciar mal as chaves (armazenadas em código, sem rotação, sem proteção adequada).
+- Não criptografar dados sensíveis armazenados, como CPF, cartão, senhas (sem `bcrypt`, `argon2`, `scrypt`, etc.).
+- Usar cifras simétricas com **chaves fracas** ou **modos de operação inseguros** (ex: ECB).
+- Erros em protocolos de handshake ou autenticação mútua.
 
 ---
 
 ## 🛡️ Como se proteger
 
-* **Use HTTPS** sempre, com **TLS 1.2 ou superior**.
-* **Evite algoritmos obsoletos** — prefira AES, SHA-256, RSA com tamanhos de chave adequados.
-* **Armazene senhas com hash seguro**, como:
+- **Use HTTPS** sempre, com **TLS 1.2 ou superior**.
+- **Evite algoritmos obsoletos** — prefira AES, SHA-256, RSA com tamanhos de chave adequados.
+- **Armazene senhas com hash seguro**, como:
 
-  * `bcrypt`
-  * `argon2`
-  * `scrypt`
-* **Nunca implemente seu próprio algoritmo criptográfico.**
-* Proteja **as chaves**: armazene-as em cofres seguros (como Azure Key Vault, AWS KMS, HashiCorp Vault).
-* Faça **rotação de chaves** regularmente.
-* Classifique dados sensíveis e só criptografe quando for realmente necessário (evite criptografia superficial).
+    - `bcrypt`
+    - `argon2`
+    - `scrypt`
+- **Nunca implemente seu próprio algoritmo criptográfico.**
+- Proteja **as chaves**: armazene-as em cofres seguros (como Azure Key Vault, AWS KMS, HashiCorp Vault).
+- Faça **rotação de chaves** regularmente.
+- Classifique dados sensíveis e só criptografe quando for realmente necessário (evite criptografia superficial).
 
 ---
 
@@ -226,16 +223,15 @@ $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
 ## 📎 Referência
 
-* [OWASP Top 10: A02 - Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
+- [OWASP Top 10: A02 - Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
 
 ---
 
 Deseja exemplos de código com criptografia correta em alguma linguagem específica, como PHP, Python ou Go?
 
-
 ### Q2
 
->  Desejo em php
+> Desejo em php
 
 Ótimo! Aqui vão exemplos práticos de **criptografia segura em PHP**, cobrindo os principais cenários:
 
@@ -401,7 +397,7 @@ $key = getenv('APP_KEY'); // ou vindo de um cofre seguro
 openssl_encrypt($dados, 'aes-256-ecb', $key);
 ```
 
-* Modo ECB é determinístico — **padrões nos dados se repetem** no ciphertext.
+- Modo ECB é determinístico — **padrões nos dados se repetem** no ciphertext.
 
 **Correto:**
 
@@ -439,7 +435,6 @@ Você criptografa dados, mas não verifica se **foram alterados**. Um atacante p
 ---
 
 Se quiser, posso revisar algum trecho de um código seu em PHP para ver se há falhas criptográficas ou sugerir melhorias. Deseja isso?
-
 
 ## Perplexity
 
@@ -513,7 +508,6 @@ O caso Freecycle enfatiza a necessidade de:
 - Atualizar sistemas para implementar algoritmos mais seguros
 - Considerar a criptografia como um componente essencial do design de segurança, não como um adicional
 
-
 ## Aspectos Técnicos das Falhas Criptográficas
 
 ### Algoritmos Criptográficos Comumente Vulneráveis
@@ -524,7 +518,6 @@ Certos algoritmos criptográficos são conhecidamente vulneráveis e devem ser e
 - DES e 3DES para criptografia simétrica
 - RSA com chaves curtas para criptografia assimétrica[^17]
 
-
 ### Implementação Correta de Protocolos Criptográficos
 
 A implementação correta de protocolos criptográficos deve considerar:
@@ -533,7 +526,6 @@ A implementação correta de protocolos criptográficos deve considerar:
 - Implementação de sal (salt) para hashing de senhas
 - Seleção de modos de operação seguros para algoritmos de blocos criptográficos
 - Validação adequada de certificados[^17][^19]
-
 
 ## Conclusão
 
@@ -626,4 +618,3 @@ As organizações devem considerar a criptografia como um componente fundamental
 [^40]: https://github.com/3ls3if/Cybersecurity-Notes/blob/main/readme/owasp-top-10/web/a02-2021-cryptographic-failures.md
 
 [^41]: https://cybersecuritynews.com/freecycle-data-breach/
-

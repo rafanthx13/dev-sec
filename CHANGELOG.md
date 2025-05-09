@@ -43,3 +43,6 @@
 + a02 e 01; termos gerais; cwe gerais; ferramentas par aphp
 + next:  Organizer MD de tudo; Start criar Cnavas do Top OWasp; PHP medidas de código
 
+## 08/05/2025
+
++ 23:00

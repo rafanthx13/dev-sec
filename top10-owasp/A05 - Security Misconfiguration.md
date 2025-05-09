@@ -20,22 +20,21 @@ Sâoq uesôes de configuraçoes default, ou sem restrçao ouq ue msotrma demais 
 
 A aplicação pode ser vulnerável se for:
 
--   Falta de proteção de segurança apropriada em qualquer parte da  _stack_  das aplicações ou permissões configuradas incorretamente em serviços em nuvem.
-    
--   Recursos desnecessários são ativados ou instalados (por exemplo, portas, serviços, páginas, contas ou privilégios desnecessários).
-    
--   As contas padrão e suas senhas ainda estão ativadas e inalteradas.
-    
--   O tratamento de erros revela  _stack traces_  ou outras mensagens de erro excessivamente informativas aos usuários.
-    
--   Para sistemas atualizados, os recursos de segurança mais recentes estão desabilitados ou não estão configurados com segurança.
-    
--   As configurações de segurança nos servidores das aplicações, nos  _frameworks_  (por exemplo, Struts, Spring, ASP.NET), bibliotecas, bancos de dados, etc., não estão definidas para proteger os valores.
-    
--   O servidor não envia cabeçalhos ou diretivas de segurança, ou eles não estão configurados para proteger os valores.
-    
--   O software está desatualizado ou vulnerável (consulte  [A06: 2021-Componentes Vulneráveis e Desatualizados](https://owasp.org/Top10/pt_BR/A06_2021-Vulnerable_and_Outdated_Components/)).
-    
++ Falta de proteção de segurança apropriada em qualquer parte da  _stack_  das aplicações ou permissões configuradas incorretamente em serviços em nuvem.
+
++ Recursos desnecessários são ativados ou instalados (por exemplo, portas, serviços, páginas, contas ou privilégios desnecessários).
+
++ As contas padrão e suas senhas ainda estão ativadas e inalteradas.
+
++ O tratamento de erros revela  _stack traces_  ou outras mensagens de erro excessivamente informativas aos usuários.
+
++ Para sistemas atualizados, os recursos de segurança mais recentes estão desabilitados ou não estão configurados com segurança.
+
++ As configurações de segurança nos servidores das aplicações, nos  _frameworks_  (por exemplo, Struts, Spring, ASP.NET), bibliotecas, bancos de dados, etc., não estão definidas para proteger os valores.
+
++ O servidor não envia cabeçalhos ou diretivas de segurança, ou eles não estão configurados para proteger os valores.
+
++ O software está desatualizado ou vulnerável (consulte  [A06: 2021-Componentes Vulneráveis e Desatualizados](https://owasp.org/Top10/pt_BR/A06_2021-Vulnerable_and_Outdated_Components/)).
 
 Sem um processo de configuração de segurança de aplicações que seja integrado e repetível, os sistemas correm um risco maior.
 
@@ -43,17 +42,17 @@ Sem um processo de configuração de segurança de aplicações que seja integra
 
 Devem ser implementados processos de instalação segura, incluindo:
 
--   Um processo de proteção repetível torna mais rápido e fácil implantar outro ambiente que esteja devidamente bloqueado. Os ambientes de desenvolvimento, controle de qualidade e produção devem ser todos configurados de forma idêntica, com credenciais diferentes usadas em cada ambiente. Este processo deve ser automatizado para minimizar o esforço necessário para configurar um novo ambiente seguro.
-    
--   Uma plataforma mínima sem recursos, componentes, documentação e outros desnecessários. Remova ou não instale recursos e estruturas não utilizados.
-    
--   -   Uma tarefa para revisar e atualizar as configurações apropriadas para todas as notas de segurança, atualizações e patches como parte do processo de gerenciamento de patch (consulte  [A06: 2021-Componentes Vulneráveis e Desatualizados](https://owasp.org/Top10/pt_BR/A06_2021-Vulnerable_and_Outdated_Components/)). Revise as permissões de armazenamento em nuvem (por exemplo,  _S3 bucket permissions_).
--   Uma arquitetura de aplicação segmentada fornece separação eficaz e segura entre componentes ou  _tenants_, com segmentação, conteinerização ou grupos de segurança em nuvem (ACLs).
-    
--   Envio de diretivas de segurança para clientes, por exemplo,  _Security Headers_.
-    
--   Um processo automatizado para verificar a eficácia das configurações em todos os ambientes.
-    
++ Um processo de proteção repetível torna mais rápido e fácil implantar outro ambiente que esteja devidamente bloqueado. Os ambientes de desenvolvimento, controle de qualidade e produção devem ser todos configurados de forma idêntica, com credenciais diferentes usadas em cada ambiente. Este processo deve ser automatizado para minimizar o esforço necessário para configurar um novo ambiente seguro.
+
++ Uma plataforma mínima sem recursos, componentes, documentação e outros desnecessários. Remova ou não instale recursos e estruturas não utilizados.
+
+    + Uma tarefa para revisar e atualizar as configurações apropriadas para todas as notas de segurança, atualizações e patches como parte do processo de gerenciamento de patch (consulte  [A06: 2021-Componentes Vulneráveis e Desatualizados](https://owasp.org/Top10/pt_BR/A06_2021-Vulnerable_and_Outdated_Components/)). Revise as permissões de armazenamento em nuvem (por exemplo,  _S3 bucket permissions_).
+
++ Uma arquitetura de aplicação segmentada fornece separação eficaz e segura entre componentes ou  _tenants_, com segmentação, conteinerização ou grupos de segurança em nuvem (ACLs).
+
++ Envio de diretivas de segurança para clientes, por exemplo,  _Security Headers_.
+
++ Um processo automatizado para verificar a eficácia das configurações em todos os ambientes.
 
 ## Exemplos de Cenários de Ataque
 
@@ -67,18 +66,17 @@ Devem ser implementados processos de instalação segura, incluindo:
 
 ## Referências
 
--   [OWASP Testing Guide: Configuration Management](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/02-Configuration_and_Deployment_Management_Testing/README)
-    
--   [OWASP Testing Guide: Testing for Error Codes](https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/08-Testing_for_Error_Handling/01-Testing_For_Improper_Error_Handling)
-    
--   Application Security Verification Standard V19 Configuration
-    
--   [NIST Guide to General Server Hardening](https://csrc.nist.gov/publications/detail/sp/800-123/final)
-    
--   [CIS Security Configuration Guides/Benchmarks](https://www.cisecurity.org/cis-benchmarks/)
-    
--   [Amazon S3 Bucket Discovery and Enumeration](https://blog.websecurify.com/2017/10/aws-s3-bucket-discovery.html)
-    
++ [OWASP Testing Guide: Configuration Management](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/02-Configuration_and_Deployment_Management_Testing/README)
+
++ [OWASP Testing Guide: Testing for Error Codes](https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/08-Testing_for_Error_Handling/01-Testing_For_Improper_Error_Handling)
+
++ Application Security Verification Standard V19 Configuration
+
++ [NIST Guide to General Server Hardening](https://csrc.nist.gov/publications/detail/sp/800-123/final)
+
++ [CIS Security Configuration Guides/Benchmarks](https://www.cisecurity.org/cis-benchmarks/)
+
++ [Amazon S3 Bucket Discovery and Enumeration](https://blog.websecurify.com/2017/10/aws-s3-bucket-discovery.html)
 
 ## Lista dos CWEs Mapeados
 
@@ -130,7 +128,6 @@ Devem ser implementados processos de instalação segura, incluindo:
 --==========================================================
 --==========================================================
 
-
 ## Chatpgt
 
 ### Q1 - CHATPGT - O que é A05
@@ -165,9 +162,9 @@ Claro! A **A05:2021 - Security Misconfiguration** (ou **"Configuração de Segur
 
 A A05 acontece, em geral, quando:
 
-* A equipe esquece de revisar as configurações padrão (do servidor, app ou dependência).
-* Há falta de consistência entre **ambientes de dev, staging e produção**.
-* Não há processos de **hardening (reforço de segurança)** e **automatização** de configurações seguras.
++ A equipe esquece de revisar as configurações padrão (do servidor, app ou dependência).
++ Há falta de consistência entre **ambientes de dev, staging e produção**.
++ Não há processos de **hardening (reforço de segurança)** e **automatização** de configurações seguras.
 
 ---
 
@@ -175,23 +172,23 @@ A A05 acontece, em geral, quando:
 
 ### 1. **Desabilite o que não usa**
 
-* Remova consoles, endpoints de debug, permissões de arquivos, usuários padrão.
++ Remova consoles, endpoints de debug, permissões de arquivos, usuários padrão.
 
 ### 2. **Revise as configurações de segurança**
 
-* Cheque CORS, headers HTTP, autenticação, permissões de acesso.
++ Cheque CORS, headers HTTP, autenticação, permissões de acesso.
 
 ### 3. **Automatize e padronize**
 
-* Use ferramentas como **Ansible**, **Terraform**, **Dockerfile hardening** e **CI/CD pipelines** com políticas seguras.
++ Use ferramentas como **Ansible**, **Terraform**, **Dockerfile hardening** e **CI/CD pipelines** com políticas seguras.
 
 ### 4. **Configure o ambiente corretamente**
 
-* Separe credenciais, desative debug em produção, restrinja portas/serviços, use HTTPS sempre.
++ Separe credenciais, desative debug em produção, restrinja portas/serviços, use HTTPS sempre.
 
 ### 5. **Use scanners de segurança**
 
-* Ferramentas como **OWASP ZAP**, **Nikto**, **Nmap**, **SSL Labs**, **Mozilla Observatory** podem detectar falhas de configuração.
++ Ferramentas como **OWASP ZAP**, **Nikto**, **Nmap**, **SSL Labs**, **Mozilla Observatory** podem detectar falhas de configuração.
 
 ---
 
@@ -215,7 +212,6 @@ APP_ENV=production
 ---
 
 Se quiser, posso revisar com você algumas configurações de segurança em um projeto Laravel seu, ou mostrar como usar scanners como o ZAP para encontrar essas falhas. Deseja?
-
 
 ### Q2 - Exemplos disos em php e laravel
 
@@ -278,8 +274,8 @@ http://example.com/config.php
 
 ✅ **Correção:**
 
-* Mover arquivos confidenciais para fora do `public_html`.
-* Usar `.htaccess` para bloquear acesso:
++ Mover arquivos confidenciais para fora do `public_html`.
++ Usar `.htaccess` para bloquear acesso:
 
 ```apache
 <Files .env>
@@ -355,17 +351,16 @@ Route::middleware(['auth'])->group(function () {
 
 A melhor forma de evitar a A05 é manter **uma checklist de segurança para deploy** com itens como:
 
-* `APP_DEBUG=false`
-* `.env` inacessível
-* permissões corretas
-* headers ativos
-* endpoints sensíveis autenticados
++ `APP_DEBUG=false`
++ `.env` inacessível
++ permissões corretas
++ headers ativos
++ endpoints sensíveis autenticados
 
 ---
 
 Quer que eu te ajude a criar um checklist de deploy seguro para PHP ou Laravel?
 
-
 --==========================================================
 --==========================================================
 --==========================================================
@@ -374,23 +369,22 @@ Quer que eu te ajude a criar um checklist de deploy seguro para PHP ou Laravel?
 --==========================================================
 --==========================================================
 
-
-## perplexity
+## Perplexity
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # A05:2021-Configuração Incorreta de Segurança da OWASP Top 10
 
-A categoria **A05:2021-Configuração Incorreta de Segurança** ocupa a 5ª posição no OWASP Top 10 2021, representando uma das vulnerabilidades mais críticas em aplicações web modernas. Caracterizada pela implementação inadequada de controles de segurança em componentes de software, infraestrutura ou serviços em nuvem, essa falha expõe sistemas a explorações que poderiam ser evitadas com configurações adequadas. Estudos indicam que **90% das aplicações** testadas apresentaram pelo menos uma forma de configuração insegura, com mais de 208 mil ocorrências documentadas de *Common Weakness Enumeration* (CWE) relacionadas a essa categoria[^1][^3].
+A categoria **A05:2021-Configuração Incorreta de Segurança** ocupa a 5ª posição no OWASP Top 10 2021, representando uma das vulnerabilidades mais críticas em aplicações web modernas. Caracterizada pela implementação inadequada de controles de segurança em componentes de software, infraestrutura ou serviços em nuvem, essa falha expõe sistemas a explorações que poderiam ser evitadas com configurações adequadas. Estudos indicam que **90% das aplicações** testadas apresentaram pelo menos uma forma de configuração insegura, com mais de 208 mil ocorrências documentadas de _Common Weakness Enumeration_ (CWE) relacionadas a essa categoria[^1][^3].
 
 ## Descrição e Contextualização Técnica
 
-A configuração incorreta de segurança ocorre quando componentes da stack de tecnologia (servidores, bancos de dados, frameworks) não são protegidos adequadamente, permitindo que atacantes explorem brechas previsíveis. Essa vulnerabilidade é particularmente perigosa por sua natureza *silenciosa* – muitas organizações não percebem que estão expostas até sofrerem um incidente.
+A configuração incorreta de segurança ocorre quando componentes da stack de tecnologia (servidores, bancos de dados, frameworks) não são protegidos adequadamente, permitindo que atacantes explorem brechas previsíveis. Essa vulnerabilidade é particularmente perigosa por sua natureza _silenciosa_ – muitas organizações não percebem que estão expostas até sofrerem um incidente.
 
 ### Mecanismos Subjacentes
 
 1. **Configurações Padrão Não Modificadas**: Muitos sistemas são implantados com configurações de fábrica que priorizam facilidade de uso sobre segurança, como credenciais administrativas padrão (ex.: admin/senha) e portas de serviço desnecessárias abertas[^1][^6].
-2. **Exposição de Informações Sensíveis**: Mensagens de erro detalhadas, *stack traces* e páginas de diagnóstico expõem detalhes internos do sistema, fornecendo insights valiosos para atacantes[^1][^5].
+2. **Exposição de Informações Sensíveis**: Mensagens de erro detalhadas, _stack traces_ e páginas de diagnóstico expõem detalhes internos do sistema, fornecendo insights valiosos para atacantes[^1][^5].
 3. **Falha na Atualização de Componentes**: Serviços desatualizados ou não corrigidos mantêm vulnerabilidades conhecidas, mesmo quando patches estão disponíveis[^1][^6].
 4. **Permissões Excessivas**: Contas de serviço com privilégios elevados além do necessário aumentam a superfície de ataque[^2][^5].
 
@@ -400,21 +394,20 @@ Um estudo realizado na plataforma Moodle demonstrou que configurações incorret
 
 ### Automação de Configurações Seguras
 
-A adoção de **Infraestrutura como Código (IaC)** permite definir configurações de segurança de forma programática, garantindo consistência entre ambientes de desenvolvimento, teste e produção. Ferramentas como *Xygeni IaC Security* automatizam a verificação de parâmetros críticos, como desabilitação de serviços não essenciais e aplicação de políticas de criptografia[^2][^5].
+A adoção de **Infraestrutura como Código (IaC)** permite definir configurações de segurança de forma programática, garantindo consistência entre ambientes de desenvolvimento, teste e produção. Ferramentas como _Xygeni IaC Security_ automatizam a verificação de parâmetros críticos, como desabilitação de serviços não essenciais e aplicação de políticas de criptografia[^2][^5].
 
 ### Auditorias Contínuas
 
 Processos de revisão periódica devem incluir:
 
-- Verificação de contas padrão e senhas não alteradas
-- Análise de permissões de arquivos e diretórios
-- Validação de cabeçalhos de segurança (ex.: Content-Security-Policy, X-Content-Type-Options)
-- Monitoramento de serviços expostos na rede[^1][^5]
-
++ Verificação de contas padrão e senhas não alteradas
++ Análise de permissões de arquivos e diretórios
++ Validação de cabeçalhos de segurança (ex.: Content-Security-Policy, X-Content-Type-Options)
++ Monitoramento de serviços expostos na rede[^1][^5]
 
 ### Princípio do Menor Privilégio
 
-A restrição de acesso baseada em funções (*RBAC*) reduz o impacto potencial de configurações incorretas. Por exemplo, bancos de dados não devem ser acessíveis diretamente da internet, e contas de serviço devem ter privilégios limitados às operações estritamente necessárias[^2][^6].
+A restrição de acesso baseada em funções (_RBAC_) reduz o impacto potencial de configurações incorretas. Por exemplo, bancos de dados não devem ser acessíveis diretamente da internet, e contas de serviço devem ter privilégios limitados às operações estritamente necessárias[^2][^6].
 
 ### Remediação de Vulnerabilidades Conhecidas
 
@@ -424,10 +417,9 @@ A integração de scanners de vulnerabilidade em pipelines CI/CD ajuda a identif
 
 ### Consequências Operacionais
 
-- **Exfiltração de Dados**: Configurações incorretas em armazenamentos em nuvem (ex.: buckets S3 públicos) levaram a vazamentos massivos, como o caso da **Primeira Corporação Financeira Americana** em 2019, que expôs 885 milhões de registros[^2].
-- **Comprometimento de Sistemas**: O ataque ao **Twitter em 2020** explorou controles de acesso fracos em ferramentas internas, permitindo que invasores assumissem contas de alta visibilidade[^2].
-- **Paralisia Operacional**: O ransomware **WannaCry** (2017) aproveitou-se de sistemas Windows não atualizados com a correção MS17-010, demonstrando como a falha em aplicar patches críticos pode ter consequências globais[^5].
-
++ **Exfiltração de Dados**: Configurações incorretas em armazenamentos em nuvem (ex.: buckets S3 públicos) levaram a vazamentos massivos, como o caso da **Primeira Corporação Financeira Americana** em 2019, que expôs 885 milhões de registros[^2].
++ **Comprometimento de Sistemas**: O ataque ao **Twitter em 2020** explorou controles de acesso fracos em ferramentas internas, permitindo que invasores assumissem contas de alta visibilidade[^2].
++ **Paralisia Operacional**: O ransomware **WannaCry** (2017) aproveitou-se de sistemas Windows não atualizados com a correção MS17-010, demonstrando como a falha em aplicar patches críticos pode ter consequências globais[^5].
 
 ### Estudo de Caso: Violação do Target (2013)
 
@@ -437,28 +429,28 @@ Um exemplo clássico envolveu a cadeia de suprimentos da Target, onde credenciai
 
 Com a adoção acelerada de tecnologias em nuvem e microsserviços, a complexidade das configurações aumentou exponencialmente. Dados do **Relatório de Ameaças da IBM (2023)** indicam que **68% das violações** envolvem erros de configuração, muitas vezes relacionados a APIs mal protegidas ou serviços de armazenamento expostos.
 
-A ascensão de ambientes *serverless* e containers introduziu novos desafios:
+A ascensão de ambientes _serverless_ e containers introduziu novos desafios:
 
-- Funções AWS Lambda com permissões excessivas
-- Clusters Kubernetes sem políticas de NetworkPolicy
-- Registros de container públicos com imagens vulneráveis
++ Funções AWS Lambda com permissões excessivas
++ Clusters Kubernetes sem políticas de NetworkPolicy
++ Registros de container públicos com imagens vulneráveis
 
-Esses cenários demandam abordagens modernas, como a utilização de *policy engines* (ex.: Open Policy Agent) para impor configurações seguras de forma centralizada[^5][^6].
+Esses cenários demandam abordagens modernas, como a utilização de _policy engines_ (ex.: Open Policy Agent) para impor configurações seguras de forma centralizada[^5][^6].
 
 ## Recomendações para Implementação
 
 1. **Modelo de Maturação de Configurações**:
-    - **Nível Básico**: Remoção de contas padrão, desabilitação de serviços não utilizados
-    - **Nível Intermediário**: Automação via ferramentas IaC, integração com scanners SAST/DAST
-    - **Nível Avançado**: Adoção de *Security-as-Code* e monitoramento contínuo com IA/ML[^2][^5]
+    + **Nível Básico**: Remoção de contas padrão, desabilitação de serviços não utilizados
+    + **Nível Intermediário**: Automação via ferramentas IaC, integração com scanners SAST/DAST
+    + **Nível Avançado**: Adoção de _Security-as-Code_ e monitoramento contínuo com IA/ML[^2][^5]
 2. **Framework de Referência**:
-    - **CIS Benchmarks**: Diretrizes específicas por tecnologia para configurações seguras
-    - **NIST SP 800-123**: Guia para proteção de servidores web
-    - **ISO/IEC 27002**: Controles para gestão de operações de TI seguras[^1][^6]
+    + **CIS Benchmarks**: Diretrizes específicas por tecnologia para configurações seguras
+    + **NIST SP 800-123**: Guia para proteção de servidores web
+    + **ISO/IEC 27002**: Controles para gestão de operações de TI seguras[^1][^6]
 3. **Cultura Organizacional**:
-    - Treinamentos regulares em *Secure DevOps*
-    - Exercícios de *red teaming* para testar configurações defensivas
-    - Programas de recompensa por identificação de más configurações[^2][^5]
+    + Treinamentos regulares em _Secure DevOps_
+    + Exercícios de _red teaming_ para testar configurações defensivas
+    + Programas de recompensa por identificação de más configurações[^2][^5]
 
 ## Conclusão
 
@@ -611,4 +603,3 @@ A configuração incorreta de segurança permanece uma ameaça persistente não 
 [^71]: https://experienceleague.adobe.com/pt-br/docs/commerce-on-cloud/user-guide/configure/service/elasticsearch
 
 [^72]: https://www.f5.com/pt_br/glossary/owasp
-

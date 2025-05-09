@@ -10,8 +10,6 @@ SQL Injection. É sempre pensar que o usuario pode passar algo errado, esquisito
 
 ## Owasp
 
-
-
 ## Visão Geral
 
 A Injeção desliza para a terceira posição. 94% das aplicações foram testadas para alguma forma de injeção com uma taxa de incidência máxima de 19%, uma taxa de incidência média de 3% e 274k ocorrências. Notável  _Common Weakness Enumerations_  (CWEs) incluídas são  _CWE-79: Cross-site Scripting_,  _CWE-89: Injeção de SQL_  e  _CWE-73: Controle Externo do Nome do Arquivo ou Caminho_.
@@ -20,20 +18,19 @@ A Injeção desliza para a terceira posição. 94% das aplicações foram testad
 
 Uma aplicação é vulnerável a ataques quando:
 
--   Os dados fornecidos pelo usuário não são validados, filtrados ou higienizados pelo aplicativo.
-    
--   Consultas dinâmicas ou chamadas não parametrizadas sem escape ciente do contexto são usadas diretamente no interpretador.
-    
--   Dados hostis são usados nos parâmetros de pesquisa de mapeamento relacional de objeto (ORM) para extrair registros confidenciais adicionais.
-    
--   Os dados fornecidos pelo usuário não são validados, filtrados ou higienizados pelo aplicativo.
-    
--   Consultas dinâmicas ou chamadas não parametrizadas sem escape ciente do contexto são usadas diretamente no interpretador.
-    
--   Dados hostis são usados nos parâmetros de pesquisa de mapeamento relacional de objeto (ORM) para extrair registros confidenciais adicionais.
-    
--   Dados hostis são usados diretamente ou concatenados. O SQL ou comando contém a estrutura e os dados maliciosos em consultas dinâmicas, comandos ou procedimentos armazenados.
-    
++ Os dados fornecidos pelo usuário não são validados, filtrados ou higienizados pelo aplicativo.
+
++ Consultas dinâmicas ou chamadas não parametrizadas sem escape ciente do contexto são usadas diretamente no interpretador.
+
++ Dados hostis são usados nos parâmetros de pesquisa de mapeamento relacional de objeto (ORM) para extrair registros confidenciais adicionais.
+
++ Os dados fornecidos pelo usuário não são validados, filtrados ou higienizados pelo aplicativo.
+
++ Consultas dinâmicas ou chamadas não parametrizadas sem escape ciente do contexto são usadas diretamente no interpretador.
+
++ Dados hostis são usados nos parâmetros de pesquisa de mapeamento relacional de objeto (ORM) para extrair registros confidenciais adicionais.
+
++ Dados hostis são usados diretamente ou concatenados. O SQL ou comando contém a estrutura e os dados maliciosos em consultas dinâmicas, comandos ou procedimentos armazenados.
 
 Algumas das injeções mais comuns são SQL, NoSQL, comando OS, Mapeamento Relacional de Objeto (ORM), LDAP e Linguagem de Expressão (EL) ou injeção de Biblioteca de Navegação de Gráfico de Objeto (OGNL). O conceito é idêntico entre todos os intérpretes. A revisão do código-fonte é o melhor método para detectar se os aplicativos são vulneráveis a injeções. O teste automatizado de todos os parâmetros, cabeçalhos, URL, cookies, JSON, SOAP e entradas de dados XML são fortemente encorajados. As organizações podem incluir ferramentas de teste de segurança de aplicações estáticos (SAST), dinâmicos (DAST) e interativos (IAST) no pipeline de CI/CD para identificar as falhas de injeção introduzidas antes da implantação da produção.
 
@@ -41,16 +38,15 @@ Algumas das injeções mais comuns são SQL, NoSQL, comando OS, Mapeamento Relac
 
 Prevenir a injeção requer manter os dados separados dos comandos e consultas:
 
--   A opção preferida é usar uma API segura, que evita usar o interpretador inteiramente, fornece uma interface parametrizada ou migra para uma ferramenta de Mapeamento Relacional de Objeto (ORMs).  
++ A opção preferida é usar uma API segura, que evita usar o interpretador inteiramente, fornece uma interface parametrizada ou migra para uma ferramenta de Mapeamento Relacional de Objeto (ORMs).  
     **Nota:**  Mesmo quando parametrizados, os procedimentos armazenados ainda podem introduzir injeção de SQL se PL/SQL ou T-SQL concatenar consultas e dados ou executar dados hostis com EXECUTE IMMEDIATE ou exec().
-    
--   Use validação de entrada positiva ou "_safelist_" do lado do servidor. Esta não é uma defesa completa, pois muitos aplicativos requerem caracteres especiais, como áreas de texto ou APIs para aplicativos móveis.
-    
--   Para quaisquer consultas dinâmicas residuais, escape os caracteres especiais usando a sintaxe de escape específica para esse interpretador..  
+
++ Use validação de entrada positiva ou "_safelist_" do lado do servidor. Esta não é uma defesa completa, pois muitos aplicativos requerem caracteres especiais, como áreas de texto ou APIs para aplicativos móveis.
+
++ Para quaisquer consultas dinâmicas residuais, escape os caracteres especiais usando a sintaxe de escape específica para esse interpretador..  
     **Nota:**  Estruturas SQL, como nomes de tabelas, nomes de colunas e assim por diante, não podem ter escape e, portanto, nomes de estruturas fornecidos pelo usuário são perigosos. Este é um problema comum em software de elaboração de relatórios.
-    
--   Use LIMIT e outros SQL de controle em consultas para evitar a divulgação em massa de registros no caso de injeção de SQL.
-    
+
++ Use LIMIT e outros SQL de controle em consultas para evitar a divulgação em massa de registros no caso de injeção de SQL.
 
 ## Exemplos de Cenários de Ataque
 
@@ -79,24 +75,23 @@ Isso muda o significado de ambas as consultas para retornar todos os registros d
 
 ## Referências
 
--   [OWASP Proactive Controls: Secure Database Access](https://owasp.org/www-project-proactive-controls/v3/en/c3-secure-database)
-    
--   [OWASP ASVS: V5 Input Validation and Encoding](https://owasp.org/www-project-application-security-verification-standard)
-    
--   [OWASP Testing Guide: SQL Injection,](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05-Testing_for_SQL_Injection) [Command Injection](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/12-Testing_for_Command_Injection)  e [ORM Injection](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05.7-Testing_for_ORM_Injection)
-    
--   [OWASP Cheat Sheet: Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html)
-    
--   [OWASP Cheat Sheet: SQL Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
-    
--   [OWASP Cheat Sheet: Injection Prevention in Java](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet_in_Java.html)
-    
--   [OWASP Cheat Sheet: Query Parameterization](https://cheatsheetseries.owasp.org/cheatsheets/Query_Parameterization_Cheat_Sheet.html)
-    
--   [OWASP Automated Threats to Web Applications – OAT-014](https://owasp.org/www-project-automated-threats-to-web-applications/)
-    
--   [PortSwigger: Server-side template injection](https://portswigger.net/kb/issues/00101080_serversidetemplateinjection)
-    
++ [OWASP Proactive Controls: Secure Database Access](https://owasp.org/www-project-proactive-controls/v3/en/c3-secure-database)
+
++ [OWASP ASVS: V5 Input Validation and Encoding](https://owasp.org/www-project-application-security-verification-standard)
+
++ [OWASP Testing Guide: SQL Injection,](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05-Testing_for_SQL_Injection) [Command Injection](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/12-Testing_for_Command_Injection)  e [ORM Injection](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05.7-Testing_for_ORM_Injection)
+
++ [OWASP Cheat Sheet: Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html)
+
++ [OWASP Cheat Sheet: SQL Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
+
++ [OWASP Cheat Sheet: Injection Prevention in Java](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet_in_Java.html)
+
++ [OWASP Cheat Sheet: Query Parameterization](https://cheatsheetseries.owasp.org/cheatsheets/Query_Parameterization_Cheat_Sheet.html)
+
++ [OWASP Automated Threats to Web Applications – OAT-014](https://owasp.org/www-project-automated-threats-to-web-applications/)
+
++ [PortSwigger: Server-side template injection](https://portswigger.net/kb/issues/00101080_serversidetemplateinjection)
 
 ## Lista dos CWEs Mapeados
 
@@ -201,8 +196,8 @@ ls ; cat /etc/passwd
 
 **Proteção:**
 
-* Nunca concatene parâmetros diretamente com comandos.
-* Use `escapeshellarg()`:
++ Nunca concatene parâmetros diretamente com comandos.
++ Use `escapeshellarg()`:
 
 ```php
 $arquivo = escapeshellarg($_GET['arquivo']);
@@ -230,7 +225,7 @@ email=vítima@example.com%0ABcc: atacante@example.com
 
 **Proteção:**
 
-* Valide e filtre entradas com `filter_var($email, FILTER_VALIDATE_EMAIL)`.
++ Valide e filtre entradas com `filter_var($email, FILTER_VALIDATE_EMAIL)`.
 
 ---
 
@@ -253,8 +248,8 @@ include("paginas/$page.php");
 
 **Proteção:**
 
-* Nunca use entrada do usuário diretamente em `include()`, `require()`, etc.
-* Use uma lista de páginas permitidas:
++ Nunca use entrada do usuário diretamente em `include()`, `require()`, etc.
++ Use uma lista de páginas permitidas:
 
 ```php
 $whitelist = ['inicio', 'contato', 'sobre'];
@@ -279,8 +274,8 @@ Um atacante pode enviar um objeto malicioso com métodos `__destruct` ou `__wake
 
 **Proteção:**
 
-* Evite `unserialize()` em dados não confiáveis.
-* Use `json_decode()` se possível, ou use `allowed_classes` no `unserialize()`:
++ Evite `unserialize()` em dados não confiáveis.
++ Use `json_decode()` se possível, ou use `allowed_classes` no `unserialize()`:
 
 ```php
 unserialize($data, ['allowed_classes' => false]);
@@ -307,7 +302,7 @@ echo "Olá, $nome!";
 
 **Proteção:**
 
-* Escape a saída com `htmlspecialchars()`:
++ Escape a saída com `htmlspecialchars()`:
 
 ```php
 echo "Olá, " . htmlspecialchars($nome, ENT_QUOTES, 'UTF-8');
@@ -324,11 +319,11 @@ Quer que eu revise um trecho seu para te ajudar a identificar falhas potenciais?
 
 Sim, **no PHP é possível executar comandos do sistema operacional via injection**, o que é chamado de **Command Injection** (ou "injection de comandos shell"). Isso ocorre quando entradas do usuário são **inseridas diretamente** em funções que executam comandos no sistema, como:
 
-* `system()`
-* `exec()`
-* `shell_exec()`
-* `passthru()`
-* `popen()`
++ `system()`
++ `exec()`
++ `shell_exec()`
++ `passthru()`
++ `popen()`
 
 ---
 
@@ -381,13 +376,13 @@ if (in_array($_GET['arquivo'], $permitidos)) {
 
 ### ✅ Alternativas seguras
 
-* Prefira usar funções nativas do PHP para manipulação de arquivos/diretórios em vez de comandos shell:
++ Prefira usar funções nativas do PHP para manipulação de arquivos/diretórios em vez de comandos shell:
 
-  * `scandir()`
-  * `file_get_contents()`
-  * `unlink()`
-  * `copy()`
-  * etc.
+    + `scandir()`
+    + `file_get_contents()`
+    + `unlink()`
+    + `copy()`
+    + etc.
 
 ---
 
@@ -395,17 +390,16 @@ if (in_array($_GET['arquivo'], $permitidos)) {
 
 Command Injection pode permitir que o atacante:
 
-* Leia e apague arquivos
-* Crie backdoors
-* Baixe malware
-* Suba shells reversas e assuma o servidor
++ Leia e apague arquivos
++ Crie backdoors
++ Baixe malware
++ Suba shells reversas e assuma o servidor
 
 Em ambientes mal configurados, um único `system($_GET['cmd'])` pode comprometer todo o sistema.
 
 ---
 
 Se quiser, posso criar um script vulnerável e uma versão segura para comparar. Deseja isso?
-
 
 ---=======================
 ---=======================
@@ -445,7 +439,6 @@ $ip = escapeshellarg($_GET['ip']);
 system("ping -c 4 " . $ip);
 ```
 
-
 ---
 
 ### 2. Injeção LDAP
@@ -465,7 +458,6 @@ Se um usuário inserir `*)(uid=*))(|(uid=*`, a consulta se tornará `(uid=*)(uid
 ```php
 $username = ldap_escape($_POST['username'], "", LDAP_ESCAPE_FILTER);
 ```
-
 
 ---
 
@@ -489,7 +481,6 @@ Isso exporia o conteúdo de `/etc/passwd`[^3].
 ```php
 libxml_disable_entity_loader(true);
 ```
-
 
 ---
 
@@ -518,26 +509,24 @@ Se um atacante definir `user` como `O:4:"User":1:{s:4:"role";s:5:"admin";}`, o d
 
 ### Validação de Entrada
 
-- **Listas de permissão**: Restrinja entradas a padrões conhecidos (e.g., apenas números em campos de IP).
-- **Sanitização contextual**: Use funções como `htmlspecialchars()` para saída HTML ou `addslashes()` para bancos de dados[^3].
-
++ **Listas de permissão**: Restrinja entradas a padrões conhecidos (e.g., apenas números em campos de IP).
++ **Sanitização contextual**: Use funções como `htmlspecialchars()` para saída HTML ou `addslashes()` para bancos de dados[^3].
 
 ### Configuração Segura
 
-- Desative funções perigosas no `php.ini`:
++ Desative funções perigosas no `php.ini`:
 
 ```ini
 disable_functions = exec, system, passthru, shell_exec
 ```
 
-- Configure o PHP para executar em modo restrito (`safe_mode` em versões antigas).
-
++ Configure o PHP para executar em modo restrito (`safe_mode` em versões antigas).
 
 ### Uso de APIs Seguras
 
-- Substitua funções inseguras por alternativas modernas:
-    - **PDO** para consultas SQL parametrizadas.
-    - **DOMDocument** com `LIBXML_NONET` para análise XML segura.
++ Substitua funções inseguras por alternativas modernas:
+    + **PDO** para consultas SQL parametrizadas.
+    + **DOMDocument** com `LIBXML_NONET` para análise XML segura.
 
 ---
 
@@ -700,4 +689,3 @@ A injeção em PHP vai além do SQL, abrangendo vetores como comandos do sistema
 [^76]: https://www.youtube.com/watch?v=mkUEyrqYU7E
 
 [^77]: https://www.w3schools.com/php/php_mysql_prepared_statements.asp
-

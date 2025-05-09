@@ -5,7 +5,7 @@ Foco em teoria, js (front) e php
 ## Great Links
 
 + Se o OWAP TOP 10 lista fulnerabilidades, esse top 10 lista como resolver elas
-    + <https://top10proactive.owasp.org/the-top-10/>
+    + https://top10proactive.owasp.org/the-top-10/
 + Cheat Sheet de várias coisas do OWASP:
     + https://cheatsheetseries.owasp.org/index.html
 + Owasp Top 10 da Owap = PT-BR

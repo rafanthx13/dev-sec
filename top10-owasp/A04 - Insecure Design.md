@@ -3,9 +3,11 @@
 ## Resumo
 
 Nem mesmo é um eror, é uma falha, uma falta de cuidado com decisões grosseieros sem se preocupar com design ou arquitetura de sistema
+
 ## Links
 
 Leia mais os linsk a seguir
+
 + https://brackish.io/2023/09/25/owasp-top-ten-insecure-design/
 + https://blog.codacy.com/insecure-design-owasp-top-1
 + https://codelivly.com/insecure-design/
@@ -23,10 +25,10 @@ Incorporate Security Early: Make security a part of the Software Development Lif
 
 ## Owasp
 
-
 ## Visão Geral
 
-Uma nova categoria para 2021 concentra-se nos riscos relacionados a falhas de design e arquitetura, com uma chamada para mais uso de modelagem de ameaças (_threat modeling_), padrões de design seguros e arquiteturas de referência. Como uma comunidade, precisamos ir além de "_shift-left_" no espaço de codificação para atividades antes da codificação que são críticas para os princípios de  _Secure by Design_. 
+Uma nova categoria para 2021 concentra-se nos riscos relacionados a falhas de design e arquitetura, com uma chamada para mais uso de modelagem de ameaças (_threat modeling_), padrões de design seguros e arquiteturas de referência. Como uma comunidade, precisamos ir além de "_shift-left_" no espaço de codificação para atividades antes da codificação que são críticas para os princípios de  _Secure by Design_.
+
 + Notáveis Common Weakness Enumerations (CWEs) incluídas são  _CWE-209: Geração de Mensagem de Erro Contendo Informações Confidenciais_,  _CWE-256: Armazenamento Desprotegido de Credenciais_,  _CWE-501: Violação de Limites de Confiança_  e  _CWE-522: Credenciais Insuficientemente Protegidas_.
 
 ## Descrição
@@ -47,24 +49,23 @@ O software seguro requer um ciclo de vida de desenvolvimento seguro, alguma form
 
 ## Como Prevenir
 
--   Estabeleça e use um ciclo de vida de desenvolvimento seguro com profissionais de AppSec para ajudar a avaliar e projetar controles relacionados à segurança e privacidade.
-    
--   Estabeleça e use bibliotecas de padrões de projeto seguros ou componentes de  _paved road_  prontos para usar.
-    
--   Use Modelagem de Ameaças para autenticação crítica, controle de acesso, lógica de negócios e fluxos de chaves.
-    
--   Integre a linguagem e os controles de segurança às histórias de usuários.
-    
--   Integre verificações de plausibilidade em cada camada da sua aplicação (do front-end ao back-end).
-    
--   Escreva testes de unidade e integração para validar se todos os fluxos críticos são resistentes ao modelo de ameaça. Compile casos de uso de sucesso e casos de uso indevido para cada camada da sua aplicação.
-    
--   Separe as camadas de nível no sistema e nas camadas de rede, dependendo das necessidades de exposição e proteção.
-    
--   Separe os  _tenants_  de maneira robusta por design em todas as camadas.
-    
--   Limite o consumo de recursos por usuário ou serviço.
-    
++ Estabeleça e use um ciclo de vida de desenvolvimento seguro com profissionais de AppSec para ajudar a avaliar e projetar controles relacionados à segurança e privacidade.
+
++ Estabeleça e use bibliotecas de padrões de projeto seguros ou componentes de  _paved road_  prontos para usar.
+
++ Use Modelagem de Ameaças para autenticação crítica, controle de acesso, lógica de negócios e fluxos de chaves.
+
++ Integre a linguagem e os controles de segurança às histórias de usuários.
+
++ Integre verificações de plausibilidade em cada camada da sua aplicação (do front-end ao back-end).
+
++ Escreva testes de unidade e integração para validar se todos os fluxos críticos são resistentes ao modelo de ameaça. Compile casos de uso de sucesso e casos de uso indevido para cada camada da sua aplicação.
+
++ Separe as camadas de nível no sistema e nas camadas de rede, dependendo das necessidades de exposição e proteção.
+
++ Separe os  _tenants_  de maneira robusta por design em todas as camadas.
+
++ Limite o consumo de recursos por usuário ou serviço.
 
 ## Exemplos de Cenários de Ataque
 
@@ -76,18 +77,17 @@ O software seguro requer um ciclo de vida de desenvolvimento seguro, alguma form
 
 ## Referências
 
--   [OWASP Cheat Sheet: Secure Design Principles](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Product_Design_Cheat_Sheet.html)
-    
--   [OWASP SAMM: Design:Security Architecture](https://owaspsamm.org/model/design/security-architecture/)
-    
--   [OWASP SAMM: Design:Threat Assessment](https://owaspsamm.org/model/design/threat-assessment/)
-    
--   [NIST – Guidelines on Minimum Standards for Developer Verification of Software](https://www.nist.gov/publications/guidelines-minimum-standards-developer-verification-software)
-    
--   [The Threat Modeling Manifesto](https://threatmodelingmanifesto.org/)
-    
--   [Awesome Threat Modeling](https://github.com/hysnsec/awesome-threat-modelling)
-    
++ [OWASP Cheat Sheet: Secure Design Principles](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Product_Design_Cheat_Sheet.html)
+
++ [OWASP SAMM: Design:Security Architecture](https://owaspsamm.org/model/design/security-architecture/)
+
++ [OWASP SAMM: Design:Threat Assessment](https://owaspsamm.org/model/design/threat-assessment/)
+
++ [NIST – Guidelines on Minimum Standards for Developer Verification of Software](https://www.nist.gov/publications/guidelines-minimum-standards-developer-verification-software)
+
++ [The Threat Modeling Manifesto](https://threatmodelingmanifesto.org/)
+
++ [Awesome Threat Modeling](https://github.com/hysnsec/awesome-threat-modelling)
 
 ## Lista dos CWEs Mapeados
 
@@ -173,7 +173,7 @@ O software seguro requer um ciclo de vida de desenvolvimento seguro, alguma form
 
 ## ChatGPT
 
-### Q1 
+### Q1
 
 > Fale soA04 Insecure Design do OWASP
 
@@ -185,11 +185,11 @@ O **OWASP A04:2021 – Insecure Design** (Design Inseguro) é a quarta categoria
 
 #### Exemplos:
 
-* Ausência de **limites de taxa (rate limiting)** em funcionalidades sensíveis como login ou APIs.
-* Projetos que não separam **funções críticas** (como administrativo e usuário comum).
-* Fluxos que permitem **ataques de força bruta ou scraping** por não terem proteções suficientes.
-* Falta de **modelagem de ameaças** para identificar riscos nos fluxos de negócio.
-* Aplicações que assumem que o front-end é confiável e não validam regras de negócio no back-end.
++ Ausência de **limites de taxa (rate limiting)** em funcionalidades sensíveis como login ou APIs.
++ Projetos que não separam **funções críticas** (como administrativo e usuário comum).
++ Fluxos que permitem **ataques de força bruta ou scraping** por não terem proteções suficientes.
++ Falta de **modelagem de ameaças** para identificar riscos nos fluxos de negócio.
++ Aplicações que assumem que o front-end é confiável e não validam regras de negócio no back-end.
 
 ---
 
@@ -197,20 +197,20 @@ O **OWASP A04:2021 – Insecure Design** (Design Inseguro) é a quarta categoria
 
 Um design inseguro pode levar a:
 
-* **Escalada de privilégios**
-* **Vazamento de dados sensíveis**
-* **Ataques automatizados (bots, scraping, brute force)**
-* **Abuso de funcionalidades legítimas**
++ **Escalada de privilégios**
++ **Vazamento de dados sensíveis**
++ **Ataques automatizados (bots, scraping, brute force)**
++ **Abuso de funcionalidades legítimas**
 
 ---
 
 ### 🛠️ Como prevenir?
 
-* **Modelagem de ameaças** desde as fases iniciais do projeto.
-* **Segurança por design**: aplicar princípios como *least privilege*, *defense in depth*, *fail-safe defaults*.
-* Criar e aplicar **testes de segurança em nível de arquitetura**.
-* Simular abusos de lógica de negócios e analisar os fluxos.
-* Ter documentação clara das **regras de segurança do sistema**.
++ **Modelagem de ameaças** desde as fases iniciais do projeto.
++ **Segurança por design**: aplicar princípios como _least privilege_, _defense in depth_, _fail-safe defaults_.
++ Criar e aplicar **testes de segurança em nível de arquitetura**.
++ Simular abusos de lógica de negócios e analisar os fluxos.
++ Ter documentação clara das **regras de segurança do sistema**.
 
 ---
 
@@ -221,7 +221,6 @@ Imagine uma aplicação de transferências bancárias que **não limita o númer
 ---
 
 Quer que eu aplique esse conceito a um caso específico do seu projeto?
-
 
 ### Q2
 
@@ -237,22 +236,22 @@ Claro! A seguir, apresento exemplos reais e cenários práticos que ilustram fal
 
 O site Ashley Madison, voltado para relacionamentos extraconjugais, sofreu um ataque que expôs dados sensíveis de milhões de usuários.
 
-* **Falha de design**: Armazenamento inadequado de informações sensíveis, como nomes reais e detalhes de pagamento, sem criptografia robusta ou políticas de retenção de dados adequadas.
-* **Consequência**: Exposição massiva de dados pessoais, resultando em danos à reputação e processos legais. ([Brackish Security][1])
++ **Falha de design**: Armazenamento inadequado de informações sensíveis, como nomes reais e detalhes de pagamento, sem criptografia robusta ou políticas de retenção de dados adequadas.
++ **Consequência**: Exposição massiva de dados pessoais, resultando em danos à reputação e processos legais. ([Brackish Security][1])
 
 #### 2. **Vazamento de Dados da Equifax (2017)**
 
 A Equifax, uma das maiores agências de crédito dos EUA, teve informações pessoais de aproximadamente 147 milhões de pessoas comprometidas.
 
-* **Falha de design**: Ausência de mecanismos eficazes de monitoramento e atualização, permitindo a exploração de uma vulnerabilidade conhecida no Apache Struts.
-* **Consequência**: Perda de dados sensíveis, multas significativas e danos à confiança dos consumidores. ([blog.codacy.com][2])
++ **Falha de design**: Ausência de mecanismos eficazes de monitoramento e atualização, permitindo a exploração de uma vulnerabilidade conhecida no Apache Struts.
++ **Consequência**: Perda de dados sensíveis, multas significativas e danos à confiança dos consumidores. ([blog.codacy.com][2])
 
 #### 3. **Vulnerabilidade Heartbleed no OpenSSL (2014)**
 
 Uma falha no OpenSSL permitia que atacantes lessem informações sensíveis da memória de servidores.
 
-* **Falha de design**: Falta de validação adequada de entradas no processamento de solicitações "heartbeat", resultando em leitura indevida de memória.
-* **Consequência**: Exposição de chaves privadas, senhas e outros dados críticos. ([codelivly.com][3], [vumetric.com][4], [OWASP][5])
++ **Falha de design**: Falta de validação adequada de entradas no processamento de solicitações "heartbeat", resultando em leitura indevida de memória.
++ **Consequência**: Exposição de chaves privadas, senhas e outros dados críticos. ([codelivly.com][3], [vumetric.com][4], [OWASP][5])
 
 ---
 
@@ -262,32 +261,32 @@ Uma falha no OpenSSL permitia que atacantes lessem informações sensíveis da m
 
 Implementar recuperação de senha baseada em perguntas como "Qual o nome do seu primeiro animal de estimação?" é inseguro.
 
-* **Falha de design**: Essas perguntas são facilmente descobertas ou adivinhadas, não fornecendo autenticação confiável.
-* **Consequência**: Facilidade para atacantes resetarem senhas de usuários legítimos.&#x20;
++ **Falha de design**: Essas perguntas são facilmente descobertas ou adivinhadas, não fornecendo autenticação confiável.
++ **Consequência**: Facilidade para atacantes resetarem senhas de usuários legítimos.&#x20;
 
 #### 5. **Reserva de Ingressos sem Limites Adequados**
 
 Um sistema de reservas que permite múltiplas reservas sem verificação adequada pode ser explorado.
 
-* **Falha de design**: Ausência de limites de quantidade ou validações por usuário.
-* **Consequência**: Atacantes podem reservar grandes quantidades de ingressos, causando perdas financeiras.&#x20;
++ **Falha de design**: Ausência de limites de quantidade ou validações por usuário.
++ **Consequência**: Atacantes podem reservar grandes quantidades de ingressos, causando perdas financeiras.&#x20;
 
 #### 6. **Exposição de Dados Sensíveis via URLs**
 
 Incluir informações sensíveis em parâmetros de URL (método GET) pode levar à exposição de dados.
 
-* **Falha de design**: Dados como logins ou tokens de sessão podem ser armazenados em logs de servidores ou históricos de navegadores.
-* **Consequência**: Potencial vazamento de informações confidenciais.&#x20;
++ **Falha de design**: Dados como logins ou tokens de sessão podem ser armazenados em logs de servidores ou históricos de navegadores.
++ **Consequência**: Potencial vazamento de informações confidenciais.&#x20;
 
 ---
 
 ### ✅ Boas Práticas para Prevenir Design Inseguro
 
-* **Modelagem de Ameaças**: Identificar e mitigar riscos desde as fases iniciais do desenvolvimento.
-* **Princípios de Segurança**: Aplicar conceitos como "privilégio mínimo" e "defesa em profundidade".
-* **Validações no Lado do Servidor**: Não confiar apenas em validações do lado do cliente.
-* **Criptografia Adequada**: Proteger dados sensíveis em repouso e em trânsito.
-* **Testes de Segurança**: Realizar testes regulares para identificar e corrigir vulnerabilidades.([blog.codacy.com][2])
++ **Modelagem de Ameaças**: Identificar e mitigar riscos desde as fases iniciais do desenvolvimento.
++ **Princípios de Segurança**: Aplicar conceitos como "privilégio mínimo" e "defesa em profundidade".
++ **Validações no Lado do Servidor**: Não confiar apenas em validações do lado do cliente.
++ **Criptografia Adequada**: Proteger dados sensíveis em repouso e em trânsito.
++ **Testes de Segurança**: Realizar testes regulares para identificar e corrigir vulnerabilidades.([blog.codacy.com][2])
 
 Se desejar, posso ajudar a analisar o design de um sistema específico ou fornecer orientações para fortalecer a segurança de sua aplicação.
 
@@ -296,9 +295,6 @@ Se desejar, posso ajudar a analisar o design de um sistema específico ou fornec
 [3]: https://www.codelivly.com/insecure-design/?utm_source=chatgpt.com "OWASP Top Ten: Insecure Design Vulnerabilities – Codelivly"
 [4]: https://www.vumetric.com/blog/owasp-top-10-a04-insecure-design-everything-you-need-to-know/?utm_source=chatgpt.com "OWASP A04 Insecure Design: Risks, Examples, and Prevention - Vumetric"
 [5]: https://owasp.org/Top10/it/A04_2021-Insecure_Design/?utm_source=chatgpt.com "A04 Insecure Design - OWASP Top 10:2021"
-
-
-
 
 ## Perplexity
 
@@ -460,4 +456,3 @@ Para desenvolvedores e organizações, é crucial adotar uma mentalidade de "sec
 [^50]: https://github.com/advisories/GHSA-vcjf-q2w8-qgmr
 
 [^51]: https://blog.convisoappsec.com/pesquisa-cve-2021-43076-e-os-riscos-causados-pelo-insecure-design/
-

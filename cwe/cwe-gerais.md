@@ -185,11 +185,9 @@ if (in_array($destino, $whitelist)) {
 
 Se quiser, posso criar um **repositório de demonstração em PHP** com todos esses exemplos organizados em pastas por CWE. Deseja isso?
 
-
 ## CWE no contexto PHP e Laravel
 
->  Monste uma tabela com as cwe mais comuns par ao PHP e para o Laravel: 
-
+> Monste uma tabela com as cwe mais comuns par ao PHP e para o Laravel:
 
 Claro, Rafael! Abaixo está uma tabela organizada com as **CWE mais comuns em projetos PHP puro e Laravel**, divididas por tipo de risco, com descrição, exemplos típicos e observações específicas para cada stack.
 

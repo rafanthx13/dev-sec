@@ -31,6 +31,7 @@ Falhas na integridade de software e dados estão relacionadas a código e infrae
 ## Referencias do owap
 
 Referências
+
 + [OWASP Cheat Sheet: Software Supply Chain Security](Em breve)
 
 + [OWASP Cheat Sheet: Secure build and deployment](Em breve)
@@ -87,25 +88,25 @@ Claro, Rafael! A categoria **A08:2021 - Software and Data Integrity Failures** d
 
 Quando uma aplicação:
 
-* Usa **dependências de terceiros** sem validar sua integridade (ex: via hash, assinatura);
-* Realiza **atualizações automáticas** de software ou componentes sem verificar a origem e integridade;
-* Possui pipelines de **integração e entrega contínua (CI/CD)** mal protegidos;
-* Permite que usuários façam upload de arquivos sem checagem de conteúdo ou origem;
-* Executa scripts configuráveis (como YAMLs ou JSONs) sem sanitização adequada;
++ Usa **dependências de terceiros** sem validar sua integridade (ex: via hash, assinatura);
++ Realiza **atualizações automáticas** de software ou componentes sem verificar a origem e integridade;
++ Possui pipelines de **integração e entrega contínua (CI/CD)** mal protegidos;
++ Permite que usuários façam upload de arquivos sem checagem de conteúdo ou origem;
++ Executa scripts configuráveis (como YAMLs ou JSONs) sem sanitização adequada;
 
 ...ela se expõe a ataques como:
 
-* **Ataques à cadeia de suprimentos (supply chain attacks)**;
-* **Ataques por bibliotecas maliciosas (ex: npm typosquatting)**;
-* **Execução de código remoto** com privilégios da aplicação.
++ **Ataques à cadeia de suprimentos (supply chain attacks)**;
++ **Ataques por bibliotecas maliciosas (ex: npm typosquatting)**;
++ **Execução de código remoto** com privilégios da aplicação.
 
 ---
 
 🔥 **Exemplos reais**
 
-* Em 2020, o ataque à **SolarWinds** permitiu que agentes maliciosos injetassem código malicioso em atualizações legítimas de software.
-* Casos de pacotes maliciosos no **npm**, **PyPI** e outros repositórios, que visam capturar tokens, senhas ou executar comandos remotos.
-* Scripts maliciosos injetados em ambientes que executam configurações do tipo YAML ou JSON sem validação.
++ Em 2020, o ataque à **SolarWinds** permitiu que agentes maliciosos injetassem código malicioso em atualizações legítimas de software.
++ Casos de pacotes maliciosos no **npm**, **PyPI** e outros repositórios, que visam capturar tokens, senhas ou executar comandos remotos.
++ Scripts maliciosos injetados em ambientes que executam configurações do tipo YAML ou JSON sem validação.
 
 ---
 
@@ -115,20 +116,19 @@ Quando uma aplicação:
 2. Usar **Gerenciadores de Dependência seguros** com *lockfiles* (como `package-lock.json`, `composer.lock`).
 3. Ativar e proteger pipelines CI/CD com:
 
-   * Controle de acesso;
-   * Variáveis seguras;
-   * Auditoria de etapas e histórico.
+   + Controle de acesso;
+   + Variáveis seguras;
+   + Auditoria de etapas e histórico.
 4. Validar e filtrar cuidadosamente qualquer dado ou arquivo usado para configurar ou atualizar sistemas.
 5. Monitorar dependências usando ferramentas como:
 
-   * [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/)
-   * Snyk, Dependabot, Renovate, etc.
+   + [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/)
+   + Snyk, Dependabot, Renovate, etc.
 6. Implementar políticas de **principle of least privilege** para repositórios e pipelines.
 
 ---
 
 Se quiser, posso te mostrar como verificar a integridade de dependências num projeto específico (ex: Laravel, Go, Python). Quer?
-
 
 ## Q2 - Como se proteger no Laravel
 
@@ -142,9 +142,9 @@ Aqui estão as **principais práticas de segurança para proteger o CI/CD no Azu
 
  🔐 **1. Proteja os `Service Connections` e `Secrets`**
 
-* **Nunca use variáveis sensíveis diretamente em YAML**.
-* Use o **Azure Key Vault** integrado com o pipeline para armazenar segredos.
-* Use `secrets: true` para evitar que valores apareçam em logs.
++ **Nunca use variáveis sensíveis diretamente em YAML**.
++ Use o **Azure Key Vault** integrado com o pipeline para armazenar segredos.
++ Use `secrets: true` para evitar que valores apareçam em logs.
 
 **Exemplo:**
 
@@ -161,19 +161,19 @@ steps:
 
  🚧 **2. Restrinja quem pode editar pipelines**
 
-* **Configure permissões de segurança** nos repositórios e pipelines:
++ **Configure permissões de segurança** nos repositórios e pipelines:
 
-  * Apenas usuários autorizados podem editar YAML ou pipelines Classic.
-  * Use **branch policies** para evitar alterações diretas em `main`/`production`.
+    + Apenas usuários autorizados podem editar YAML ou pipelines Classic.
+    + Use **branch policies** para evitar alterações diretas em `main`/`production`.
 
 ---
 
  🔐 **3. Assine e valide artefatos**
 
-* Se você estiver gerando **pacotes, containers ou arquivos de build**, implemente:
++ Se você estiver gerando **pacotes, containers ou arquivos de build**, implemente:
 
-  * **Assinatura digital de artefatos**.
-  * Validação de hash no destino (ex: validar que o hash da imagem Docker corresponde ao esperado).
+    + **Assinatura digital de artefatos**.
+    + Validação de hash no destino (ex: validar que o hash da imagem Docker corresponde ao esperado).
 
 ---
 
@@ -183,8 +183,8 @@ O Azure DevOps permite que você configure **"Environments"** com **aprovações
 
 **Vantagens:**
 
-* Controla quem pode fazer deploy.
-* Permite configurar *"checks"* (ex: aprovação manual, tempo de espera, etc).
++ Controla quem pode fazer deploy.
++ Permite configurar *"checks"* (ex: aprovação manual, tempo de espera, etc).
 
 ---
 
@@ -192,9 +192,9 @@ O Azure DevOps permite que você configure **"Environments"** com **aprovações
 
 Ao usar **Web Apps no Azure**, configure um **slot de staging**:
 
-* Realize o deploy no slot de staging.
-* Teste o app.
-* Faça o swap para produção **somente após validação**.
++ Realize o deploy no slot de staging.
++ Teste o app.
++ Faça o swap para produção **somente após validação**.
 
 Evita que uma build defeituosa afete imediatamente o ambiente de produção.
 
@@ -202,8 +202,8 @@ Evita que uma build defeituosa afete imediatamente o ambiente de produção.
 
  👀 **6. Habilite logs e auditoria**
 
-* Ative **auditoria no Azure DevOps** para monitorar quem alterou pipelines ou secrets.
-* Configure alertas para mudanças inesperadas.
++ Ative **auditoria no Azure DevOps** para monitorar quem alterou pipelines ou secrets.
++ Configure alertas para mudanças inesperadas.
 
 ---
 
@@ -221,9 +221,9 @@ Inclua etapas como:
 
 E também scanners de segurança como:
 
-* **Snyk**
-* **Trivy (para containers)**
-* **OWASP Dependency-Check**
++ **Snyk**
++ **Trivy (para containers)**
++ **OWASP Dependency-Check**
 
 ---
 
@@ -285,19 +285,18 @@ stages:
 
 Se quiser, posso montar um `azure-pipelines.yml` mais completo para seu projeto Laravel, com deploy para Azure Web App usando slots e chaves do Key Vault. Deseja isso?
 
-
 ### Q4 - Cmo devera ser o `azure-pipelines.yaml`
 
 > Monte um azure-pipelines.yml mais completo e explique bem cada etapa do arquivo
 
 Perfeito, Rafael! Abaixo está um exemplo bem estruturado de um arquivo `azure-pipelines.yml` completo para um **projeto Laravel** com:
 
-* **Build seguro**
-* **Testes**
-* **Auditoria de dependências**
-* **Deploy com aprovação manual**
-* **Uso do Key Vault**
-* **Deploy com slot de staging**
++ **Build seguro**
++ **Testes**
++ **Auditoria de dependências**
++ **Deploy com aprovação manual**
++ **Uso do Key Vault**
++ **Deploy com slot de staging**
 
 ---
 
@@ -424,10 +423,10 @@ stages:
 
 🔒 Segurança e Integridade
 
-* 💼 `Azure Key Vault` garante que senhas/API keys não fiquem no código.
-* 🔐 Slots protegem contra deploys diretos em produção.
-* ✅ Auditoria de dependências (composer audit) impede que libs vulneráveis passem.
-* ⚠️ `environment:` força **aprovadores humanos** antes de deploys críticos.
++ 💼 `Azure Key Vault` garante que senhas/API keys não fiquem no código.
++ 🔐 Slots protegem contra deploys diretos em produção.
++ ✅ Auditoria de dependências (composer audit) impede que libs vulneráveis passem.
++ ⚠️ `environment:` força **aprovadores humanos** antes de deploys críticos.
 
 ---
 
@@ -457,9 +456,9 @@ Esse código foi entregue como parte do **update legítimo** do software — ou 
 
 🔍 Técnica usada: **Ataque à Cadeia de Suprimentos (Supply Chain Attack)**
 
-* Os atacantes **invadiram a infraestrutura de CI/CD da SolarWinds**.
-* Conseguiram **alterar o pipeline de build** para **injetar um trojan (SUNBURST)** dentro da DLL legítima.
-* O software foi **assinado digitalmente** pela própria SolarWinds, passando por todas as verificações de integridade locais dos clientes.
++ Os atacantes **invadiram a infraestrutura de CI/CD da SolarWinds**.
++ Conseguiram **alterar o pipeline de build** para **injetar um trojan (SUNBURST)** dentro da DLL legítima.
++ O software foi **assinado digitalmente** pela própria SolarWinds, passando por todas as verificações de integridade locais dos clientes.
 
 ---
 
@@ -471,10 +470,10 @@ Essa categoria cobre falhas em que:
 
 dA08 inclui riscos como:
 
-* Deploy automático sem verificação.
-* Ausência de **assinatura ou validação de artefatos**.
-* Confiança excessiva em **pacotes externos ou dependências**.
-* Pipelines CI/CD **mal protegidos** (como no caso da SolarWinds).
++ Deploy automático sem verificação.
++ Ausência de **assinatura ou validação de artefatos**.
++ Confiança excessiva em **pacotes externos ou dependências**.
++ Pipelines CI/CD **mal protegidos** (como no caso da SolarWinds).
 
 ---
 
@@ -482,19 +481,19 @@ dA08 inclui riscos como:
 
 CI/CD seguro:
 
-* **Use controles de acesso rigorosos** (RBAC) nos pipelines.
-* **Registre e monitore** alterações em scripts de build e variáveis.
-* **Use revisão de código obrigatória** para alterações em arquivos de pipeline (YAML, bash, Dockerfile).
-* **Assine digitalmente os artefatos** e valide os hashes antes do deploy.
++ **Use controles de acesso rigorosos** (RBAC) nos pipelines.
++ **Registre e monitore** alterações em scripts de build e variáveis.
++ **Use revisão de código obrigatória** para alterações em arquivos de pipeline (YAML, bash, Dockerfile).
++ **Assine digitalmente os artefatos** e valide os hashes antes do deploy.
 
 Verificações:
 
-* Verifique a **integridade de dependências** (`composer audit`, `npm audit`, etc).
-* Use ferramentas como:
++ Verifique a **integridade de dependências** (`composer audit`, `npm audit`, etc).
++ Use ferramentas como:
 
-  * [SLSA (Supply chain Levels for Software Artifacts)](https://slsa.dev/)
-  * [Sigstore / Cosign](https://sigstore.dev/)
-  * [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/)
+    + [SLSA (Supply chain Levels for Software Artifacts)](https://slsa.dev/)
+    + [Sigstore / Cosign](https://sigstore.dev/)
+    + [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/)
 
 ---
 
@@ -503,7 +502,6 @@ Verificações:
 O ataque à SolarWinds mostrou que mesmo empresas com software confiável podem ser vetor de ataque quando há falhas de integridade no processo de build. Ele é um **exemplo real e devastador** do que o OWASP classifica como A08.
 
 Quer que eu te mostre como aplicar algum desses controles (ex: auditoria de dependências ou validação de hash) no seu pipeline Azure DevOps para Laravel?
-
 
 ## Análise do Perplexity
 
@@ -525,9 +523,9 @@ As falhas de integridade de software e dados referem-se a código e infraestrutu
 
 Entre as vulnerabilidades mais notáveis associadas a esta categoria estão:
 
-- **CWE-829**: Inclusão de Funcionalidade de Esfera de Controle Não Confiável
-- **CWE-494**: Download de Código Sem Verificação de Integridade
-- **CWE-502**: Desserialização de Dados Não Confiáveis[^1][^5]
++ **CWE-829**: Inclusão de Funcionalidade de Esfera de Controle Não Confiável
++ **CWE-494**: Download de Código Sem Verificação de Integridade
++ **CWE-502**: Desserialização de Dados Não Confiáveis[^1][^5]
 
 Estas fragilidades permitem que atacantes manipulem software ou dados, potencialmente levando ao controle não autorizado, violações de dados ou atividades maliciosas dentro dos aplicativos[^4].
 
@@ -864,4 +862,3 @@ A mitigação eficaz dessas falhas requer uma abordagem multifacetada, incluindo
 [^114]: https://soundcloud.com/owasp-podcast/event-stream-analysis-of-a-compromised-npm-package
 
 [^115]: https://gist.github.com/dominictarr/9fd9c1024c94592bc7268d36b8d83b3a
-

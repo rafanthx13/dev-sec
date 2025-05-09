@@ -1,6 +1,6 @@
 # A07 - Identification and Authentication Failures
 
-## Resumo 
+## Resumo
 
 Falha na autenticaçao. Enquanto da A01 se preocupa com 'Você pode fazer isso?"' (se trata de limitar o usuário a apaenas fazer o que ele deve fazer) que é quando se acessa algo que nao se pdoe, aqui é quando um cara consegue passar pelo login, é quando você "é quem diz que é. São problemas que envolve: login, sessôes, tokens, recuperar senhas e tentativas de bruteforce pra passar pelo login
 
@@ -14,41 +14,39 @@ Falha na autenticaçao. Enquanto da A01 se preocupa com 'Você pode fazer isso?"
 
 Confirmação da identidade, autenticação e sessão do usuário gerenciamento é fundamental para proteger contra autenticação relacionada ataques. Pode haver pontos fracos de autenticação se o aplicativo:
 
--   Permite ataques automatizados, como preenchimento de credenciais, onde o invasor tem uma lista de nomes de usuários e senhas válidos.
-    
--   Permite força bruta ou outros ataques automatizados.
-    
--   Permite senhas padrão, fracas ou conhecidas, como "Senha1" ou "admin/admin".
-    
--   Usa recuperação de credenciais fraca ou ineficaz e esqueci a senha processos, como "respostas baseadas em conhecimento", que não podem ser feitas de modo seguro.
-    
--   Usa armazenamento de dados e senhas em texto simples, criptografadas ou com hash fraco (consulte  [A02:2021-Falhas Criptográficas](https://owasp.org/Top10/pt_BR/A02_2021-Cryptographic_Failures/)).
-    
--   Possui multifator de autenticação ausente ou ineficaz.
-    
--   Expõe o identificador de sessão na URL.
-    
--   Reutiliza o identificador de sessão após o login bem-sucedido.
-    
--   Não invalida corretamente IDs de sessão. Sessões de usuário ou tokens de autenticação (principalmente tokens de logon único (SSO)) não são devidamente invalidado durante o logout ou um período de inatividade.
-    
++ Permite ataques automatizados, como preenchimento de credenciais, onde o invasor tem uma lista de nomes de usuários e senhas válidos.
+
++ Permite força bruta ou outros ataques automatizados.
+
++ Permite senhas padrão, fracas ou conhecidas, como "Senha1" ou "admin/admin".
+
++ Usa recuperação de credenciais fraca ou ineficaz e esqueci a senha processos, como "respostas baseadas em conhecimento", que não podem ser feitas de modo seguro.
+
++ Usa armazenamento de dados e senhas em texto simples, criptografadas ou com hash fraco (consulte  [A02:2021-Falhas Criptográficas](https://owasp.org/Top10/pt_BR/A02_2021-Cryptographic_Failures/)).
+
++ Possui multifator de autenticação ausente ou ineficaz.
+
++ Expõe o identificador de sessão na URL.
+
++ Reutiliza o identificador de sessão após o login bem-sucedido.
+
++ Não invalida corretamente IDs de sessão. Sessões de usuário ou tokens de autenticação (principalmente tokens de logon único (SSO)) não são devidamente invalidado durante o logout ou um período de inatividade.
 
 ## Como Prevenir
 
--   Sempre que possível, implemente a autenticação multifator para evitar preenchimento automatizado de credenciais, força bruta e credenciais roubadas
-    
--   Não permita ou implante nenhuma credencial padrão, especialmente para usuários administradores.
-    
--   Implementar verificações de senha fraca, como testar novas ou alteradas contra a lista das 10.000 piores senhas.
-    
--   Alinhe o comprimento da senha, a complexidade e as políticas de rotação com Instituto Nacional de Padrões e Tecnologia (NIST) as diretrizes do 800-63b na seção 5.1.1 para segredos memorizados ou outras políticas de senha modernas e baseadas em evidências.
-    
--   Certifique-se de que o registro, a recuperação de credenciais e os caminhos da API sejam protegido contra ataques de enumeração de contas usando a mesma mensagens para todos os resultados.
-    
--   Limite ou atrase cada vez mais as tentativas de login com falha, mas tome cuidado para não criar um cenário de negação de serviço. Registrar todas as falhas e alertar os administradores quando o preenchimento de credenciais, força bruta ou outros ataques são detectados.
-    
--   Use um gerenciador de sessão integrado, seguro do lado do servidor que gere um novo ID de sessão aleatória com alta entropia após o login. Identificador de sessão não deve estar na URL, deve ser armazenado com segurança e invalidado após o logout.
-    
++ Sempre que possível, implemente a autenticação multifator para evitar preenchimento automatizado de credenciais, força bruta e credenciais roubadas
+
++ Não permita ou implante nenhuma credencial padrão, especialmente para usuários administradores.
+
++ Implementar verificações de senha fraca, como testar novas ou alteradas contra a lista das 10.000 piores senhas.
+
++ Alinhe o comprimento da senha, a complexidade e as políticas de rotação com Instituto Nacional de Padrões e Tecnologia (NIST) as diretrizes do 800-63b na seção 5.1.1 para segredos memorizados ou outras políticas de senha modernas e baseadas em evidências.
+
++ Certifique-se de que o registro, a recuperação de credenciais e os caminhos da API sejam protegido contra ataques de enumeração de contas usando a mesma mensagens para todos os resultados.
+
++ Limite ou atrase cada vez mais as tentativas de login com falha, mas tome cuidado para não criar um cenário de negação de serviço. Registrar todas as falhas e alertar os administradores quando o preenchimento de credenciais, força bruta ou outros ataques são detectados.
+
++ Use um gerenciador de sessão integrado, seguro do lado do servidor que gere um novo ID de sessão aleatória com alta entropia após o login. Identificador de sessão não deve estar na URL, deve ser armazenado com segurança e invalidado após o logout.
 
 ## Exemplos de Cenários de Ataque
 
@@ -60,26 +58,25 @@ Confirmação da identidade, autenticação e sessão do usuário gerenciamento 
 
 ## Referências
 
--   [OWASP Proactive Controls: Implement Digital Identity](https://owasp.org/www-project-proactive-controls/v3/en/c6-digital-identity)
-    
--   [OWASP Application Security Verification Standard: V2 authentication](https://owasp.org/www-project-application-security-verification-standard)
-    
--   [OWASP Application Security Verification Standard: V3 Session Management](https://owasp.org/www-project-application-security-verification-standard)
-    
--   [OWASP Testing Guide: Identity](https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/03-Identity_Management_Testing/README), [Authentication](https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/04-Authentication_Testing/README)
-    
--   [OWASP Cheat Sheet: Authentication](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
-    
--   [OWASP Cheat Sheet: Credential Stuffing](https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html)
-    
--   [OWASP Cheat Sheet: Forgot Password](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)
-    
--   [OWASP Cheat Sheet: Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
-    
--   [OWASP Automated Threats Handbook](https://owasp.org/www-project-automated-threats-to-web-applications/)
-    
--   NIST 800-63b: 5.1.1 Memorized Secrets
-    
++ [OWASP Proactive Controls: Implement Digital Identity](https://owasp.org/www-project-proactive-controls/v3/en/c6-digital-identity)
+
++ [OWASP Application Security Verification Standard: V2 authentication](https://owasp.org/www-project-application-security-verification-standard)
+
++ [OWASP Application Security Verification Standard: V3 Session Management](https://owasp.org/www-project-application-security-verification-standard)
+
++ [OWASP Testing Guide: Identity](https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/03-Identity_Management_Testing/README), [Authentication](https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/04-Authentication_Testing/README)
+
++ [OWASP Cheat Sheet: Authentication](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
+
++ [OWASP Cheat Sheet: Credential Stuffing](https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html)
+
++ [OWASP Cheat Sheet: Forgot Password](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)
+
++ [OWASP Cheat Sheet: Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
+
++ [OWASP Automated Threats Handbook](https://owasp.org/www-project-automated-threats-to-web-applications/)
+
++ NIST 800-63b: 5.1.1 Memorized Secrets
 
 ## Lista dos CWEs Mapeados
 
@@ -129,7 +126,7 @@ Confirmação da identidade, autenticação e sessão do usuário gerenciamento 
 
 ## ChatGP
 
-### Q1 
+### Q1
 
 > Fale sobre AO07 Identification and Authentication Failures do Owasp
 
@@ -145,26 +142,26 @@ Essa categoria inclui **problemas em processos de login, logout, gestão de sess
 
 ⚠️ Exemplos de falhas comuns
 
-* Uso de senhas fracas ou padrões fáceis de adivinhar.
-* Falta de **autenticação multifator (MFA)** onde é necessário.
-* Exposição de informações sensíveis em mensagens de erro (como “usuário não encontrado”).
-* Tokens de sessão expiram muito lentamente ou nunca expiram.
-* Tokens de autenticação previsíveis.
-* Falta de limitação de tentativas de login (proteção contra **ataques de força bruta**).
-* Autenticação implementada de forma customizada e insegura.
++ Uso de senhas fracas ou padrões fáceis de adivinhar.
++ Falta de **autenticação multifator (MFA)** onde é necessário.
++ Exposição de informações sensíveis em mensagens de erro (como “usuário não encontrado”).
++ Tokens de sessão expiram muito lentamente ou nunca expiram.
++ Tokens de autenticação previsíveis.
++ Falta de limitação de tentativas de login (proteção contra **ataques de força bruta**).
++ Autenticação implementada de forma customizada e insegura.
 
 ---
 
 🔐 Como prevenir
 
-* Exigir senhas fortes e políticas de troca segura.
-* Implementar **MFA** (autenticação multifator).
-* Utilizar **limitação de tentativas de login** com bloqueios temporários (Rate Limiting).
-* Evitar mensagens de erro que revelam se o usuário ou senha estão incorretos.
-* Utilizar bibliotecas seguras para autenticação e **não reinventar a roda**.
-* Proteger tokens de sessão com atributos como `HttpOnly`, `Secure` e `SameSite`.
-* Encerrar sessões de forma apropriada no logout e após inatividade.
-* Armazenar senhas com algoritmos seguros (ex.: bcrypt, Argon2).
++ Exigir senhas fortes e políticas de troca segura.
++ Implementar **MFA** (autenticação multifator).
++ Utilizar **limitação de tentativas de login** com bloqueios temporários (Rate Limiting).
++ Evitar mensagens de erro que revelam se o usuário ou senha estão incorretos.
++ Utilizar bibliotecas seguras para autenticação e **não reinventar a roda**.
++ Proteger tokens de sessão com atributos como `HttpOnly`, `Secure` e `SameSite`.
++ Encerrar sessões de forma apropriada no logout e após inatividade.
++ Armazenar senhas com algoritmos seguros (ex.: bcrypt, Argon2).
 
 ---
 
@@ -482,8 +479,8 @@ Agora, mesmo que a vítima tenha iniciado com `ABC123`, ao fazer login, o PHP ge
 
 ## 🛡️ Conclusão
 
-* **Session Fixation** ocorre quando você **permite que o session ID seja controlado externamente** e não o troca no login.
-* A proteção é simples:
++ **Session Fixation** ocorre quando você **permite que o session ID seja controlado externamente** e não o troca no login.
++ A proteção é simples:
   ➜ **Use `session_regenerate_id(true)` após autenticar o usuário.**
 
 Quer que eu te mande todos os arquivos `.php` organizados para você testar localmente?
@@ -498,9 +495,9 @@ Quer que eu te mande todos os arquivos `.php` organizados para você testar loca
 
 **➡️ Trata do "quem é você?"**
 
-* Está relacionada à **verificação da identidade** do usuário.
-* Foca em falhas no **login**, senhas fracas, sessões inseguras, ausência de MFA, etc.
-* O problema aqui é quando o sistema **não confirma corretamente a identidade do usuário**.
++ Está relacionada à **verificação da identidade** do usuário.
++ Foca em falhas no **login**, senhas fracas, sessões inseguras, ausência de MFA, etc.
++ O problema aqui é quando o sistema **não confirma corretamente a identidade do usuário**.
 
 📌 **Exemplo de falha**:
 Um sistema que permite acesso com senha “123456” ou que não invalida a sessão antiga após login.
@@ -511,9 +508,9 @@ Um sistema que permite acesso com senha “123456” ou que não invalida a sess
 
 **➡️ Trata do "você pode acessar isso?"**
 
-* O usuário já está autenticado, mas o sistema **não limita corretamente o que ele pode fazer**.
-* Refere-se a falhas nas **autorização de acesso** a recursos, ações e dados.
-* O problema é o sistema **não impedir que um usuário acesse recursos que não deveria**.
++ O usuário já está autenticado, mas o sistema **não limita corretamente o que ele pode fazer**.
++ Refere-se a falhas nas **autorização de acesso** a recursos, ações e dados.
++ O problema é o sistema **não impedir que um usuário acesse recursos que não deveria**.
 
 📌 **Exemplo de falha**:
 Um usuário comum acessa `/admin/relatorios` e visualiza dados confidenciais porque a URL não valida se ele é admin.
@@ -541,7 +538,7 @@ A vulnerabilidade **A07:2021 – Falhas de Identificação e Autenticação** do
 
 ### 📌 **Resumo em poucas palavras**
 
-A07 ocorre quando aplicações não identificam ou autenticam usuários corretamente, possibilitando que atacantes assumam identidades ou acessem dados restritos.([Medium][1])
+A07 ocorre quando aplicações não identificam ou autenticam usuários corretamente, possibilitando que atacantes assumam identidades ou acessem dados restritos.)
 
 ---
 
@@ -549,10 +546,10 @@ A07 ocorre quando aplicações não identificam ou autenticam usuários corretam
 
 Essas falhas podem ocorrer em:
 
-* **Formulários de login**: sem proteção contra tentativas repetidas ou uso de senhas fracas.
-* **Gerenciamento de sessões**: tokens de sessão previsíveis ou não invalidados após logout.
-* **Recuperação de senhas**: processos inseguros que permitem redefinições não autorizadas.
-* **APIs**: endpoints que não verificam adequadamente a identidade do solicitante.
++ **Formulários de login**: sem proteção contra tentativas repetidas ou uso de senhas fracas.
++ **Gerenciamento de sessões**: tokens de sessão previsíveis ou não invalidados após logout.
++ **Recuperação de senhas**: processos inseguros que permitem redefinições não autorizadas.
++ **APIs**: endpoints que não verificam adequadamente a identidade do solicitante.
 
 ---
 
@@ -560,14 +557,11 @@ Essas falhas podem ocorrer em:
 
 Para mitigar essas falhas:
 
-* **Implementar autenticação multifator (MFA)**: adiciona uma camada extra de segurança.
-* **Enforce políticas de senhas fortes**: exigir combinações de letras, números e caracteres especiais.
-* **Limitar tentativas de login**: bloquear ou retardar após múltiplas tentativas falhas.
-* **Gerenciar sessões de forma segura**: invalidar tokens após logout e usar cookies seguros.
-* **Evitar mensagens de erro específicas**: não revelar se o usuário ou a senha estão incorretos.()
-
-
-
++ **Implementar autenticação multifator (MFA)**: adiciona uma camada extra de segurança.
++ **Enforce políticas de senhas fortes**: exigir combinações de letras, números e caracteres especiais.
++ **Limitar tentativas de login**: bloquear ou retardar após múltiplas tentativas falhas.
++ **Gerenciar sessões de forma segura**: invalidar tokens após logout e usar cookies seguros.
++ **Evitar mensagens de erro específicas**: não revelar se o usuário ou a senha estão incorretos.()
 
 --==================
 --==================
@@ -635,10 +629,10 @@ A autenticação multifator baseada em fatores de posse (como tokens hardware) o
 
 Contrariando práticas históricas, o NIST recomenda:
 
-- Eliminar requisitos de complexidade arbitrária (como caracteres especiais obrigatórios)
-- Permitir senhas longas (mínimo de 8 caracteres, máximo de 64)
-- Verificação contra listas de senhas comprometidas
-- Abolição de rotação periódica forçada[^5]
++ Eliminar requisitos de complexidade arbitrária (como caracteres especiais obrigatórios)
++ Permitir senhas longas (mínimo de 8 caracteres, máximo de 64)
++ Verificação contra listas de senhas comprometidas
++ Abolição de rotação periódica forçada[^5]
 
 Ferramentas como Have I Been Pwned API permitem integração direta com sistemas de cadastro para bloquear senhas conhecidamente vazadas[^7].
 
@@ -646,11 +640,11 @@ Ferramentas como Have I Been Pwned API permitem integração direta com sistemas
 
 Protocolos modernos exigem:
 
-- Geradores de token criptograficamente seguros
-- Cookies de sessão com atributos Secure e HttpOnly
-- Invalidação server-side imediata após logout
-- Tempos de expiração curtos (15-30 minutos de inatividade)
-- Renovação de token após elevação de privilégios[^1][^5]
++ Geradores de token criptograficamente seguros
++ Cookies de sessão com atributos Secure e HttpOnly
++ Invalidação server-side imediata após logout
++ Tempos de expiração curtos (15-30 minutos de inatividade)
++ Renovação de token após elevação de privilégios[^1][^5]
 
 A implementação de OAuth 2.1 e OpenID Connect oferece estruturas robustas para gestão de sessões e tokens, incorporando mecanismos como Proof Key for Code Exchange (PKCE) para prevenir ataques de interceptação[^5].
 
@@ -658,10 +652,10 @@ A implementação de OAuth 2.1 e OpenID Connect oferece estruturas robustas para
 
 Sistemas de detecção devem incluir:
 
-- Análise comportamental para identificar padrões de acesso anômalos
-- Limitação de taxa (rate limiting) adaptativa baseada em risco
-- Integração com feeds de inteligência de ameaças para bloquear IPs maliciosos
-- Logs detalhados de autenticação com retenção mínima de 90 dias[^5][^7]
++ Análise comportamental para identificar padrões de acesso anômalos
++ Limitação de taxa (rate limiting) adaptativa baseada em risco
++ Integração com feeds de inteligência de ameaças para bloquear IPs maliciosos
++ Logs detalhados de autenticação com retenção mínima de 90 dias[^5][^7]
 
 Ferramentas como Elastic SIEM e Azure Sentinel permitem correlação automatizada de eventos de login suspeitos, disparando respostas como desafios adicionais de autenticação ou bloqueios temporários.
 
@@ -814,5 +808,3 @@ O cenário evolutivo das ameaças requer vigilância constante. Investimentos em
 [^57]: https://help.uber.com/en/driving-and-delivering/article/information-about-2016-data-security-incident?nodeId=04d4d787-ca99-40a3-ab27-9af42d196575
 
 [^58]: https://www.infosecurity-magazine.com/news/linkedin-hack-tops-a-whopping-100/
-
-

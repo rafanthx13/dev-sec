@@ -47,7 +47,6 @@ Se quiser, posso gerar essa lista em `.csv`, `.pdf`, `.md` ou até como cards de
 --=====================
 --=====================
 
-
 ## Perplexity
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
@@ -257,4 +256,3 @@ Com a escalada de ataques a cadeias de suprimentos, a **SBOM** (Software Bill of
 [^78]: https://nova8.com.br/o-que-e-appsec-e-sua-importancia/
 
 [^79]: https://play.google.com/store/apps/details?id=com.mobinx.cheatsheet
-
