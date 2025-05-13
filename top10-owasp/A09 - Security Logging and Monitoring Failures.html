@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A09 - Security Logging and Monitoring Failures.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="a092021---security-logging-and-monitoring-failures">A09:2021 - Security Logging and Monitoring Failures</h1>
+<h2 id="resumo">Resumo</h2>
+<p>Falta (ou falha) de log de segurnaça para monitorar (ou seja detectar) e até mesmo alertar em real-time ataques.</p>
+<blockquote>
+<p>É quando uma aplicação não registra eventos críticos, não monitora acessos ou ações sensíveis, ou não alerta administradores sobre atividades suspeitas. Isso dificulta detectar violações de segurança, identificar responsáveis e realizar auditorias.</p>
+</blockquote>
+<h2 id="links">Links</h2>
+<ul>
+<li>OWASP Oficial Eng
+<ul>
+<li><a href="https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/">https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/</a></li>
+</ul>
+</li>
+<li>Owap Oficial - PT-BR
+<ul>
+<li><a href="https://owasp.org/Top10/pt_BR/A09_2021-Security_Logging_and_Monitoring_Failures/">https://owasp.org/Top10/pt_BR/A09_2021-Security_Logging_and_Monitoring_Failures/</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="minhas-observa%C3%A7%C3%B5es">Minhas observações</h2>
+<ul>
+<li>Em situações críticas (como login) deve-se salvar log semrpe que der certo e também se der falha. Se a pessoa tenta acessar um recurso e ela não tem usuário ou nâo tem perfil admin, deve-se salvar o log pois pode ser o início de uma tentativa de aaque. Salvar: IP e user-agent,  time-stamp</li>
+</ul>
+<h2 id="exemplos-de-situa%C3%A7%C3%B5es-que-caracterizam-essa-falha">Exemplos de situações que caracterizam essa falha</h2>
+<h3 id="chatgpt">ChatGPT</h3>
+<ul>
+<li>Falta de <strong>logs de autenticação</strong> (logins bem-sucedidos e falhos).</li>
+<li>Logs que <strong>não armazenam dados suficientes</strong> para uma análise forense (ex: IP, user-agent, timestamp).</li>
+<li>Ausência de <strong>alertas para tentativas de acesso indevido</strong> ou mudanças críticas (como alteração de senha ou permissões).</li>
+<li>Logs <strong>acessíveis publicamente</strong> ou <strong>armazenados sem segurança</strong>.</li>
+<li>Monitoramento e alertas <strong>não configurados</strong> ou <strong>ineficientes</strong>.</li>
+</ul>
+<h3 id="owasp">OWASP</h3>
+<p>A falta de registro, detecção, monitoramento e resposta ativa ocorre sempre que:</p>
+<ul>
+<li>Eventos auditáveis, como logins, logins falhos e transações de alto valor, não são registrados.</li>
+<li>Avisos e erros geram mensagens de log inexistentes, inadequadas ou confusas.</li>
+<li>Logs de aplicativos e APIs não são monitorados quanto a atividades suspeitas.</li>
+<li>Logs são armazenados apenas localmente.</li>
+<li>Limiares de alerta apropriados e processos de escalonamento de resposta não estão em vigor ou são eficazes.</li>
+<li>Testes de penetração e varreduras por ferramentas de teste de segurança de aplicativos dinâmicos (DAST), como OWASP ZAP, não acionam alertas.</li>
+<li>A aplicação não pode detectar, escalonar ou alertar para ataques ativos em tempo real ou quase em tempo real.</li>
+</ul>
+<h2 id="riscos-que-isso-causa">Riscos que isso causa</h2>
+<ul>
+<li><strong>Detecção tardia</strong> de invasões e ataques.</li>
+<li><strong>Impossibilidade de investigar incidentes</strong> de segurança com precisão.</li>
+<li><strong>Perda de conformidade</strong> com normas e leis (como LGPD, GDPR, PCI-DSS).</li>
+<li>Maior impacto de um ataque por <strong>falta de resposta rápida</strong></li>
+</ul>
+<h2 id="como-prevenir">Como Prevenir</h2>
+<h3 id="como-prevenir---chatgpt">Como Prevenir - ChatGPT</h3>
+<ol>
+<li>
+<p><strong>Registrar eventos importantes</strong>, como:</p>
+<ul>
+<li>Autenticações (sucesso e falha);</li>
+<li>Alterações de configuração e permissões;</li>
+<li>Acesso a dados sensíveis.</li>
+</ul>
+</li>
+<li>
+<p><strong>Proteger os logs</strong>:</p>
+<ul>
+<li>Criptografia e acesso restrito;</li>
+<li>Integridade dos registros.</li>
+</ul>
+</li>
+<li>
+<p><strong>Configurar alertas automáticos</strong>:</p>
+<ul>
+<li>Para múltiplas tentativas de login;</li>
+<li>Para ações administrativas.</li>
+</ul>
+</li>
+<li>
+<p><strong>Centralizar e monitorar logs</strong> com ferramentas como:</p>
+<ul>
+<li>ELK Stack (Elasticsearch, Logstash, Kibana),</li>
+<li>Splunk,</li>
+<li>Graylog</li>
+<li>Azure Monitor ou AWS CloudWatch.</li>
+</ul>
+</li>
+<li>
+<p><strong>Testar e revisar periodicamente</strong> as estratégias de logging e monitoramento.</p>
+</li>
+</ol>
+<h3 id="owasp">Owasp</h3>
+<p>Os desenvolvedores devem implementar alguns ou todos os controles a seguir, dependendo do risco da aplicação:</p>
+<ul>
+<li>Garantir que todas as falhas de login, controle de acesso e validação de entrada no lado do servidor possam ser registradas com contexto de usuário suficiente para identificar contas suspeitas ou maliciosas e mantidas por tempo suficiente para permitir análise forense atrasada.</li>
+<li>Garantir que os logs sejam gerados em um formato que as soluções de gerenciamento de logs possam facilmente consumir.</li>
+<li>Garantir que os dados de log sejam codificados corretamente para evitar injeções ou ataques nos sistemas de registro ou monitoramento.</li>
+<li>Garantir que transações de alto valor tenham uma trilha de auditoria com controles de integridade para evitar adulteração ou exclusão, como tabelas de banco de dados somente para adição ou similares.</li>
+<li>As equipes de DevSecOps devem estabelecer monitoramento e alerta efetivos para que atividades suspeitas sejam detectadas e respondidas rapidamente.</li>
+<li>Estabelecer ou adotar um plano de resposta e recuperação de incidentes, como o National Institute of Standards and Technology (NIST) 800-61r2 ou posterior.</li>
+</ul>
+<p>Existem estruturas de proteção de aplicativos comerciais e de código aberto, como o OWASP ModSecurity Core Rule Set, e software de correlação de logs de código aberto, como o Elasticsearch, Logstash, Kibana (ELK) stack, que possuem painéis personalizados e alertas.</p>
+<h2 id="exemplos-de-cen%C3%A1rios-de-ataque">Exemplos de Cenários de Ataque</h2>
+<p>Cenário 1: O operador do site do provedor de plano de saúde infantil não conseguiu detectar uma violação devido à falta de monitoramento e registro. Uma parte externa informou ao provedor do plano de saúde que um invasor havia acessado e modificado milhares de registros de saúde sensíveis de mais de 3,5 milhões de crianças. Uma revisão pós-incidente descobriu que os desenvolvedores do site não haviam abordado vulnerabilidades significativas. Como não houve registro ou monitoramento do sistema, a violação de dados pode ter estado em andamento desde 2013, um período de mais de sete anos.</p>
+<p>Cenário 2: Uma grande companhia aérea indiana teve uma violação de dados envolvendo dados pessoais de milhões de passageiros por mais de dez anos, incluindo dados de passaporte e cartão de crédito. A violação de dados ocorreu em um provedor de hospedagem em nuvem de terceiros, que notificou a companhia aérea da violação depois de algum tempo.</p>
+<p>Cenário nº 3: Uma grande companhia aérea europeia sofreu uma violação relatável do GDPR. A violação foi supostamente causada por vulnerabilidades de segurança do aplicativo de pagamento exploradas por invasores, que colheram mais de 400.000 registros de pagamento de clientes. A companhia aérea foi multada em 20 milhões de libras como resultado pelo regulador de privacidade.</p>
+<h2 id="conversa-com-chatgpt">Conversa com ChatGPT</h2>
+<h3 id="chatgpt-1---que-dados-de-log-devo-armazenar-no-php-puro">chatgpt 1 - Que dados de log devo armazenar no php puro</h3>
+<blockquote>
+<p>Que dados devo armazenar para fazer uma análise forence, dê um exemplo em php puro</p>
+</blockquote>
+<p>Para uma <strong>análise forense eficaz</strong> após um incidente de segurança, você precisa armazenar dados que permitam <strong>rastrear ações suspeitas, identificar o responsável e entender o impacto do ataque</strong>.</p>
+<hr>
+<p>📋 Dados recomendados para registrar (mínimo):</p>
+<ol>
+<li><strong>Timestamp</strong> (data e hora exata do evento)</li>
+<li><strong>IP do usuário</strong></li>
+<li><strong>User-Agent</strong> (navegador, sistema operacional, etc.)</li>
+<li><strong>Tipo de ação</strong> (ex: login, acesso a dado sensível, falha de autenticação)</li>
+<li><strong>Identificador do usuário</strong> (ex: ID, email, login)</li>
+<li><strong>Recurso acessado</strong> (rota, endpoint, página, etc.)</li>
+<li><strong>Resultado da ação</strong> (sucesso, erro, falha de autenticação)</li>
+<li><strong>Dados relevantes da requisição</strong> (se possível, sem incluir informações sensíveis como senhas)</li>
+</ol>
+<hr>
+<p>🧪 Exemplo prático em <strong>PHP puro</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">registrarEventoSeguranca</span><span class="hljs-params">($tipoAcao, $usuarioId = null, $resultado = null)</span> </span>{
+    $ip = $_SERVER[<span class="hljs-string">'REMOTE_ADDR'</span>] ?? <span class="hljs-string">'IP desconhecido'</span>;
+    $userAgent = $_SERVER[<span class="hljs-string">'HTTP_USER_AGENT'</span>] ?? <span class="hljs-string">'User-Agent desconhecido'</span>;
+    $uri = $_SERVER[<span class="hljs-string">'REQUEST_URI'</span>] ?? <span class="hljs-string">'Recurso desconhecido'</span>;
+    $timestamp = date(<span class="hljs-string">'Y-m-d H:i:s'</span>);
+    
+    $log = [
+        <span class="hljs-string">'timestamp'</span> =&gt; $timestamp,
+        <span class="hljs-string">'ip'</span> =&gt; $ip,
+        <span class="hljs-string">'user_agent'</span> =&gt; $userAgent,
+        <span class="hljs-string">'usuario_id'</span> =&gt; $usuarioId,
+        <span class="hljs-string">'acao'</span> =&gt; $tipoAcao,
+        <span class="hljs-string">'recurso'</span> =&gt; $uri,
+        <span class="hljs-string">'resultado'</span> =&gt; $resultado
+    ];
+
+    $linha = json_encode($log) . PHP_EOL;
+    file_put_contents(<span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/logs/seguranca.log'</span>, $linha, FILE_APPEND);
+}
+
+<span class="hljs-comment">// Exemplo de uso:</span>
+registrarEventoSeguranca(<span class="hljs-string">'tentativa_login'</span>, <span class="hljs-string">'rafael.morais'</span>, <span class="hljs-string">'falha'</span>);
+</div></code></pre>
+<hr>
+<p>📌 Dicas adicionais:</p>
+<ul>
+<li>Use um <strong>arquivo separado para logs de segurança</strong> (ex: <code>seguranca.log</code>).</li>
+<li><strong>Evite registrar dados sensíveis</strong> diretamente (como senhas ou tokens).</li>
+<li>Proteja o diretório de logs contra acesso externo via <code>.htaccess</code> ou configuração do servidor.</li>
+<li>Considere enviar logs críticos para um servidor remoto ou ferramenta centralizada (ELK, Graylog, etc.).</li>
+</ul>
+<hr>
+<p>Quer que eu adapte isso para gravar os dados em um banco de dados ou para registrar ações específicas como uploads, alterações de senha ou deletações?</p>
+<h3 id="chatgpt-2---como-fazer-no-laravel">chatgpt 2 - como fazer no laravel</h3>
+<p>No <strong>Laravel</strong>, é ainda mais simples e robusto registrar eventos de segurança, pois o framework já oferece suporte integrado ao sistema de logs via o <strong>Log facade</strong> e configurações centralizadas no <code>config/logging.php</code>.</p>
+<hr>
+<p>✅ Exemplo prático: Registrar evento de segurança no log padrão</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Log</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $usuario = $request-&gt;input(<span class="hljs-string">'user'</span>); <span class="hljs-comment">// ou auth()-&gt;user()-&gt;id;</span>
+    $ip = $request-&gt;ip();
+    $userAgent = $request-&gt;userAgent();
+    $rota = $request-&gt;path();
+    $dataHora = now()-&gt;toDateTimeString();
+
+    Log::channel(<span class="hljs-string">'security'</span>)-&gt;info(<span class="hljs-string">'Tentativa de login'</span>, [
+        <span class="hljs-string">'timestamp'</span> =&gt; $dataHora,
+        <span class="hljs-string">'ip'</span> =&gt; $ip,
+        <span class="hljs-string">'user_agent'</span> =&gt; $userAgent,
+        <span class="hljs-string">'usuario'</span> =&gt; $usuario,
+        <span class="hljs-string">'rota'</span> =&gt; $rota,
+        <span class="hljs-string">'resultado'</span> =&gt; <span class="hljs-string">'falha'</span>,
+    ]);
+
+    <span class="hljs-comment">// continue com o login...</span>
+}
+</div></code></pre>
+<hr>
+<p>🛠 Como configurar um canal de log específico para segurança</p>
+<ol>
+<li><strong>Abra o arquivo <code>config/logging.php</code></strong></li>
+<li><strong>Adicione um novo canal</strong> em <code>'channels'</code>:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-string">'channels'</span> =&gt; [
+    <span class="hljs-comment">// ... outros canais</span>
+    <span class="hljs-string">'security'</span> =&gt; [
+        <span class="hljs-string">'driver'</span> =&gt; <span class="hljs-string">'single'</span>,
+        <span class="hljs-string">'path'</span> =&gt; storage_path(<span class="hljs-string">'logs/security.log'</span>),
+        <span class="hljs-string">'level'</span> =&gt; <span class="hljs-string">'info'</span>,
+    ],
+],
+</div></code></pre>
+<p>Isso criará um arquivo em <code>storage/logs/security.log</code>.</p>
+<hr>
+<p>📈 Resultado no log (<code>security.log</code>)</p>
+<pre class="hljs"><code><div>[<span class="hljs-number">2025</span><span class="hljs-number">-05</span><span class="hljs-number">-03</span> <span class="hljs-number">15</span>:<span class="hljs-number">02</span>:<span class="hljs-number">11</span>] local.INFO: Tentativa de login {<span class="hljs-attr">"timestamp"</span>:<span class="hljs-string">"2025-05-03 15:02:11"</span>,<span class="hljs-attr">"ip"</span>:<span class="hljs-string">"192.168.0.1"</span>,<span class="hljs-attr">"user_agent"</span>:<span class="hljs-string">"Mozilla/5.0"</span>,<span class="hljs-attr">"usuario"</span>:<span class="hljs-string">"rafael.morais"</span>,<span class="hljs-attr">"rota"</span>:<span class="hljs-string">"login"</span>,<span class="hljs-attr">"resultado"</span>:<span class="hljs-string">"falha"</span>}
+</div></code></pre>
+<hr>
+<p>🧠 Boas práticas</p>
+<ul>
+<li>Use <strong>nível <code>warning</code> ou <code>alert</code></strong> para eventos suspeitos (ex: muitas tentativas de login).</li>
+<li><strong>Criptografe ou filtre dados sensíveis</strong> antes de registrar.</li>
+<li><strong>Centralize os logs</strong> com serviços como ELK Stack, Sentry, Papertrail, etc. (Laravel suporta via drivers).</li>
+</ul>
+<hr>
+<p>Quer um exemplo para registrar eventos de alteração de senha, download de arquivos ou acesso a dados confidenciais?</p>
+<h2 id="refer%C3%AAncias-do-owasp">Referências do OWASP</h2>
+<ul>
+<li>
+<p><a href="https://owasp.org/www-project-proactive-controls/v3/en/c9-security-logging.html">OWASP Proactive Controls: Implement Logging and Monitoring</a></p>
+</li>
+<li>
+<p><a href="https://owasp.org/www-project-application-security-verification-standard">OWASP Application Security Verification Standard: V7 Logging and Monitoring</a></p>
+</li>
+<li>
+<p><a href="https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/08-Testing_for_Error_Handling/01-Testing_for_Error_Code">OWASP Testing Guide: Testing for Detailed Error Code</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Application_Logging_Vocabulary_Cheat_Sheet.html">OWASP Cheat Sheet: Application Logging Vocabulary</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html">OWASP Cheat Sheet: Logging</a></p>
+</li>
+<li>
+<p><a href="https://csrc.nist.gov/publications/detail/sp/1800-11/final">Data Integrity: Recovering from Ransomware and Other Destructive Events</a></p>
+</li>
+<li>
+<p><a href="https://csrc.nist.gov/publications/detail/sp/1800-25/final">Data Integrity: Identifying and Protecting Assets Against Ransomware and Other Destructive Events</a></p>
+</li>
+<li>
+<p><a href="https://csrc.nist.gov/publications/detail/sp/1800-26/final">Data Integrity: Detecting and Responding to Ransomware and Other Destructive Events</a></p>
+</li>
+</ul>
+<p><strong>CVW</strong></p>
+<p><a href="https://cwe.mitre.org/data/definitions/117.html">CWE-117 Improper Output Neutralization for Logs</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/223.html">CWE-223 Omission of Security-relevant Information</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/532.html">CWE-532 Insertion of Sensitive Information into Log File</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/778.html">CWE-778 Insufficient Logging</a></p>
+
+</body>
+</html>

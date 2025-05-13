@@ -2,27 +2,27 @@
 
 É a CWE-918 (Server-Side Request Forgery (SSRF))
 
-<https://cwe.mitre.org/data/definitions/918.html>
+https://cwe.mitre.org/data/definitions/918.html
 
 ## Liks youtube
 
-+ <https://www.youtube.com/watch?v=RecYP7vasYY&ab_channel=WhiteHatBrasil>
-+ <https://www.youtube.com/watch?v=-S9Ce6eIVS4&ab_channel=GuiadeAppSec>
++ https://www.youtube.com/watch?v=RecYP7vasYY&ab_channel=WhiteHatBrasil
++ https://www.youtube.com/watch?v=-S9Ce6eIVS4&ab_channel=GuiadeAppSec
 
 ## Links
 
-+ <https://www.imperva.com/learn/application-security/server-side-request-forgery-ssrf/#:~:text=Attack%20Types-,What%20Is%20SSRF?,them%20to%20read%20the%20data>.
-+ Bçog interessante: <https://blog.crowsec.com.br/>
-    + Link do srf: <https://blog.crowsec.com.br/test/>
-+ Site TOP PT-BR (NO TA 10) :: <https://owasp.org/Top10/pt_BR/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/>
-+ <https://www.imperva.com/learn/application-security/server-side-request-forgery-ssrf/#:~:text=Attack%20Types-,What%20Is%20SSRF?,them%20to%20read%20the%20data>.
-+ Exmplocrar mais depois :: <https://rodolfomarianocy.medium.com/ssrf-entenda-o-b%C3%A1sico-de-forma-simples-e-algumas-formas-de-bypass-e694751acc0e>
-+ Burp Sute :: <https://portswigger.net/web-security/ssrf>
-+ (top) <https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Request%20Forgery/README.md>
++ https://www.imperva.com/learn/application-security/server-side-request-forgery-ssrf/#:~:text=Attack%20Types-,What%20Is%20SSRF?,them%20to%20read%20the%20data.
++ Blog interessante: https://blog.crowsec.com.br/
+    + Link do srf: https://blog.crowsec.com.br/test/
++ Site TOP PT-BR (NO TA 10) :: https://owasp.org/Top10/pt_BR/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/
++ https://www.imperva.com/learn/application-security/server-side-request-forgery-ssrf/#:~:text=Attack%20Types-,What%20Is%20SSRF?,them%20to%20read%20the%20data.
++ Exmplocrar mais depois :: https://rodolfomarianocy.medium.com/ssrf-entenda-o-b%C3%A1sico-de-forma-simples-e-algumas-formas-de-bypass-e694751acc0e
++ Burp Sute :: https://portswigger.net/web-security/ssrf
++ (top) https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Request%20Forgery/README.md
 
 ## Refes
 
-+ <https://www.siteblindado.com/blog/single-post/server-side-request-forgery-x-cross-site-request-forgery#:~:text=O%20Server%2DSide%20Request%20Forgery%20(SSRF)%20%C3%A9%20um%20tipo,recursos%20dentro%20da%20rede%20interna>.
++ https://www.siteblindado.com/blog/single-post/server-side-request-forgery-x-cross-site-request-forgery#:~:text=O%20Server%2DSide%20Request%20Forgery%20(SSRF)%20%C3%A9%20um%20tipo,recursos%20dentro%20da%20rede%20interna.
 
 ## Do owap top 10
 
@@ -39,7 +39,7 @@ Como os aplicativos da web modernos fornecem aos usuários finais recursos conve
 
 O Server-Side Request Forgery (SSRF) é um tipo de ciberataque onde o agressor explora a capacidade de um servidor fazer solicitações a outros servidores ou recursos dentro da rede interna.
 
-Ocorre quando: **UMA APLICAÇAO FAZ UMA REQUISIÇÂO A OUTRA APARTIR DE UMA ENTRADA FORNECEIDA/QUE PODE SER ALTERADA PELO USUÁRIO**
+Ocorre quando: **UMA APLICAÇAO FAZ UMA REQUISIÇÃO A OUTRA APARTIR DE UMA ENTRADA FORNECEIDA/QUE PODE SER ALTERADA PELO USUÁRIO**
 
 O ponto de preocupação se encontra em ambientes que utilizam APIs e micros serviços, onde os servidores frequentemente fazem solicitações a diversos outros serviços.
 
@@ -88,9 +88,9 @@ Os invasores podem usar SSRF para atacar sistemas protegidos por firewalls de ap
 
 Cenário #1: Varredura de portas em servidores internos - se a arquitetura de rede não for segmentada, os invasores podem mapear as redes internas e determinar se as portas estão abertas ou fechadas em servidores internos a partir dos resultados da conexão ou do tempo decorrido para conectar ou rejeitar as conexões de carga SSRF.
 
-Cenário #2: Exposição de dados confidenciais - os invasores podem acessar arquivos locais, como ou serviços internos, para obter informações confidenciais, como file:///etc/passwd e <http://localhost:28017/>.
+Cenário #2: Exposição de dados confidenciais - os invasores podem acessar arquivos locais, como ou serviços internos, para obter informações confidenciais, como file:///etc/passwd e http://localhost:28017/.
 
-Cenário #3: Acesse o armazenamento de metadados de serviços em nuvem - a maioria dos provedores de nuvem possui armazenamento de metadados, como <http://169.254.169.254/>. Um invasor pode ler os metadados para obter informações confidenciais.
+Cenário #3: Acesse o armazenamento de metadados de serviços em nuvem - a maioria dos provedores de nuvem possui armazenamento de metadados, como http://169.254.169.254/. Um invasor pode ler os metadados para obter informações confidenciais.
 
 Cenário #4: Comprometimento dos serviços internos - O invasor pode abusar dos serviços internos para conduzir outros ataques, como Execução Remota de Código/Remote Code Execution (RCE) ou Negação de Serviço/Denial of Service (DoS).
 

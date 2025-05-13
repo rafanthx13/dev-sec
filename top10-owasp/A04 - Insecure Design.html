@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A04 - Insecure Design.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="a04---insecure-design">A04 - Insecure Design</h1>
+<h2 id="resumo">Resumo</h2>
+<p>Nem mesmo é um eror, é uma falha, uma falta de cuidado com decisões grosseieros sem se preocupar com design ou arquitetura de sistema</p>
+<h2 id="links">Links</h2>
+<p>Leia mais os linsk a seguir</p>
+<ul>
+<li>https://brackish.io/2023/09/25/owasp-top-ten-insecure-design/</li>
+<li>https://blog.codacy.com/insecure-design-owasp-top-1</li>
+<li>https://codelivly.com/insecure-design/</li>
+</ul>
+<h2 id="outros">Outros</h2>
+<h3 id="best-practices-for-secure-design">Best Practices for Secure Design</h3>
+<p>Link: https://brackish.io/2023/09/25/owasp-top-ten-insecure-design/</p>
+<ul>
+<li>Least Privilege Access: Design your system so that users and components have only the minimum levels of access — or permissions — they need to accomplish their tasks.</li>
+<li>Regular Audits: Implement a robust auditing and monitoring system to detect any unauthorized access or anomalies.
+Incorporate Security Early: Make security a part of the Software Development Life Cycle (SDLC), not just an afterthought. Perform threat modelling and design review early and often.</li>
+<li>Penetration Testing: Regular penetration tests will help you identify vulnerabilities.</li>
+</ul>
+<h2 id="owasp">Owasp</h2>
+<h2 id="vis%C3%A3o-geral">Visão Geral</h2>
+<p>Uma nova categoria para 2021 concentra-se nos riscos relacionados a falhas de design e arquitetura, com uma chamada para mais uso de modelagem de ameaças (<em>threat modeling</em>), padrões de design seguros e arquiteturas de referência. Como uma comunidade, precisamos ir além de &quot;<em>shift-left</em>&quot; no espaço de codificação para atividades antes da codificação que são críticas para os princípios de  <em>Secure by Design</em>.</p>
+<ul>
+<li>Notáveis Common Weakness Enumerations (CWEs) incluídas são  <em>CWE-209: Geração de Mensagem de Erro Contendo Informações Confidenciais</em>,  <em>CWE-256: Armazenamento Desprotegido de Credenciais</em>,  <em>CWE-501: Violação de Limites de Confiança</em>  e  <em>CWE-522: Credenciais Insuficientemente Protegidas</em>.</li>
+</ul>
+<h2 id="descri%C3%A7%C3%A3o">Descrição</h2>
+<p>O design inseguro é uma categoria ampla que representa diferentes pontos fracos, expressos como &quot;design de controle ausente ou ineficaz&quot;. O design inseguro não é a fonte de todas as outras 10 categorias principais de risco de segurança. Há uma diferença entre design inseguro e implementação insegura. Nós diferenciamos entre falhas de design e defeitos de implementação por um motivo, eles têm diferentes causas raízes e remediação. Um design seguro ainda pode ter defeitos de implementação que levam a vulnerabilidades que podem ser exploradas. Um design inseguro não pode ser corrigido por uma implementação perfeita, pois, por definição, os controles de segurança necessários nunca foram criados para a defesa contra ataques específicos. Um dos fatores que contribuem para um design inseguro é a falta de perfis de risco de negócios inerentes ao software ou sistema que está sendo desenvolvido e, portanto, a falha em determinar o nível de design de segurança necessário.</p>
+<h3 id="gerenciamento-de-requisitos-e-recursos">Gerenciamento de Requisitos e Recursos</h3>
+<p>Colete e negocie os requisitos de negócios para uma aplicação com a empresa, incluindo os requisitos de proteção relativos à confidencialidade, integridade, disponibilidade e autenticidade de todos os ativos de dados e a lógica de negócios esperada. Leve em consideração a exposição da sua aplicação e se você precisa de segregação de tenants (além do controle de acesso). Compile os requisitos técnicos, incluindo requisitos de segurança funcionais e não funcionais. Planeje e negocie o orçamento cobrindo todo o projeto, construção, teste e operação, incluindo atividades de segurança.</p>
+<h3 id="design-seguro">Design Seguro</h3>
+<p>O design seguro é uma cultura e metodologia que avalia constantemente as ameaças e garante que o código seja desenvolvido e testado de forma robusta para evitar métodos de ataque conhecidos. A Modelagem de Ameaças deve ser integrada às sessões de refinamento (ou atividades semelhantes); procure por mudanças nos fluxos de dados e controle de acesso ou outros controles de segurança. No desenvolvimento da história do usuário, determine o fluxo correto e os estados de falha, certifique-se de que sejam bem compreendidos e aceitos pelas partes responsáveis e afetadas. Analise suposições e condições para fluxos esperados e de falha, assegure-se de que eles ainda sejam precisos e desejáveis. Determine como validar as suposições e fazer cumprir as condições necessárias para comportamentos adequados. Certifique-se de que os resultados sejam documentados na história do usuário. Aprenda com os erros e ofereça incentivos positivos para promover melhorias. O design seguro não é um  <em>add-on</em>  nem uma ferramenta que você pode adicionar ao software.</p>
+<h3 id="ciclo-de-vida-de-desenvolvimento-seguro">Ciclo de Vida de Desenvolvimento Seguro</h3>
+<p>O software seguro requer um ciclo de vida de desenvolvimento seguro, alguma forma de padrão de projeto seguro, metodologia de  <em>paved road</em>, bibliotecas de componentes protegidos, ferramentas e modelagem de ameaças. Procure seus especialistas em segurança no início de um projeto de software, durante todo o projeto e durante a manutenção de seu software. Considere aproveitar o  <a href="https://owaspsamm.org/">OWASP Software Assurance Maturity Model (SAMM)</a>  para ajudar a estruturar seus esforços de desenvolvimento de software seguro.</p>
+<h2 id="como-prevenir">Como Prevenir</h2>
+<ul>
+<li>
+<p>Estabeleça e use um ciclo de vida de desenvolvimento seguro com profissionais de AppSec para ajudar a avaliar e projetar controles relacionados à segurança e privacidade.</p>
+</li>
+<li>
+<p>Estabeleça e use bibliotecas de padrões de projeto seguros ou componentes de  <em>paved road</em>  prontos para usar.</p>
+</li>
+<li>
+<p>Use Modelagem de Ameaças para autenticação crítica, controle de acesso, lógica de negócios e fluxos de chaves.</p>
+</li>
+<li>
+<p>Integre a linguagem e os controles de segurança às histórias de usuários.</p>
+</li>
+<li>
+<p>Integre verificações de plausibilidade em cada camada da sua aplicação (do front-end ao back-end).</p>
+</li>
+<li>
+<p>Escreva testes de unidade e integração para validar se todos os fluxos críticos são resistentes ao modelo de ameaça. Compile casos de uso de sucesso e casos de uso indevido para cada camada da sua aplicação.</p>
+</li>
+<li>
+<p>Separe as camadas de nível no sistema e nas camadas de rede, dependendo das necessidades de exposição e proteção.</p>
+</li>
+<li>
+<p>Separe os  <em>tenants</em>  de maneira robusta por design em todas as camadas.</p>
+</li>
+<li>
+<p>Limite o consumo de recursos por usuário ou serviço.</p>
+</li>
+</ul>
+<h2 id="exemplos-de-cen%C3%A1rios-de-ataque">Exemplos de Cenários de Ataque</h2>
+<p><strong>Cenário #1:</strong>  Um fluxo de trabalho de recuperação de credencial pode incluir &quot;perguntas e respostas&quot; (confirmação positiva), o que é proibido pelo NIST 800-63b, o OWASP ASVS e o OWASP Top 10. Perguntas e respostas não podem ser consideradas evidências de identidade, pois mais de uma pessoa pode saber as respostas, é por isso que eles são proibidos. Esse código deve ser removido e substituído por um design mais seguro.</p>
+<p><strong>Cenário #2:</strong>  Uma rede de cinemas permite descontos para reservas de grupos e tem um máximo de quinze participantes antes de exigir um depósito. Os invasores podem modelar esse fluxo e testar se conseguem reservar seiscentos lugares e todos os cinemas de uma só vez em algumas solicitações, causando uma enorme perda de receita.</p>
+<p><strong>Cenário #3:</strong>  O site de comércio eletrônico de uma rede de varejo não tem proteção contra bots executados por cambistas que compram placas de vídeo de última geração para revender sites de leilão. Isso cria uma publicidade terrível para os fabricantes de placas de vídeo e proprietários de redes de varejo, além de sofrer com os entusiastas que não podem obter essas placas a qualquer preço. O design anti-bot cuidadoso e as regras de lógica de domínio, como compras feitas dentro de alguns segundos de disponibilidade, podem identificar compras não autênticas e rejeitar tais transações.</p>
+<h2 id="refer%C3%AAncias">Referências</h2>
+<ul>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Secure_Product_Design_Cheat_Sheet.html">OWASP Cheat Sheet: Secure Design Principles</a></p>
+</li>
+<li>
+<p><a href="https://owaspsamm.org/model/design/security-architecture/">OWASP SAMM: Design:Security Architecture</a></p>
+</li>
+<li>
+<p><a href="https://owaspsamm.org/model/design/threat-assessment/">OWASP SAMM: Design:Threat Assessment</a></p>
+</li>
+<li>
+<p><a href="https://www.nist.gov/publications/guidelines-minimum-standards-developer-verification-software">NIST – Guidelines on Minimum Standards for Developer Verification of Software</a></p>
+</li>
+<li>
+<p><a href="https://threatmodelingmanifesto.org/">The Threat Modeling Manifesto</a></p>
+</li>
+<li>
+<p><a href="https://github.com/hysnsec/awesome-threat-modelling">Awesome Threat Modeling</a></p>
+</li>
+</ul>
+<h2 id="lista-dos-cwes-mapeados">Lista dos CWEs Mapeados</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/73.html">CWE-73 External Control of File Name or Path</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/183.html">CWE-183 Permissive List of Allowed Inputs</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/209.html">CWE-209 Generation of Error Message Containing Sensitive Information</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/213.html">CWE-213 Exposure of Sensitive Information Due to Incompatible Policies</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/235.html">CWE-235 Improper Handling of Extra Parameters</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/256.html">CWE-256 Unprotected Storage of Credentials</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/257.html">CWE-257 Storing Passwords in a Recoverable Format</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/266.html">CWE-266 Incorrect Privilege Assignment</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/269.html">CWE-269 Improper Privilege Management</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/280.html">CWE-280 Improper Handling of Insufficient Permissions or Privileges</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/311.html">CWE-311 Missing Encryption of Sensitive Data</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/312.html">CWE-312 Cleartext Storage of Sensitive Information</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/313.html">CWE-313 Cleartext Storage in a File or on Disk</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/316.html">CWE-316 Cleartext Storage of Sensitive Information in Memory</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/419.html">CWE-419 Unprotected Primary Channel</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/430.html">CWE-430 Deployment of Wrong Handler</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/434.html">CWE-434 Unrestricted Upload of File with Dangerous Type</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/444.html">CWE-444 Inconsistent Interpretation of HTTP Requests ('HTTP Request Smuggling')</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/451.html">CWE-451 User Interface (UI) Misrepresentation of Critical Information</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/472.html">CWE-472 External Control of Assumed-Immutable Web Parameter</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/501.html">CWE-501 Trust Boundary Violation</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/522.html">CWE-522 Insufficiently Protected Credentials</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/525.html">CWE-525 Use of Web Browser Cache Containing Sensitive Information</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/539.html">CWE-539 Use of Persistent Cookies Containing Sensitive Information</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/579.html">CWE-579 J2EE Bad Practices: Non-serializable Object Stored in Session</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/598.html">CWE-598 Use of GET Request Method With Sensitive Query Strings</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/602.html">CWE-602 Client-Side Enforcement of Server-Side Security</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/642.html">CWE-642 External Control of Critical State Data</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/646.html">CWE-646 Reliance on File Name or Extension of Externally-Supplied File</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/650.html">CWE-650 Trusting HTTP Permission Methods on the Server Side</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/653.html">CWE-653 Insufficient Compartmentalization</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/656.html">CWE-656 Reliance on Security Through Obscurity</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/657.html">CWE-657 Violation of Secure Design Principles</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/799.html">CWE-799 Improper Control of Interaction Frequency</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/807.html">CWE-807 Reliance on Untrusted Inputs in a Security Decision</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/840.html">CWE-840 Business Logic Errors</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/841.html">CWE-841 Improper Enforcement of Behavioral Workflow</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/927.html">CWE-927 Use of Implicit Intent for Sensitive Communication</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/1021.html">CWE-1021 Improper Restriction of Rendered UI Layers or Frames</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/1173.html">CWE-1173 Improper Use of Validation Framework</a></p>
+<h2 id="chatgpt">ChatGPT</h2>
+<h3 id="q1">Q1</h3>
+<blockquote>
+<p>Fale soA04 Insecure Design do OWASP</p>
+</blockquote>
+<p>O <strong>OWASP A04:2021 – Insecure Design</strong> (Design Inseguro) é a quarta categoria da lista OWASP Top 10 de 2021, que trata das <strong>falhas de segurança resultantes de decisões inadequadas no design ou arquitetura de software</strong>, independentemente de erros de implementação posteriores.</p>
+<h3 id="%F0%9F%A7%A0-o-que-%C3%A9-o-%22insecure-design%22">🧠 O que é o &quot;Insecure Design&quot;?</h3>
+<p>É quando um sistema é construído sem considerar princípios de segurança desde o início. Não se trata de bugs ou vulnerabilidades específicas de código, mas sim de <strong>decisões estruturais erradas</strong> que colocam a aplicação em risco.</p>
+<h4 id="exemplos">Exemplos:</h4>
+<ul>
+<li>Ausência de <strong>limites de taxa (rate limiting)</strong> em funcionalidades sensíveis como login ou APIs.</li>
+<li>Projetos que não separam <strong>funções críticas</strong> (como administrativo e usuário comum).</li>
+<li>Fluxos que permitem <strong>ataques de força bruta ou scraping</strong> por não terem proteções suficientes.</li>
+<li>Falta de <strong>modelagem de ameaças</strong> para identificar riscos nos fluxos de negócio.</li>
+<li>Aplicações que assumem que o front-end é confiável e não validam regras de negócio no back-end.</li>
+</ul>
+<hr>
+<h3 id="%E2%9A%A0%EF%B8%8F-consequ%C3%AAncias">⚠️ Consequências</h3>
+<p>Um design inseguro pode levar a:</p>
+<ul>
+<li><strong>Escalada de privilégios</strong></li>
+<li><strong>Vazamento de dados sensíveis</strong></li>
+<li><strong>Ataques automatizados (bots, scraping, brute force)</strong></li>
+<li><strong>Abuso de funcionalidades legítimas</strong></li>
+</ul>
+<hr>
+<h3 id="%F0%9F%9B%A0%EF%B8%8F-como-prevenir">🛠️ Como prevenir?</h3>
+<ul>
+<li><strong>Modelagem de ameaças</strong> desde as fases iniciais do projeto.</li>
+<li><strong>Segurança por design</strong>: aplicar princípios como <em>least privilege</em>, <em>defense in depth</em>, <em>fail-safe defaults</em>.</li>
+<li>Criar e aplicar <strong>testes de segurança em nível de arquitetura</strong>.</li>
+<li>Simular abusos de lógica de negócios e analisar os fluxos.</li>
+<li>Ter documentação clara das <strong>regras de segurança do sistema</strong>.</li>
+</ul>
+<hr>
+<h3 id="exemplo-pr%C3%A1tico">Exemplo prático</h3>
+<p>Imagine uma aplicação de transferências bancárias que <strong>não limita o número de tentativas</strong> de envio por segundo. Mesmo que cada tentativa valide o saldo, um atacante pode automatizar milhares de requisições por segundo e causar problemas (como DDOS financeiro, uso indevido ou vazamento de informações). Isso é falha de <strong>design inseguro</strong>, pois a arquitetura não considerou esse risco desde o início.</p>
+<hr>
+<p>Quer que eu aplique esse conceito a um caso específico do seu projeto?</p>
+<h3 id="q2">Q2</h3>
+<blockquote>
+<p>Pesquise na web e me informe exempls de casos de design insrguros</p>
+</blockquote>
+<p>Claro! A seguir, apresento exemplos reais e cenários práticos que ilustram falhas de <strong>design inseguro</strong> (OWASP A04:2021 – Insecure Design), demonstrando como decisões inadequadas na arquitetura de sistemas podem comprometer a segurança de aplicações:</p>
+<hr>
+<h3 id="%F0%9F%94%90-exemplos-reais-de-design-inseguro">🔐 Exemplos Reais de Design Inseguro</h3>
+<h4 id="1-vazamento-de-dados-da-ashley-madison-2015">1. <strong>Vazamento de Dados da Ashley Madison (2015)</strong></h4>
+<p>O site Ashley Madison, voltado para relacionamentos extraconjugais, sofreu um ataque que expôs dados sensíveis de milhões de usuários.</p>
+<ul>
+<li><strong>Falha de design</strong>: Armazenamento inadequado de informações sensíveis, como nomes reais e detalhes de pagamento, sem criptografia robusta ou políticas de retenção de dados adequadas.</li>
+<li><strong>Consequência</strong>: Exposição massiva de dados pessoais, resultando em danos à reputação e processos legais. (<a href="https://brackish.io/owasp-top-ten-insecure-design/?utm_source=chatgpt.com" title="OWASP Top Ten - Insecure Design - Brackish Security">Brackish Security</a>)</li>
+</ul>
+<h4 id="2-vazamento-de-dados-da-equifax-2017">2. <strong>Vazamento de Dados da Equifax (2017)</strong></h4>
+<p>A Equifax, uma das maiores agências de crédito dos EUA, teve informações pessoais de aproximadamente 147 milhões de pessoas comprometidas.</p>
+<ul>
+<li><strong>Falha de design</strong>: Ausência de mecanismos eficazes de monitoramento e atualização, permitindo a exploração de uma vulnerabilidade conhecida no Apache Struts.</li>
+<li><strong>Consequência</strong>: Perda de dados sensíveis, multas significativas e danos à confiança dos consumidores. (<a href="https://blog.codacy.com/insecure-design-owasp-top-10?utm_source=chatgpt.com" title="Insecure Design: A Complete Guide">blog.codacy.com</a>)</li>
+</ul>
+<h4 id="3-vulnerabilidade-heartbleed-no-openssl-2014">3. <strong>Vulnerabilidade Heartbleed no OpenSSL (2014)</strong></h4>
+<p>Uma falha no OpenSSL permitia que atacantes lessem informações sensíveis da memória de servidores.</p>
+<ul>
+<li><strong>Falha de design</strong>: Falta de validação adequada de entradas no processamento de solicitações &quot;heartbeat&quot;, resultando em leitura indevida de memória.</li>
+<li><strong>Consequência</strong>: Exposição de chaves privadas, senhas e outros dados críticos. (<a href="https://www.codelivly.com/insecure-design/?utm_source=chatgpt.com" title="OWASP Top Ten: Insecure Design Vulnerabilities – Codelivly">codelivly.com</a>, <a href="https://www.vumetric.com/blog/owasp-top-10-a04-insecure-design-everything-you-need-to-know/?utm_source=chatgpt.com" title="OWASP A04 Insecure Design: Risks, Examples, and Prevention - Vumetric">vumetric.com</a>, <a href="https://owasp.org/Top10/it/A04_2021-Insecure_Design/?utm_source=chatgpt.com" title="A04 Insecure Design - OWASP Top 10:2021">OWASP</a>)</li>
+</ul>
+<hr>
+<h3 id="%F0%9F%A7%AA-cen%C3%A1rios-pr%C3%A1ticos-de-design-inseguro">🧪 Cenários Práticos de Design Inseguro</h3>
+<h4 id="4-recupera%C3%A7%C3%A3o-de-senha-com-perguntas-e-respostas">4. <strong>Recuperação de Senha com Perguntas e Respostas</strong></h4>
+<p>Implementar recuperação de senha baseada em perguntas como &quot;Qual o nome do seu primeiro animal de estimação?&quot; é inseguro.</p>
+<ul>
+<li><strong>Falha de design</strong>: Essas perguntas são facilmente descobertas ou adivinhadas, não fornecendo autenticação confiável.</li>
+<li><strong>Consequência</strong>: Facilidade para atacantes resetarem senhas de usuários legítimos. </li>
+</ul>
+<h4 id="5-reserva-de-ingressos-sem-limites-adequados">5. <strong>Reserva de Ingressos sem Limites Adequados</strong></h4>
+<p>Um sistema de reservas que permite múltiplas reservas sem verificação adequada pode ser explorado.</p>
+<ul>
+<li><strong>Falha de design</strong>: Ausência de limites de quantidade ou validações por usuário.</li>
+<li><strong>Consequência</strong>: Atacantes podem reservar grandes quantidades de ingressos, causando perdas financeiras. </li>
+</ul>
+<h4 id="6-exposi%C3%A7%C3%A3o-de-dados-sens%C3%ADveis-via-urls">6. <strong>Exposição de Dados Sensíveis via URLs</strong></h4>
+<p>Incluir informações sensíveis em parâmetros de URL (método GET) pode levar à exposição de dados.</p>
+<ul>
+<li><strong>Falha de design</strong>: Dados como logins ou tokens de sessão podem ser armazenados em logs de servidores ou históricos de navegadores.</li>
+<li><strong>Consequência</strong>: Potencial vazamento de informações confidenciais. </li>
+</ul>
+<hr>
+<h3 id="%E2%9C%85-boas-pr%C3%A1ticas-para-prevenir-design-inseguro">✅ Boas Práticas para Prevenir Design Inseguro</h3>
+<ul>
+<li><strong>Modelagem de Ameaças</strong>: Identificar e mitigar riscos desde as fases iniciais do desenvolvimento.</li>
+<li><strong>Princípios de Segurança</strong>: Aplicar conceitos como &quot;privilégio mínimo&quot; e &quot;defesa em profundidade&quot;.</li>
+<li><strong>Validações no Lado do Servidor</strong>: Não confiar apenas em validações do lado do cliente.</li>
+<li><strong>Criptografia Adequada</strong>: Proteger dados sensíveis em repouso e em trânsito.</li>
+<li><strong>Testes de Segurança</strong>: Realizar testes regulares para identificar e corrigir vulnerabilidades.(<a href="https://blog.codacy.com/insecure-design-owasp-top-10?utm_source=chatgpt.com" title="Insecure Design: A Complete Guide">blog.codacy.com</a>)</li>
+</ul>
+<p>Se desejar, posso ajudar a analisar o design de um sistema específico ou fornecer orientações para fortalecer a segurança de sua aplicação.</p>
+<h2 id="perplexity">Perplexity</h2>
+<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
+<h1 id="a04-design-inseguro---conceito-e-exemplos-em-aplica%C3%A7%C3%B5es-web">A04: Design Inseguro - Conceito e Exemplos em Aplicações Web</h1>
+<p>O Design Inseguro representa uma nova e importante categoria introduzida na lista OWASP Top 10 de 2021, focando nos problemas fundamentais de segurança que ocorrem na fase de arquitetura e planejamento de sistemas, antes mesmo da implementação do código.</p>
+<h2 id="o-que-%C3%A9-design-inseguro">O que é Design Inseguro</h2>
+<p>Design Inseguro ocorre quando a segurança não é considerada desde o início do processo de desenvolvimento de software. Esta categoria se concentra nas falhas de design e nos riscos associados a essas falhas, diferente dos problemas de implementação que frequentemente se encaixam em outras categorias de segurança<a href="https://www.youtube.com/watch?v=bbmplrUG5Nc">^15</a>. A OWASP introduziu esta categoria visando promover princípios de design mais seguros e consistentes, padrões e arquiteturas de referência que garantam a estabilidade e segurança dos dados em aplicações web<a href="https://www.youtube.com/watch?v=bbmplrUG5Nc">^15</a>.</p>
+<p>O Design Inseguro acontece quando a segurança não é parte integrante do processo de planejamento, resultando em falhas que se tornam difíceis de corrigir posteriormente no ciclo de desenvolvimento<a href="https://xygeni.io/pt/blog/owasp-top-10-and-their-remedies/">^16</a>. Este tipo de vulnerabilidade é particularmente preocupante porque, mesmo com uma implementação tecnicamente perfeita, um sistema baseado em um design inseguro continuará vulnerável a ataques.</p>
+<h3 id="como-o-design-inseguro-difere-de-outras-falhas-de-seguran%C3%A7a">Como o Design Inseguro difere de outras falhas de segurança</h3>
+<p>Enquanto muitas categorias do OWASP Top 10 focam em vulnerabilidades técnicas específicas (como injeção ou falhas criptográficas), o Design Inseguro aborda a segurança de forma mais holística<a href="https://www.youtube.com/watch?v=bbmplrUG5Nc">^15</a>. Essa categoria visa encontrar e corrigir falhas fundamentais na arquitetura e no design do sistema, em vez de problemas na implementação do código. Um sistema pode ter um código perfeitamente escrito, sem vulnerabilidades tradicionais, mas ainda assim ser fundamentalmente inseguro devido a decisões de design inadequadas.</p>
+<h2 id="exemplos-de-design-inseguro-em-aplica%C3%A7%C3%B5es-web">Exemplos de Design Inseguro em Aplicações Web</h2>
+<h3 id="1-limita%C3%A7%C3%A3o-de-taxa-ineficaz">1. Limitação de Taxa Ineficaz</h3>
+<p>Um exemplo notável ocorreu no Facebook no início de 2021, quando um grande volume de dados pessoais foi vazado. Este incidente foi causado por limites de taxa e limites de dados ineficazes implementados pela plataforma, que permitiram acesso excessivo aos dados usando ferramentas automatizadas<a href="https://www.estrategiaconcursos.com.br/blog/10-riscos-seguranca-web-owasp/">^14</a>. Esse problema de design facilita técnicas de &quot;scraping&quot; em massa, onde atacantes podem extrair quantidades enormes de dados sem serem detectados ou bloqueados.</p>
+<h3 id="2-falta-de-prote%C3%A7%C3%A3o-contra-bots-em-e-commerce">2. Falta de Proteção Contra Bots em E-commerce</h3>
+<p>Um exemplo comum é o de sites de comércio eletrônico de redes de varejo que não possuem proteção contra bots executados por atacantes<a href="https://www.dio.me/articles/owasp-principais-vulnerabilidades-e-remediacoes-mapeadas">^18</a>. Isso permite que os invasores realizem compras automatizadas de produtos em alta demanda (como ingressos para eventos, tênis de edição limitada ou consoles de videogame), esgotando o estoque antes que clientes legítimos possam fazer suas compras. Este é um problema de design porque o sistema foi concebido sem considerar este cenário de ataque.</p>
+<h3 id="3-arquitetura-de-aplica%C3%A7%C3%A3o-sem-segrega%C3%A7%C3%A3o-de-dados">3. Arquitetura de Aplicação Sem Segregação de Dados</h3>
+<p>Uma aplicação web que armazena dados sensíveis (como informações de pagamento) no mesmo banco de dados que informações menos críticas, sem a devida segregação, apresenta um design inseguro. Se um invasor conseguir acesso ao banco de dados através de qualquer vulnerabilidade, ele terá acesso a todos os dados, incluindo os mais sensíveis.</p>
+<h3 id="4-falha-na-modelagem-de-amea%C3%A7as">4. Falha na Modelagem de Ameaças</h3>
+<p>Sistemas que são desenvolvidos sem um processo formal de modelagem de ameaças frequentemente falham em considerar cenários de ataque críticos. Por exemplo, uma aplicação de saúde que não considera os riscos associados à exposição de dados de pacientes pode ser projetada sem os controles de acesso granulares necessários, resultando em potenciais violações de privacidade.</p>
+<h3 id="5-processos-de-recupera%C3%A7%C3%A3o-de-conta-mal-projetados">5. Processos de Recuperação de Conta Mal Projetados</h3>
+<p>Sistemas de recuperação de senha que dependem apenas de informações facilmente descobertas (como &quot;qual é o nome do seu pet?&quot;) representam um design inseguro. Este tipo de falha permitiu, em casos famosos, que contas de celebridades e figuras públicas fossem comprometidas através de engenharia social simples.</p>
+<h2 id="como-prevenir-o-design-inseguro">Como Prevenir o Design Inseguro</h2>
+<p>Para mitigar os riscos associados ao design inseguro, recomenda-se:</p>
+<ol>
+<li>Incorporar modelagem de ameaças e princípios de &quot;secure-by-design&quot; desde o início do desenvolvimento<a href="https://xygeni.io/pt/blog/owasp-top-10-and-their-remedies/">^16</a>.</li>
+<li>Utilizar ciclos de vida de desenvolvimento seguro (SDL) que incluam revisões regulares de segurança durante todas as fases do projeto<a href="https://www.estrategiaconcursos.com.br/blog/10-riscos-seguranca-web-owasp/">^14</a>.</li>
+<li>Implementar padrões de design seguros e arquiteturas de referência que já considerem potenciais ameaças<a href="https://www.youtube.com/watch?v=bbmplrUG5Nc">^15</a>.</li>
+<li>Revisar regularmente o design do sistema para identificar potenciais vulnerabilidades antes que se tornem problemas sérios<a href="https://xygeni.io/pt/blog/owasp-top-10-and-their-remedies/">^16</a>.</li>
+<li>Utilizar ferramentas de Application Security Posture Management (ASPM) para identificar falhas de design em estágios iniciais<a href="https://xygeni.io/pt/blog/owasp-top-10-and-their-remedies/">^16</a>.</li>
+<li>Implementar limites de taxa e monitoramento de comportamento para detectar padrões de uso anômalos que possam indicar tentativas de abuso.</li>
+</ol>
+<h2 id="conclus%C3%A3o">Conclusão</h2>
+<p>O Design Inseguro representa uma abordagem fundamentalmente falha no desenvolvimento de software, onde os aspectos de segurança não são considerados desde a concepção do sistema. Diferente de outras vulnerabilidades que podem ser corrigidas com patches ou atualizações de código, os problemas de design inseguro frequentemente exigem reestruturações significativas ou redesenho completo de sistemas.</p>
+<p>Para desenvolvedores e organizações, é crucial adotar uma mentalidade de &quot;security by design&quot;, onde a segurança é uma consideração primária desde os estágios iniciais de planejamento. Implementar modelagem de ameaças, arquiteturas de referência seguras e revisões regulares de design pode ajudar a evitar as armadilhas associadas ao design inseguro, resultando em aplicações web mais robustas e resistentes a ataques.</p>
+<div style="text-align: center">⁂</div>
+
+</body>
+</html>

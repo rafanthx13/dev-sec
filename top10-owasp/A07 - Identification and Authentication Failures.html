@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A07 - Identification and Authentication Failures.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="a07---identification-and-authentication-failures">A07 - Identification and Authentication Failures</h1>
+<h2 id="resumo">Resumo</h2>
+<p>Falha na autenticaçao. Enquanto da A01 se preocupa com 'Você pode fazer isso?&quot;' (se trata de limitar o usuário a apaenas fazer o que ele deve fazer) que é quando se acessa algo que nao se pdoe, aqui é quando um cara consegue passar pelo login, é quando você &quot;é quem diz que é. São problemas que envolve: login, sessôes, tokens, recuperar senhas e tentativas de bruteforce pra passar pelo login</p>
+<h2 id="links">Links</h2>
+<ul>
+<li>https://owasp.org/Top10/pt_BR/A07_2021-Identification_and_Authentication_Failures/</li>
+</ul>
+<h2 id="owasp">OWASP</h2>
+<h2 id="descri%C3%A7%C3%A3o">Descrição</h2>
+<p>Confirmação da identidade, autenticação e sessão do usuário gerenciamento é fundamental para proteger contra autenticação relacionada ataques. Pode haver pontos fracos de autenticação se o aplicativo:</p>
+<ul>
+<li>
+<p>Permite ataques automatizados, como preenchimento de credenciais, onde o invasor tem uma lista de nomes de usuários e senhas válidos.</p>
+</li>
+<li>
+<p>Permite força bruta ou outros ataques automatizados.</p>
+</li>
+<li>
+<p>Permite senhas padrão, fracas ou conhecidas, como &quot;Senha1&quot; ou &quot;admin/admin&quot;.</p>
+</li>
+<li>
+<p>Usa recuperação de credenciais fraca ou ineficaz e esqueci a senha processos, como &quot;respostas baseadas em conhecimento&quot;, que não podem ser feitas de modo seguro.</p>
+</li>
+<li>
+<p>Usa armazenamento de dados e senhas em texto simples, criptografadas ou com hash fraco (consulte  <a href="https://owasp.org/Top10/pt_BR/A02_2021-Cryptographic_Failures/">A02:2021-Falhas Criptográficas</a>).</p>
+</li>
+<li>
+<p>Possui multifator de autenticação ausente ou ineficaz.</p>
+</li>
+<li>
+<p>Expõe o identificador de sessão na URL.</p>
+</li>
+<li>
+<p>Reutiliza o identificador de sessão após o login bem-sucedido.</p>
+</li>
+<li>
+<p>Não invalida corretamente IDs de sessão. Sessões de usuário ou tokens de autenticação (principalmente tokens de logon único (SSO)) não são devidamente invalidado durante o logout ou um período de inatividade.</p>
+</li>
+</ul>
+<h2 id="como-prevenir">Como Prevenir</h2>
+<ul>
+<li>
+<p>Sempre que possível, implemente a autenticação multifator para evitar preenchimento automatizado de credenciais, força bruta e credenciais roubadas</p>
+</li>
+<li>
+<p>Não permita ou implante nenhuma credencial padrão, especialmente para usuários administradores.</p>
+</li>
+<li>
+<p>Implementar verificações de senha fraca, como testar novas ou alteradas contra a lista das 10.000 piores senhas.</p>
+</li>
+<li>
+<p>Alinhe o comprimento da senha, a complexidade e as políticas de rotação com Instituto Nacional de Padrões e Tecnologia (NIST) as diretrizes do 800-63b na seção 5.1.1 para segredos memorizados ou outras políticas de senha modernas e baseadas em evidências.</p>
+</li>
+<li>
+<p>Certifique-se de que o registro, a recuperação de credenciais e os caminhos da API sejam protegido contra ataques de enumeração de contas usando a mesma mensagens para todos os resultados.</p>
+</li>
+<li>
+<p>Limite ou atrase cada vez mais as tentativas de login com falha, mas tome cuidado para não criar um cenário de negação de serviço. Registrar todas as falhas e alertar os administradores quando o preenchimento de credenciais, força bruta ou outros ataques são detectados.</p>
+</li>
+<li>
+<p>Use um gerenciador de sessão integrado, seguro do lado do servidor que gere um novo ID de sessão aleatória com alta entropia após o login. Identificador de sessão não deve estar na URL, deve ser armazenado com segurança e invalidado após o logout.</p>
+</li>
+</ul>
+<h2 id="exemplos-de-cen%C3%A1rios-de-ataque">Exemplos de Cenários de Ataque</h2>
+<p><strong>Cenário 1:</strong>  O preenchimento de credenciais, que consiste no uso de listas de senhas conhecidas, é um ataque comum. Suponha que um aplicativo não implemente proteção automatizada contra ameaças ou preenchimento de credenciais. Nesse caso, o aplicativo pode ser usado como um oráculo de senhas para determinar se as credenciais são válidas.</p>
+<p><strong>Cenário 2:</strong>  A maioria dos ataques de autenticação ocorre devido ao uso contínuo de senhas como único fator. Antes considerada uma boa prática, a rotação de senhas e os requisitos de complexidade encorajam os usuários a usar e reutilizar senhas fracas. As organizações são recomendadas a interromper essas práticas conforme a norma NIST 800-63 e usar autenticação de múltiplos fatores.</p>
+<p><strong>Cenário 3:</strong>  Os tempos limite da sessão do aplicativo não estão definidos corretamente. Um usuário usa um computador público para acessar um aplicativo. Em vez de selecionar &quot;sair&quot;, o usuário simplesmente fecha a aba do navegador e sai. Uma hora depois, um atacante usa o mesmo navegador, e o usuário ainda está autenticado.</p>
+<h2 id="refer%C3%AAncias">Referências</h2>
+<ul>
+<li>
+<p><a href="https://owasp.org/www-project-proactive-controls/v3/en/c6-digital-identity">OWASP Proactive Controls: Implement Digital Identity</a></p>
+</li>
+<li>
+<p><a href="https://owasp.org/www-project-application-security-verification-standard">OWASP Application Security Verification Standard: V2 authentication</a></p>
+</li>
+<li>
+<p><a href="https://owasp.org/www-project-application-security-verification-standard">OWASP Application Security Verification Standard: V3 Session Management</a></p>
+</li>
+<li>
+<p><a href="https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/03-Identity_Management_Testing/README">OWASP Testing Guide: Identity</a>, <a href="https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/04-Authentication_Testing/README">Authentication</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html">OWASP Cheat Sheet: Authentication</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html">OWASP Cheat Sheet: Credential Stuffing</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html">OWASP Cheat Sheet: Forgot Password</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html">OWASP Cheat Sheet: Session Management</a></p>
+</li>
+<li>
+<p><a href="https://owasp.org/www-project-automated-threats-to-web-applications/">OWASP Automated Threats Handbook</a></p>
+</li>
+<li>
+<p>NIST 800-63b: 5.1.1 Memorized Secrets</p>
+</li>
+</ul>
+<h2 id="lista-dos-cwes-mapeados">Lista dos CWEs Mapeados</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/255.html">CWE-255 Credentials Management Errors</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/259.html">CWE-259 Use of Hard-coded Password</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/287.html">CWE-287 Improper Authentication</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/288.html">CWE-288 Authentication Bypass Using an Alternate Path or Channel</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/290.html">CWE-290 Authentication Bypass by Spoofing</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/294.html">CWE-294 Authentication Bypass by Capture-replay</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/295.html">CWE-295 Improper Certificate Validation</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/297.html">CWE-297 Improper Validation of Certificate with Host Mismatch</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/300.html">CWE-300 Channel Accessible by Non-Endpoint</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/302.html">CWE-302 Authentication Bypass by Assumed-Immutable Data</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/304.html">CWE-304 Missing Critical Step in Authentication</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/306.html">CWE-306 Missing Authentication for Critical Function</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/307.html">CWE-307 Improper Restriction of Excessive Authentication Attempts</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/346.html">CWE-346 Origin Validation Error</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/384.html">CWE-384 Session Fixation</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/521.html">CWE-521 Weak Password Requirements</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/613.html">CWE-613 Insufficient Session Expiration</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/620.html">CWE-620 Unverified Password Change</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/640.html">CWE-640 Weak Password Recovery Mechanism for Forgotten Password</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/798.html">CWE-798 Use of Hard-coded Credentials</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/940.html">CWE-940 Improper Verification of Source of a Communication Channel</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/1216.html">CWE-1216 Lockout Mechanism Errors</a></p>
+<h2 id="chatgp">ChatGP</h2>
+<h3 id="q1">Q1</h3>
+<blockquote>
+<p>Fale sobre AO07 Identification and Authentication Failures do Owasp</p>
+</blockquote>
+<p>A vulnerabilidade <strong>AO07 – Identification and Authentication Failures</strong> da <a href="https://owasp.org/Top10/">OWASP Top 10</a> refere-se a <strong>falhas na identificação e autenticação de usuários</strong>, o que pode permitir que atacantes acessem sistemas de forma indevida, assumam identidades ou contornem mecanismos de segurança.</p>
+<hr>
+<p>🔍 O que é a AO07?</p>
+<p>Essa categoria inclui <strong>problemas em processos de login, logout, gestão de sessões, recuperação de senhas, autenticação multifator</strong>, entre outros. Um sistema vulnerável nesta categoria <strong>não protege adequadamente as credenciais ou não verifica corretamente a identidade do usuário</strong> antes de permitir acesso.</p>
+<hr>
+<p>⚠️ Exemplos de falhas comuns</p>
+<ul>
+<li>Uso de senhas fracas ou padrões fáceis de adivinhar.</li>
+<li>Falta de <strong>autenticação multifator (MFA)</strong> onde é necessário.</li>
+<li>Exposição de informações sensíveis em mensagens de erro (como “usuário não encontrado”).</li>
+<li>Tokens de sessão expiram muito lentamente ou nunca expiram.</li>
+<li>Tokens de autenticação previsíveis.</li>
+<li>Falta de limitação de tentativas de login (proteção contra <strong>ataques de força bruta</strong>).</li>
+<li>Autenticação implementada de forma customizada e insegura.</li>
+</ul>
+<hr>
+<p>🔐 Como prevenir</p>
+<ul>
+<li>Exigir senhas fortes e políticas de troca segura.</li>
+<li>Implementar <strong>MFA</strong> (autenticação multifator).</li>
+<li>Utilizar <strong>limitação de tentativas de login</strong> com bloqueios temporários (Rate Limiting).</li>
+<li>Evitar mensagens de erro que revelam se o usuário ou senha estão incorretos.</li>
+<li>Utilizar bibliotecas seguras para autenticação e <strong>não reinventar a roda</strong>.</li>
+<li>Proteger tokens de sessão com atributos como <code>HttpOnly</code>, <code>Secure</code> e <code>SameSite</code>.</li>
+<li>Encerrar sessões de forma apropriada no logout e após inatividade.</li>
+<li>Armazenar senhas com algoritmos seguros (ex.: bcrypt, Argon2).</li>
+</ul>
+<hr>
+<p>🧠 Exemplo prático</p>
+<p>Um sistema com um login onde é possível tentar senhas ilimitadamente sem bloqueio ou atraso está vulnerável a um <strong>ataque de força bruta</strong>. Outro exemplo seria retornar mensagens como:</p>
+<blockquote>
+<p>&quot;Usuário não encontrado&quot;</p>
+</blockquote>
+<p>em vez de algo genérico como:</p>
+<blockquote>
+<p>&quot;Usuário ou senha inválidos&quot;</p>
+</blockquote>
+<p>Isso facilita ataques de enumeração de usuários.</p>
+<hr>
+<p>📌 Conclusão</p>
+<p>A AO07 trata da <strong>segurança fundamental de autenticação e sessões</strong>. Se um atacante conseguir se passar por outro usuário — especialmente um administrador — ele pode ter acesso total ao sistema. Portanto, <strong>a proteção adequada de credenciais e sessões é uma das prioridades de segurança mais críticas em qualquer aplicação</strong>.</p>
+<p>Gostaria de ver um checklist prático ou código exemplo com boas práticas de autenticação?</p>
+<h3 id="q2">Q2</h3>
+<blockquote>
+<p>Dê exemplos de código em php puro com essa falhas e a versoa corrigindo essa falhas</p>
+</blockquote>
+<p>Claro! Abaixo estão <strong>exemplos de código em PHP puro com falhas relacionadas à AO07 (Identification and Authentication Failures)</strong> e suas <strong>versões corrigidas</strong>.</p>
+<hr>
+<h2 id="%F0%9F%9A%A8-1-senha-armazenada-sem-hash">🚨 1. <strong>Senha armazenada sem hash</strong></h2>
+<h3 id="%E2%9D%8C-vulner%C3%A1vel">❌ Vulnerável:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Armazenando senha diretamente</span>
+$password = $_POST[<span class="hljs-string">'password'</span>];
+$sql = <span class="hljs-string">"INSERT INTO users (username, password) VALUES ('{$_POST['username']}', '$password')"</span>;
+mysqli_query($conn, $sql);
+</div></code></pre>
+<h3 id="%E2%9C%85-correto">✅ Correto:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Armazenando senha com hash seguro</span>
+$password = password_hash($_POST[<span class="hljs-string">'password'</span>], PASSWORD_BCRYPT);
+$sql = <span class="hljs-string">"INSERT INTO users (username, password) VALUES (?, ?)"</span>;
+$stmt = $conn-&gt;prepare($sql);
+$stmt-&gt;bind_param(<span class="hljs-string">'ss'</span>, $_POST[<span class="hljs-string">'username'</span>], $password);
+$stmt-&gt;execute();
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%9A%A8-2-login-sem-prote%C3%A7%C3%A3o-contra-for%C3%A7a-bruta">🚨 2. <strong>Login sem proteção contra força bruta</strong></h2>
+<h3 id="%E2%9D%8C-vulner%C3%A1vel">❌ Vulnerável:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Tentativas ilimitadas</span>
+$sql = <span class="hljs-string">"SELECT * FROM users WHERE username = '{$_POST['username']}'"</span>;
+$result = mysqli_query($conn, $sql);
+$user = mysqli_fetch_assoc($result);
+
+<span class="hljs-keyword">if</span> ($user &amp;&amp; $user[<span class="hljs-string">'password'</span>] === $_POST[<span class="hljs-string">'password'</span>]) {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Bem-vindo!"</span>;
+} <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Usuário ou senha incorretos."</span>;
+}
+</div></code></pre>
+<h3 id="%E2%9C%85-correto-com-hash-e-limita%C3%A7%C3%A3o-simples">✅ Correto (com hash e limitação simples):</h3>
+<pre class="hljs"><code><div>session_start();
+
+$username = $_POST[<span class="hljs-string">'username'</span>];
+$password = $_POST[<span class="hljs-string">'password'</span>];
+
+<span class="hljs-comment">// Simples controle de tentativas</span>
+<span class="hljs-keyword">if</span> (!<span class="hljs-keyword">isset</span>($_SESSION[<span class="hljs-string">'attempts'</span>])) $_SESSION[<span class="hljs-string">'attempts'</span>] = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">if</span> ($_SESSION[<span class="hljs-string">'attempts'</span>] &gt;= <span class="hljs-number">5</span>) {
+    <span class="hljs-keyword">die</span>(<span class="hljs-string">"Muitas tentativas. Tente novamente mais tarde."</span>);
+}
+
+$sql = <span class="hljs-string">"SELECT * FROM users WHERE username = ?"</span>;
+$stmt = $conn-&gt;prepare($sql);
+$stmt-&gt;bind_param(<span class="hljs-string">'s'</span>, $username);
+$stmt-&gt;execute();
+$result = $stmt-&gt;get_result();
+$user = $result-&gt;fetch_assoc();
+
+<span class="hljs-keyword">if</span> ($user &amp;&amp; password_verify($password, $user[<span class="hljs-string">'password'</span>])) {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Login bem-sucedido!"</span>;
+    $_SESSION[<span class="hljs-string">'attempts'</span>] = <span class="hljs-number">0</span>; <span class="hljs-comment">// reset</span>
+} <span class="hljs-keyword">else</span> {
+    $_SESSION[<span class="hljs-string">'attempts'</span>]++;
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Usuário ou senha incorretos."</span>;
+}
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%9A%A8-3-token-de-sess%C3%A3o-n%C3%A3o-regenerado-no-login">🚨 3. <strong>Token de sessão não regenerado no login</strong></h2>
+<h3 id="%E2%9D%8C-vulner%C3%A1vel">❌ Vulnerável:</h3>
+<pre class="hljs"><code><div>session_start();
+$_SESSION[<span class="hljs-string">'user_id'</span>] = $user[<span class="hljs-string">'id'</span>];
+</div></code></pre>
+<h3 id="%E2%9C%85-correto">✅ Correto:</h3>
+<pre class="hljs"><code><div>session_start();
+session_regenerate_id(<span class="hljs-keyword">true</span>); <span class="hljs-comment">// evita fixation</span>
+$_SESSION[<span class="hljs-string">'user_id'</span>] = $user[<span class="hljs-string">'id'</span>];
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%9A%A8-4-exposi%C3%A7%C3%A3o-de-mensagens-espec%C3%ADficas-de-erro">🚨 4. <strong>Exposição de mensagens específicas de erro</strong></h2>
+<h3 id="%E2%9D%8C-vulner%C3%A1vel">❌ Vulnerável:</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">if</span> (!$user) {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Usuário não encontrado."</span>;
+} <span class="hljs-keyword">elseif</span> (!password_verify($password, $user[<span class="hljs-string">'password'</span>])) {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Senha incorreta."</span>;
+}
+</div></code></pre>
+<h3 id="%E2%9C%85-correto">✅ Correto:</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">if</span> (!$user || !password_verify($password, $user[<span class="hljs-string">'password'</span>])) {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Usuário ou senha inválidos."</span>;
+}
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%9A%A8-5-senha-fraca-e-sem-valida%C3%A7%C3%A3o">🚨 5. <strong>Senha fraca e sem validação</strong></h2>
+<h3 id="%E2%9D%8C-vulner%C3%A1vel">❌ Vulnerável:</h3>
+<pre class="hljs"><code><div>$password = $_POST[<span class="hljs-string">'password'</span>]; <span class="hljs-comment">// qualquer senha permitida</span>
+</div></code></pre>
+<h3 id="%E2%9C%85-correto">✅ Correto:</h3>
+<pre class="hljs"><code><div>$password = $_POST[<span class="hljs-string">'password'</span>];
+
+<span class="hljs-keyword">if</span> (strlen($password) &lt; <span class="hljs-number">8</span> || !preg_match(<span class="hljs-string">'/[A-Z]/'</span>, $password) ||
+    !preg_match(<span class="hljs-string">'/[a-z]/'</span>, $password) || !preg_match(<span class="hljs-string">'/[0-9]/'</span>, $password)) {
+    <span class="hljs-keyword">die</span>(<span class="hljs-string">"Senha fraca. Use pelo menos 8 caracteres, com letras maiúsculas, minúsculas e números."</span>);
+}
+</div></code></pre>
+<hr>
+<p>Se quiser, posso juntar todos esses exemplos num <strong>mini sistema de login em PHP puro com boas práticas</strong>. Gostaria disso?</p>
+<h3 id="q3">Q3</h3>
+<blockquote>
+<p>Não entendi essa questão de regeneração do token no login, me explique o que é qual a falha de nao ter e o que acontece ao colocar</p>
+</blockquote>
+<p>Ótima pergunta, Rafael! Vamos destrinchar isso com clareza.</p>
+<hr>
+<h2 id="%F0%9F%94%90-o-que-%C3%A9-regenerar-o-token-de-sess%C3%A3o-session-id">🔐 <strong>O que é regenerar o token de sessão (session ID)?</strong></h2>
+<p>Toda vez que alguém acessa seu site e inicia uma sessão (<code>session_start()</code>), o PHP gera um <strong>ID de sessão único</strong> (session ID), geralmente armazenado em um cookie. Esse ID é o &quot;cartão de acesso&quot; que identifica o usuário logado nas requisições seguintes.</p>
+<hr>
+<h2 id="%E2%9A%A0%EF%B8%8F-qual-%C3%A9-o-problema-de-n%C3%A3o-regenerar-esse-id-no-login">⚠️ Qual é o problema de <strong>não regenerar</strong> esse ID no login?</h2>
+<p>Se você <strong>não regenerar</strong> o session ID no momento do login, <strong>você permite um tipo de ataque chamado <em>Session Fixation</em></strong>. Veja o que acontece:</p>
+<h3 id="%F0%9F%A7%A8-cen%C3%A1rio-de-ataque-session-fixation">🧨 <strong>Cenário de ataque (Session Fixation)</strong>:</h3>
+<ol>
+<li>O atacante cria um link com um session ID específico:
+<code>https://exemplo.com/?PHPSESSID=attacker123</code></li>
+<li>A vítima clica no link e começa a navegar com aquele ID.</li>
+<li>A vítima faz login normalmente, mas <strong>continua usando o session ID fornecido pelo atacante</strong>.</li>
+<li>O atacante agora acessa o site com o mesmo ID (<code>attacker123</code>) e... <strong>está autenticado como a vítima!</strong></li>
+</ol>
+<hr>
+<h2 id="%E2%9C%85-o-que-fazer-regenerar-o-id-no-login">✅ O que fazer? <strong>Regenerar o ID no login!</strong></h2>
+<p>Ao usar:</p>
+<pre class="hljs"><code><div>session_regenerate_id(<span class="hljs-keyword">true</span>);
+</div></code></pre>
+<p>...você está <strong>gerando um novo session ID seguro no momento do login</strong> e <strong>invalidando o anterior</strong>. Isso quebra completamente o ataque de <em>session fixation</em>.</p>
+<hr>
+<h3 id="%E2%9C%94%EF%B8%8F-correto-protegido">✔️ Correto (protegido):</h3>
+<pre class="hljs"><code><div>session_start();
+
+<span class="hljs-comment">// Após validar login:</span>
+session_regenerate_id(<span class="hljs-keyword">true</span>); <span class="hljs-comment">// &lt;-- Garante que o session ID não foi "plantado"</span>
+$_SESSION[<span class="hljs-string">'user_id'</span>] = $user[<span class="hljs-string">'id'</span>];
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%8C-resumo">📌 Resumo:</h3>
+<table>
+<thead>
+<tr>
+<th>Situação</th>
+<th>Consequência</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❌ Não regenera session ID</td>
+<td>Risco de <em>session fixation</em></td>
+</tr>
+<tr>
+<td>✅ Regenera session ID no login</td>
+<td>Garante que a sessão do usuário é segura</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Se quiser, posso simular esse ataque com código ou mostrar como ele seria feito na prática. Quer ver?</p>
+<h2 id="q4---simula%C3%A7%C3%A3o-de-um-ataque">Q4 - Simulação de um ataque</h2>
+<blockquote>
+<p>Simule esse ataque</p>
+</blockquote>
+<p>Perfeito, Rafael! Vamos simular o ataque de <strong>Session Fixation</strong> com código em PHP puro — e depois ver como evitá-lo.</p>
+<hr>
+<h2 id="%F0%9F%A7%A8-simula%C3%A7%C3%A3o-do-ataque-de-session-fixation">🧨 <strong>Simulação do ataque de Session Fixation</strong></h2>
+<h3 id="%F0%9F%A7%91%E2%80%8D%F0%9F%92%BB-passo-1-%E2%80%93-o-atacante-gera-um-link-com-um-id-de-sess%C3%A3o-%22fixado%22">🧑‍💻 Passo 1 – O atacante gera um link com um ID de sessão &quot;fixado&quot;</h3>
+<p>O atacante manda para a vítima um link como:</p>
+<pre class="hljs"><code><div>http://localhost/app.php?PHPSESSID=ABC123
+</div></code></pre>
+<p>O código <code>app.php</code> está assim:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app.php</span>
+session_start();
+<span class="hljs-keyword">echo</span> <span class="hljs-string">"Session ID: "</span> . session_id();
+</div></code></pre>
+<p>➡️ Quando a vítima acessa esse link, ela começa a usar o <code>PHPSESSID=ABC123</code>.</p>
+<hr>
+<h3 id="%F0%9F%91%A4-passo-2-%E2%80%93-a-v%C3%ADtima-se-loga-no-sistema">👤 Passo 2 – A vítima se loga no sistema</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// login.php</span>
+session_start();
+
+<span class="hljs-comment">// Simulando autenticação (sem regenerar o ID!)</span>
+<span class="hljs-keyword">if</span> ($_POST[<span class="hljs-string">'user'</span>] === <span class="hljs-string">'rafael'</span> &amp;&amp; $_POST[<span class="hljs-string">'pass'</span>] === <span class="hljs-string">'123'</span>) {
+    $_SESSION[<span class="hljs-string">'user'</span>] = $_POST[<span class="hljs-string">'user'</span>];
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Usuário logado com session ID: "</span> . session_id();
+}
+</div></code></pre>
+<p>➡️ O login aceita a sessão <strong>ABC123</strong>, criada externamente. A sessão foi “sequestrada”.</p>
+<hr>
+<h3 id="%F0%9F%A7%99%E2%80%8D%E2%99%82%EF%B8%8F-passo-3-%E2%80%93-o-atacante-acessa-o-sistema-com-o-mesmo-id">🧙‍♂️ Passo 3 – O atacante acessa o sistema com o mesmo ID</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// painel.php</span>
+session_start();
+
+<span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($_SESSION[<span class="hljs-string">'user'</span>])) {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Bem-vindo, "</span> . $_SESSION[<span class="hljs-string">'user'</span>];
+} <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Acesso negado."</span>;
+}
+</div></code></pre>
+<p>➡️ O atacante acessa <code>painel.php</code> com <code>PHPSESSID=ABC123</code> e…
+✅ <strong>está autenticado como Rafael.</strong></p>
+<hr>
+<h2 id="%E2%9C%85-como-corrigir-regenerar-o-session-id-ap%C3%B3s-o-login">✅ <strong>Como corrigir? Regenerar o session ID após o login</strong></h2>
+<p>Altere <code>login.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// login.php</span>
+session_start();
+
+<span class="hljs-keyword">if</span> ($_POST[<span class="hljs-string">'user'</span>] === <span class="hljs-string">'rafael'</span> &amp;&amp; $_POST[<span class="hljs-string">'pass'</span>] === <span class="hljs-string">'123'</span>) {
+    session_regenerate_id(<span class="hljs-keyword">true</span>); <span class="hljs-comment">// 🔐 Protege a sessão</span>
+    $_SESSION[<span class="hljs-string">'user'</span>] = $_POST[<span class="hljs-string">'user'</span>];
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Usuário logado com session ID: "</span> . session_id();
+}
+</div></code></pre>
+<p>Agora, mesmo que a vítima tenha iniciado com <code>ABC123</code>, ao fazer login, o PHP gera um <strong>novo ID aleatório e seguro</strong>, como <code>XYZ789</code>, e o atacante perde o acesso.</p>
+<hr>
+<h2 id="%F0%9F%9B%A1%EF%B8%8F-conclus%C3%A3o">🛡️ Conclusão</h2>
+<ul>
+<li><strong>Session Fixation</strong> ocorre quando você <strong>permite que o session ID seja controlado externamente</strong> e não o troca no login.</li>
+<li>A proteção é simples:
+➜ <strong>Use <code>session_regenerate_id(true)</code> após autenticar o usuário.</strong></li>
+</ul>
+<p>Quer que eu te mande todos os arquivos <code>.php</code> organizados para você testar localmente?</p>
+<h3 id="q5---qual-a-difenre%C3%A7a-entre-a01-e-a07">Q5 - Qual a difenreça entre A01 e A07</h3>
+<p>Ótima pergunta, Rafael! A <strong>diferença entre A07 (Identification and Authentication Failures)</strong> e <strong>A01 (Broken Access Control)</strong> é sutil, mas muito importante. Elas tratam de <strong>momentos diferentes</strong> no controle de acesso:</p>
+<hr>
+<h2 id="%F0%9F%94%90-a07-identification-and-authentication-failures">🔐 A07: Identification and Authentication Failures</h2>
+<p><strong>➡️ Trata do &quot;quem é você?&quot;</strong></p>
+<ul>
+<li>Está relacionada à <strong>verificação da identidade</strong> do usuário.</li>
+<li>Foca em falhas no <strong>login</strong>, senhas fracas, sessões inseguras, ausência de MFA, etc.</li>
+<li>O problema aqui é quando o sistema <strong>não confirma corretamente a identidade do usuário</strong>.</li>
+</ul>
+<p>📌 <strong>Exemplo de falha</strong>:
+Um sistema que permite acesso com senha “123456” ou que não invalida a sessão antiga após login.</p>
+<hr>
+<h2 id="%F0%9F%9A%AB-a01-broken-access-control">🚫 A01: Broken Access Control</h2>
+<p><strong>➡️ Trata do &quot;você pode acessar isso?&quot;</strong></p>
+<ul>
+<li>O usuário já está autenticado, mas o sistema <strong>não limita corretamente o que ele pode fazer</strong>.</li>
+<li>Refere-se a falhas nas <strong>autorização de acesso</strong> a recursos, ações e dados.</li>
+<li>O problema é o sistema <strong>não impedir que um usuário acesse recursos que não deveria</strong>.</li>
+</ul>
+<p>📌 <strong>Exemplo de falha</strong>:
+Um usuário comum acessa <code>/admin/relatorios</code> e visualiza dados confidenciais porque a URL não valida se ele é admin.</p>
+<hr>
+<h2 id="%F0%9F%A7%A0-resumo-da-diferen%C3%A7a">🧠 Resumo da diferença</h2>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>A07 – Autenticação (Quem é?)</th>
+<th>A01 – Controle de Acesso (O que pode?)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Foco</strong></td>
+<td>Identidade e login</td>
+<td>Permissões e restrições</td>
+</tr>
+<tr>
+<td><strong>Momento</strong></td>
+<td>Durante o login/autenticação</td>
+<td>Após login, no uso da aplicação</td>
+</tr>
+<tr>
+<td><strong>Consequência</strong></td>
+<td>Qualquer um pode se passar por outro</td>
+<td>Usuários comuns acessam dados restritos</td>
+</tr>
+<tr>
+<td><strong>Correção típica</strong></td>
+<td>MFA, senha forte, session segura</td>
+<td>Middleware, ACLs, verificação de roles</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Se quiser, posso te mostrar exemplos práticos de código com as duas falhas para você comparar. Deseja isso?</p>
+<h3 id="q6---resumoindo">Q6 - Resumoindo</h3>
+<p>A vulnerabilidade <strong>A07:2021 – Falhas de Identificação e Autenticação</strong> do OWASP Top 10 refere-se a deficiências nos processos de identificação e autenticação de usuários, permitindo que atacantes acessem sistemas de forma não autorizada.</p>
+<hr>
+<h3 id="%F0%9F%93%8C-resumo-em-poucas-palavras">📌 <strong>Resumo em poucas palavras</strong></h3>
+<p>A07 ocorre quando aplicações não identificam ou autenticam usuários corretamente, possibilitando que atacantes assumam identidades ou acessem dados restritos.)</p>
+<hr>
+<h3 id="%F0%9F%94%8D-onde-ocorre">🔍 <strong>Onde ocorre</strong></h3>
+<p>Essas falhas podem ocorrer em:</p>
+<ul>
+<li><strong>Formulários de login</strong>: sem proteção contra tentativas repetidas ou uso de senhas fracas.</li>
+<li><strong>Gerenciamento de sessões</strong>: tokens de sessão previsíveis ou não invalidados após logout.</li>
+<li><strong>Recuperação de senhas</strong>: processos inseguros que permitem redefinições não autorizadas.</li>
+<li><strong>APIs</strong>: endpoints que não verificam adequadamente a identidade do solicitante.</li>
+</ul>
+<hr>
+<h3 id="%F0%9F%9B%A1%EF%B8%8F-como-tratar">🛡️ <strong>Como tratar</strong></h3>
+<p>Para mitigar essas falhas:</p>
+<ul>
+<li><strong>Implementar autenticação multifator (MFA)</strong>: adiciona uma camada extra de segurança.</li>
+<li><strong>Enforce políticas de senhas fortes</strong>: exigir combinações de letras, números e caracteres especiais.</li>
+<li><strong>Limitar tentativas de login</strong>: bloquear ou retardar após múltiplas tentativas falhas.</li>
+<li><strong>Gerenciar sessões de forma segura</strong>: invalidar tokens após logout e usar cookies seguros.</li>
+<li><strong>Evitar mensagens de erro específicas</strong>: não revelar se o usuário ou a senha estão incorretos.()</li>
+</ul>
+<p>--==================
+--==================
+--==================</p>
+<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
+<h1 id="perplexity--a072021---falhas-de-identifica%C3%A7%C3%A3o-e-autentica%C3%A7%C3%A3o-an%C3%A1lise-detalhada-e-estrat%C3%A9gias-de-mitiga%C3%A7%C3%A3o">Perplexity == A07:2021 - Falhas de Identificação e Autenticação: Análise Detalhada e Estratégias de Mitigação</h1>
+<p>Esta análise aprofundada aborda a categoria A07:2021 do OWASP Top 10, dedicada a falhas de identificação e autenticação. Originalmente conhecida como &quot;Quebra de Autenticação&quot;, esta vulnerabilidade permanece crítica, apesar de ter caído da segunda para a sétima posição na edição de 2021. Sua relevância persiste devido à frequência de ataques automatizados e ao impacto devastador que falhas nesses mecanismos podem causar em sistemas críticos.</p>
+<h2 id="contextualiza%C3%A7%C3%A3o-e-import%C3%A2ncia">Contextualização e Importância</h2>
+<p>As falhas de identificação e autenticação representam uma das vulnerabilidades mais exploradas em aplicações web modernas. De acordo com dados do OWASP, esta categoria está associada a 22 CWEs (Common Weakness Enumerations), com taxa máxima de incidência de 14.84% e impacto médio ponderado de 6.50<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^1</a>. A natureza crítica dessas falhas decorre de sua capacidade de permitir acesso não autorizado a sistemas sensíveis, muitas vezes servindo como porta de entrada para violações de dados em larga escala.</p>
+<p>A evolução dessa categoria reflete mudanças no panorama de ameaças. Enquanto em versões anteriores focava principalmente em senhas fracas e gestão inadequada de sessões, a edição de 2021 incorpora vulnerabilidades mais sofisticadas, como validação inadequada de certificados (CWE-297) e fixação de sessão (CWE-384)<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^2</a>. Essa expansão demonstra a necessidade de abordagens holísticas para segurança de autenticação.</p>
+<h3 id="mecanismos-subjacentes-%C3%A0s-vulnerabilidades">Mecanismos Subjacentes às Vulnerabilidades</h3>
+<p>A raiz das falhas reside na implementação inadequada ou incompleta de controles de segurança essenciais:</p>
+<ol>
+<li><strong>Validação insuficiente de credenciais</strong>: Sistemas que não implementam verificações robustas contra ataques automatizados como credential stuffing e força bruta<a href="https://trustpair.com/blog/credential-stuffing-attack/">^5</a>.</li>
+<li><strong>Gestão frágil de sessões</strong>: Práticas como exposição de identificadores de sessão na URL ou reutilização de tokens após login bem-sucedido<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^2</a>.</li>
+<li><strong>Políticas de senha inadequadas</strong>: Permissão de senhas padrão, fracas ou conhecidas, combinada com falta de autenticação multifator<a href="https://www.dio.me/articles/owasp-principais-vulnerabilidades-e-remediacoes-mapeadas">^1</a>.</li>
+</ol>
+<p>Um estudo de caso emblemático ocorreu em 2021, quando o serviço de streaming Roku sofreu um ataque de credential stuffing que comprometeu milhares de contas, resultando em transações não autorizadas e vazamento de dados<a href="https://trustpair.com/blog/credential-stuffing-attack/">^7</a>. Esse incidente ilustra como falhas na autenticação podem ter repercussões financeiras e reputacionais significativas.</p>
+<h2 id="principais-vetores-de-ataque">Principais Vetores de Ataque</h2>
+<h3 id="credential-stuffing-e-for%C3%A7a-bruta">Credential Stuffing e Força Bruta</h3>
+<p>Ataques de credential stuffing utilizam listas massivas de credenciais vazadas em violações anteriores, testando-as automaticamente em múltiplos serviços. A alta taxa de reutilização de senhas entre usuários (estimada em 65% pela Verizon DBIR 2023) torna essa técnica particularmente eficaz<a href="https://trustpair.com/blog/credential-stuffing-attack/">^7</a>. Em 2021, um único ataque ao Roku demonstrou como milhões de credenciais podem ser testadas em escala industrial, aproveitando-se da falta de mecanismos de limitação de tentativas<a href="https://trustpair.com/blog/credential-stuffing-attack/">^7</a>.</p>
+<p>Ataques de força bruta, por sua vez, tentam combinações aleatórias de credenciais, muitas vezes usando dicionários de senhas comuns. A ausência de políticas que bloqueiem tentativas sequenciais ou implementem atrasos progressivos entre tentativas falhas facilita esses ataques<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^5</a>.</p>
+<h3 id="gest%C3%A3o-inadequada-de-sess%C3%B5es">Gestão Inadequada de Sessões</h3>
+<p>A fixação de sessão (CWE-384) ocorre quando um atacante força o uso de um ID de sessão específico, geralmente através de parâmetros URL. Após o usuário autenticar-se com esse ID comprometido, o invasor assume o controle da sessão<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^2</a>. Outra vulnerabilidade comum é a falta de invalidação adequada de tokens após logout ou períodos de inatividade, permitindo que sessões permaneçam ativas indefinidamente<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^1</a>.</p>
+<h3 id="autentica%C3%A7%C3%A3o-multifator-mfa-ineficaz">Autenticação Multifator (MFA) Ineficaz</h3>
+<p>Apesar de amplamente recomendada, a implementação inadequada de MFA continua sendo um problema. Sistemas que permitem bypass de MFA através de canais alternativos ou que não aplicam verificações consistentes em todas as funcionalidades críticas permanecem vulneráveis<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^5</a>. A CWE-306 (Missing Authentication for Critical Function) destaca riscos em operações sensíveis realizadas sem verificação adequada<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^5</a>.</p>
+<h2 id="impactos-operacionais-e-financeiros">Impactos Operacionais e Financeiros</h2>
+<h3 id="comprometimento-de-dados-sens%C3%ADveis">Comprometimento de Dados Sensíveis</h3>
+<p>Acesso não autorizado a contas privilegiadas frequentemente resulta em exposição de informações pessoais identificáveis (PII), dados financeiros e propriedade intelectual. Em sistemas de saúde, isso pode levar a violações de registros médicos protegidos pelo HIPAA, com multas que chegam a US$ 1,5 milhão por violação<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^1</a>.</p>
+<h3 id="perdas-financeiras-diretas">Perdas Financeiras Diretas</h3>
+<p>Contas comprometidas em sistemas de comércio eletrônico ou bancários permitem transações fraudulentas. O Relatório de Ameaças Cibernéticas da IBM de 2023 estima o custo médio de uma violação de dados em US$ 4,45 milhões, com ataques relacionados a credenciais representando 19% desse total<a href="https://trustpair.com/blog/credential-stuffing-attack/">^7</a>.</p>
+<h3 id="danos-%C3%A0-reputa%C3%A7%C3%A3o-institucional">Danos à Reputação Institucional</h3>
+<p>A perda de confiança do cliente após violações de autenticação pode ter impactos duradouros. Estudos do Ponemon Institute indicam que 31% dos consumidores abandonam serviços após incidentes de segurança, com prejuízos de marca difíceis de quantificar<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^5</a>.</p>
+<h2 id="estrat%C3%A9gias-de-mitiga%C3%A7%C3%A3o-efetivas">Estratégias de Mitigação Efetivas</h2>
+<h3 id="implementa%C3%A7%C3%A3o-rigorosa-de-mfa">Implementação Rigorosa de MFA</h3>
+<p>A autenticação multifator baseada em fatores de posse (como tokens hardware) ou inerência (biometria) reduz drasticamente o risco de credential stuffing. O padrão NIST 800-63B recomenda a combinação de pelo menos dois fatores independentes para operações críticas<a href="https://trustpair.com/blog/credential-stuffing-attack/">^5</a>. Sistemas devem validar MFA em todas as camadas de acesso, incluindo APIs e microserviços.</p>
+<h3 id="pol%C3%ADticas-de-senha-baseadas-em-evid%C3%AAncias">Políticas de Senha Baseadas em Evidências</h3>
+<p>Contrariando práticas históricas, o NIST recomenda:</p>
+<ul>
+<li>Eliminar requisitos de complexidade arbitrária (como caracteres especiais obrigatórios)</li>
+<li>Permitir senhas longas (mínimo de 8 caracteres, máximo de 64)</li>
+<li>Verificação contra listas de senhas comprometidas</li>
+<li>Abolição de rotação periódica forçada<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^5</a></li>
+</ul>
+<p>Ferramentas como Have I Been Pwned API permitem integração direta com sistemas de cadastro para bloquear senhas conhecidamente vazadas<a href="https://trustpair.com/blog/credential-stuffing-attack/">^7</a>.</p>
+<h3 id="gest%C3%A3o-de-sess%C3%A3o-segura">Gestão de Sessão Segura</h3>
+<p>Protocolos modernos exigem:</p>
+<ul>
+<li>Geradores de token criptograficamente seguros</li>
+<li>Cookies de sessão com atributos Secure e HttpOnly</li>
+<li>Invalidação server-side imediata após logout</li>
+<li>Tempos de expiração curtos (15-30 minutos de inatividade)</li>
+<li>Renovação de token após elevação de privilégios<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^1</a></li>
+</ul>
+<p>A implementação de OAuth 2.1 e OpenID Connect oferece estruturas robustas para gestão de sessões e tokens, incorporando mecanismos como Proof Key for Code Exchange (PKCE) para prevenir ataques de interceptação<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^5</a>.</p>
+<h3 id="monitoramento-e-resposta-a-incidentes">Monitoramento e Resposta a Incidentes</h3>
+<p>Sistemas de detecção devem incluir:</p>
+<ul>
+<li>Análise comportamental para identificar padrões de acesso anômalos</li>
+<li>Limitação de taxa (rate limiting) adaptativa baseada em risco</li>
+<li>Integração com feeds de inteligência de ameaças para bloquear IPs maliciosos</li>
+<li>Logs detalhados de autenticação com retenção mínima de 90 dias<a href="https://trustpair.com/blog/credential-stuffing-attack/">^5</a></li>
+</ul>
+<p>Ferramentas como Elastic SIEM e Azure Sentinel permitem correlação automatizada de eventos de login suspeitos, disparando respostas como desafios adicionais de autenticação ou bloqueios temporários.</p>
+<h2 id="casos-de-estudo-relevantes">Casos de Estudo Relevantes</h2>
+<h3 id="ataque-ao-twilio-2022">Ataque ao Twilio (2022)</h3>
+<p>Atacantes utilizaram credential stuffing para comprometer contas de funcionários, acessando sistemas internos e dados de clientes. A falta de MFA obrigatório e monitoramento de padrões de login incomuns permitiu a escalada do ataque<a href="https://trustpair.com/blog/credential-stuffing-attack/">^7</a>.</p>
+<h3 id="vulnerabilidade-no-microsoft-azure-ad-2023">Vulnerabilidade no Microsoft Azure AD (2023)</h3>
+<p>Uma configuração inadequada em fluxos de autenticação OAuth permitiu bypass de MFA através de endpoints legados. O incidente destacou a importância de auditorias regulares em implementações de protocolos de autenticação<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^5</a>.</p>
+<h2 id="tend%C3%AAncias-emergentes-e-desafios-futuros">Tendências Emergentes e Desafios Futuros</h2>
+<h3 id="autentica%C3%A7%C3%A3o-passwordless">Autenticação Passwordless</h3>
+<p>Tecnologias como FIDO2 e WebAuthn estão ganhando tração, substituindo senhas por chaves criptográficas armazenadas em dispositivos do usuário. Embora promissoras, exigem mudanças significativas na arquitetura de sistemas legados<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^5</a>.</p>
+<h3 id="amea%C3%A7as-de-ia-generativa">Ameaças de IA Generativa</h3>
+<p>Modelos de linguagem como GPT-4 demonstram capacidade de gerar ataques de phishing altamente personalizados, contornando sistemas tradicionais de detecção. Isso exige aprimoramento contínuo de mecanismos de autenticação adaptativa<a href="https://trustpair.com/blog/credential-stuffing-attack/">^7</a>.</p>
+<h3 id="regulamenta%C3%A7%C3%B5es-globais">Regulamentações Globais</h3>
+<p>Leis como a PCI DSS v4.0 e o Digital Operational Resilience Act (DORA) da UE impõem requisitos rígidos para autenticação em sistemas financeiros, incluindo testes anuais de resistência a ataques de credential stuffing<a href="https://trustpair.com/blog/credential-stuffing-attack/">^5</a>.</p>
+<h2 id="conclus%C3%A3o">Conclusão</h2>
+<p>As falhas de identificação e autenticação permanecem entre as vulnerabilidades mais críticas na segurança cibernética contemporânea. A complexidade crescente dos ecossistemas digitais, combinada com táticas de ataque cada vez mais sofisticadas, exige abordagens multilayered para mitigação.</p>
+<p>Organizações devem adotar frameworks como o OWASP Application Security Verification Standard (ASVS) para auditoria contínua de seus mecanismos de autenticação<a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">^5</a>. A combinação de controles técnicos avançados (MFA, biometrics, behavioral analytics) com políticas organizacionais robustas (treinamento de usuários, gestão de identidades privilegiadas) forma a base para sistemas resilientes.</p>
+<p>O cenário evolutivo das ameaças requer vigilância constante. Investimentos em inteligência artificial para detecção de anomalias, adoção de padrões passwordless e integração profunda com ecossistemas de threat intelligence surgem como imperativos estratégicos para segurança sustentável no longo prazo<a href="https://trustpair.com/blog/credential-stuffing-attack/">^7</a>.</p>
+<div style="text-align: center">⁂</div>
+
+</body>
+</html>

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A02 - Cryptographic Failures.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="a02---cryptographic-failures">A02 - Cryptographic Failures</h1>
+<h2 id="resumo">Resumo</h2>
+<p>É nao usar criptograia para dados sensivies, ou, se usar, usar uma simples demai s de quebrar.</p>
+<h2 id="links">Links</h2>
+<p>https://owasp.org/Top10/pt_BR/A02_2021-Cryptographic_Failures/</p>
+<h2 id="owasp">OWASP</h2>
+<h2 id="vis%C3%A3o-geral">Visão Geral</h2>
+<p>Subindo uma posição para #2, anteriormente conhecido como  <em>Exposição de Dados Sensíveis</em>, que é mais um sintoma amplo do que uma causa raiz, o foco está nas falhas relacionadas à criptografia (ou falta dela). O que muitas vezes leva à exposição de dados confidenciais. Notável  <em>Common Weakness Enumerations</em>  (CWEs) incluídas são  <em>CWE-259: Uso de Senha no Código</em>,  <em>CWE-327: Algoritmo Criptográfico Quebrado ou Arriscado</em>  e  <em>CWE-331 Entropia Insuficiente</em>.</p>
+<h2 id="descri%C3%A7%C3%A3o">Descrição</h2>
+<p>A primeira coisa é determinar as necessidades de proteção dos dados em trânsito e armazenados. Por exemplo, senhas, número de cartão de crédito, registros de saúde, informações pessoas e segredos de negócios que requerem proteção extra, principalmente se esses dados se enquadrarem nas leis de privacidade, alguns exemplos são a da Europa General Data Protection Regulation (GDPR) ou regulamentos de proteção de dados financeiros, como PCI Data Security Standard (PCI DSS). Para todos esses dados:</p>
+<ul>
+<li>
+<p>Todos os dados são transmitidos em texto não criptografado? Isso diz respeito a protocolos como HTTP, SMTP, FTP também usando atualizações TLS como STARTTLS. O tráfego externo da Internet é perigoso. Verifique todo o tráfego interno, por exemplo, entre balanceadores de carga, servidores da web ou sistemas  <em>back-end</em>.</p>
+</li>
+<li>
+<p>Algum algoritmo ou protocolo criptográfico antigo ou fraco é usado por padrão ou em código mais antigo?</p>
+</li>
+<li>
+<p>As chaves criptográficas padrão em uso, são chaves criptográficas geradas fracas ou reutilizadas, faltando o gerenciamento ou rotação de chaves adequado? As chaves criptográficas são verificadas nos repositórios de código-fonte?</p>
+</li>
+<li>
+<p>A criptografia não é aplicada, por exemplo, há alguma diretiva de segurança de cabeçalhos HTTP (navegador) ou cabeçalhos ausentes?</p>
+</li>
+<li>
+<p>O certificado do servidor recebido e a cadeia de confiança estão devidamente validados?</p>
+</li>
+<li>
+<p>Os vetores de inicialização são ignorados, reutilizados ou não gerados suficientemente seguros para o modo criptográfico de operação? Está em uso um modo de operação inseguro, como o ECB? A criptografia é usada quando a criptografia autenticada é a mais apropriada?</p>
+</li>
+<li>
+<p>As senhas estão sendo usadas como chaves criptográficas na ausência de uma função de derivação de chave de base de senha?</p>
+</li>
+<li>
+<p>A aleatoriedade é usada para fins criptográficos que não foram projetados para atender aos requisitos criptográficos? Mesmo se a função correta for escolhida, ela precisa ser propagada pelo desenvolvedor e, se não, o desenvolvedor sobrescreveu a forte funcionalidade de propagação incorporada a ela com uma semente que carece de entropia/imprevisibilidade suficiente?</p>
+</li>
+<li>
+<p>Estão em uso funções hash obsoletas, como MD5 ou SHA1, ou funções hash não criptográficas usadas quando funções hash criptográficas são necessárias?</p>
+</li>
+<li>
+<p>Estão em uso métodos de preenchimento criptográfico obsoletos, como PKCS número 1 v1.5?</p>
+</li>
+<li>
+<p>As mensagens de erro criptográficas ou as informações do canal lateral podem ser exploradas, por exemplo, na forma de ataques oracle de preenchimento?</p>
+</li>
+</ul>
+<p>Consulte ASVS Crypto (V7), Data Protection (V9) e SSL/TLS (V10)</p>
+<h2 id="como-prevenir">Como Prevenir</h2>
+<p>Faça o seguinte, no mínimo, e consulte as referências:</p>
+<ul>
+<li>
+<p>Classifique os dados processados, armazenados ou transmitidos por um aplicativo. Identifique quais dados são confidenciais de acordo com as leis de privacidade, requisitos regulamentares ou necessidades de negócios.</p>
+</li>
+<li>
+<p>Não armazene dados confidenciais desnecessariamente. Descarte-o o mais rápido possível ou use tokenização compatível com PCI DSS ou mesmo truncamento. Os dados não retidos não podem ser roubados.</p>
+</li>
+<li>
+<p>Certifique-se de criptografar todos os dados confidenciais armazenados.</p>
+</li>
+<li>
+<p>Certifique-se de que algoritmos, protocolos e senhas de padrão forte e atualizados estejam em vigor; use o gerenciamento de senhas adequado.</p>
+</li>
+<li>
+<p>Criptografe todos os dados em trânsito com protocolos seguros, como TLS com cifras de sigilo de encaminhamento (FS), priorização de cifras pelo servidor e parâmetros seguros. Aplique a criptografia usando diretivas como HTTP Strict Transport Security (HSTS).</p>
+</li>
+<li>
+<p>Desative o armazenamento em cache para respostas que contenham dados confidenciais.</p>
+</li>
+<li>
+<p>Aplique os controles de segurança necessários de acordo com a classificação de dados.</p>
+</li>
+<li>
+<p>Não use protocolos legados, como FTP e SMTP, para transportar dados confidenciais.</p>
+</li>
+<li>
+<p>Armazene senhas usando fortes funções de hash adaptáveis e saltadas com um fator de trabalho (fator de atraso), como Argon2, scrypt, bcrypt ou PBKDF2.</p>
+</li>
+<li>
+<p>Os vetores de inicialização devem ser escolhidos de acordo com o modo de operação. Para muitos modos, isso significa usar um CSPRNG (gerador de números pseudo-aleatórios criptograficamente seguro). Para modos que requerem um nonce, o vetor de inicialização (IV) não precisa de um CSPRNG. Em todos os casos, o IV nunca deve ser usado duas vezes para uma chave fixa.</p>
+</li>
+<li>
+<p>Sempre use criptografia autenticada em vez de apenas criptografia.</p>
+</li>
+<li>
+<p>As chaves devem ser geradas de forma criptograficamente aleatória e armazenadas na memória como um  <em>array</em>  de  <em>bytes</em>. Se uma senha for usada, ela deve ser convertida em uma chave por meio de uma função de derivação de chave de base de senha apropriada.</p>
+</li>
+<li>
+<p>Certifique-se de que a aleatoriedade criptográfica seja usada quando apropriado e que não tenha sido usada uma semente de uma forma previsível ou com baixa entropia. A maioria das APIs modernas não exige que o desenvolvedor propague o CSPRNG para obter segurança.</p>
+</li>
+<li>
+<p>Evite funções criptográficas e esquemas de preenchimento obsoletos, como MD5, SHA1, PKCS número 1 v1.5.</p>
+</li>
+<li>
+<p>Verifique de forma independente a eficácia das configurações.</p>
+</li>
+</ul>
+<h2 id="exemplos-de-cen%C3%A1rios-de-ataque">Exemplos de Cenários de Ataque</h2>
+<p><strong>Cenário #1</strong>: Um aplicativo criptografa números de cartão de crédito em um banco de dados usando criptografia automática de banco de dados. No entanto, esses dados são automaticamente descriptografados quando recuperados, permitindo que uma falha de injeção de SQL recupere números de cartão de crédito em texto não criptografado.</p>
+<p><strong>Cenário #2</strong>: Um site não usa ou impõe TLS para todas as páginas ou oferece suporte a criptografia fraca. Um invasor monitora o tráfego de rede (por exemplo, em uma rede sem fio insegura), faz o downgrade de conexões de HTTPS para HTTP, intercepta solicitações e rouba o cookie de sessão do usuário. O invasor então reproduz esse cookie e sequestra a sessão (autenticada) do usuário, acessando ou modificando os dados privados do usuário. Em vez do acima, eles podem alterar todos os dados transportados, por exemplo, o destinatário de uma transferência de dinheiro.</p>
+<p><strong>Cenário #3</strong>: O banco de dados de senha usa hashes sem saltos ou simples para armazenar as senhas de todos. Uma falha de  <em>upload</em>  de arquivo permite que um invasor recupere o banco de dados de senhas. Todos os hashes sem saltos podem ser expostos com uma  <em>rainbow table</em>  de hashes pré-calculados. Hashes geradas por funções de hash simples ou rápidas podem ser quebrados por GPUs, mesmo se forem saltadas.</p>
+<h2 id="refer%C3%AAncias">Referências</h2>
+<ul>
+<li>
+<p><a href="https://owasp.org/www-project-proactive-controls/v3/en/c8-protect-data-everywhere">OWASP Proactive Controls: Protect Data Everywhere</a></p>
+</li>
+<li>
+<p><a href="https://owasp.org/www-project-application-security-verification-standard">OWASP Application Security Verification Standard (V7, 9, 10)</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html">OWASP Cheat Sheet: Transport Layer Protection</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/User_Privacy_Protection_Cheat_Sheet.html">OWASP Cheat Sheet: User Privacy Protection</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">OWASP Cheat Sheet: Password and Cryptographic Storage</a></p>
+</li>
+<li>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html">OWASP Cheat Sheet: HSTS</a></p>
+</li>
+<li>
+<p><a href="https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/09-Testing_for_Weak_Cryptography/README">OWASP Testing Guide: Testing for weak cryptography</a></p>
+</li>
+</ul>
+<h2 id="lista-dos-cwes-mapeados">Lista dos CWEs Mapeados</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/261.html">CWE-261 Weak Encoding for Password</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/296.html">CWE-296 Improper Following of a Certificate's Chain of Trust</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/310.html">CWE-310 Cryptographic Issues</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/319.html">CWE-319 Cleartext Transmission of Sensitive Information</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/321.html">CWE-321 Use of Hard-coded Cryptographic Key</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/322.html">CWE-322 Key Exchange without Entity Authentication</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/323.html">CWE-323 Reusing a Nonce, Key Pair in Encryption</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/324.html">CWE-324 Use of a Key Past its Expiration Date</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/325.html">CWE-325 Missing Required Cryptographic Step</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/326.html">CWE-326 Inadequate Encryption Strength</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/327.html">CWE-327 Use of a Broken or Risky Cryptographic Algorithm</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/328.html">CWE-328 Reversible One-Way Hash</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/329.html">CWE-329 Not Using a Random IV with CBC Mode</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/330.html">CWE-330 Use of Insufficiently Random Values</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/331.html">CWE-331 Insufficient Entropy</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/335.html">CWE-335 Incorrect Usage of Seeds in Pseudo-Random Number Generator(PRNG)</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/336.html">CWE-336 Same Seed in Pseudo-Random Number Generator (PRNG)</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/337.html">CWE-337 Predictable Seed in Pseudo-Random Number Generator (PRNG)</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/338.html">CWE-338 Use of Cryptographically Weak Pseudo-Random Number Generator(PRNG)</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/340.html">CWE-340 Generation of Predictable Numbers or Identifiers</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/347.html">CWE-347 Improper Verification of Cryptographic Signature</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/523.html">CWE-523 Unprotected Transport of Credentials</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/720.html">CWE-720 OWASP Top Ten 2007 Category A9 - Insecure Communications</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/757.html">CWE-757 Selection of Less-Secure Algorithm During Negotiation('Algorithm Downgrade')</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/759.html">CWE-759 Use of a One-Way Hash without a Salt</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/760.html">CWE-760 Use of a One-Way Hash with a Predictable Salt</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/780.html">CWE-780 Use of RSA Algorithm without OAEP</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/818.html">CWE-818 Insufficient Transport Layer Protection</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/916.html">CWE-916 Use of Password Hash With Insufficient Computational Effort</a></p>
+<h2 id="chatgpt">ChatGPT</h2>
+<h3 id="q1">Q1</h3>
+<blockquote>
+<p>Fale sobre A02 - Cryptographic Failures do OWASP</p>
+</blockquote>
+<p>A categoria <strong>A02 - Cryptographic Failures</strong> da <a href="https://owasp.org/Top10/">OWASP Top 10</a> refere-se a <strong>falhas na criptografia ou no seu uso incorreto</strong>, que podem levar à <strong>exposição de dados sensíveis</strong>, como senhas, dados bancários, números de cartão de crédito, entre outros.</p>
+<hr>
+<h2 id="%F0%9F%94%90-o-que-s%C3%A3o-cryptographic-failures">🔐 O que são Cryptographic Failures?</h2>
+<p>Essa categoria substitui a antiga &quot;<strong>A3:2017 - Sensitive Data Exposure</strong>&quot;, refletindo um foco maior na <strong>causa raiz</strong> (uso incorreto de criptografia), e não apenas no sintoma (dados vazados).</p>
+<p>Criptografia não é só “ativar HTTPS”. Trata-se de proteger dados <strong>em repouso</strong>, <strong>em trânsito</strong> e, quando necessário, <strong>em uso</strong>, com algoritmos seguros, boas práticas de chave e políticas adequadas.</p>
+<hr>
+<h2 id="%E2%9A%A0%EF%B8%8F-exemplos-comuns-de-falhas">⚠️ Exemplos comuns de falhas</h2>
+<ul>
+<li>Transmitir dados sensíveis sem HTTPS (em texto claro).</li>
+<li>Usar algoritmos criptográficos inseguros, como <strong>MD5</strong>, <strong>SHA-1</strong> ou <strong>DES</strong>.</li>
+<li>Gerenciar mal as chaves (armazenadas em código, sem rotação, sem proteção adequada).</li>
+<li>Não criptografar dados sensíveis armazenados, como CPF, cartão, senhas (sem <code>bcrypt</code>, <code>argon2</code>, <code>scrypt</code>, etc.).</li>
+<li>Usar cifras simétricas com <strong>chaves fracas</strong> ou <strong>modos de operação inseguros</strong> (ex: ECB).</li>
+<li>Erros em protocolos de handshake ou autenticação mútua.</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%9B%A1%EF%B8%8F-como-se-proteger">🛡️ Como se proteger</h2>
+<ul>
+<li>
+<p><strong>Use HTTPS</strong> sempre, com <strong>TLS 1.2 ou superior</strong>.</p>
+</li>
+<li>
+<p><strong>Evite algoritmos obsoletos</strong> — prefira AES, SHA-256, RSA com tamanhos de chave adequados.</p>
+</li>
+<li>
+<p><strong>Armazene senhas com hash seguro</strong>, como:</p>
+<ul>
+<li><code>bcrypt</code></li>
+<li><code>argon2</code></li>
+<li><code>scrypt</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Nunca implemente seu próprio algoritmo criptográfico.</strong></p>
+</li>
+<li>
+<p>Proteja <strong>as chaves</strong>: armazene-as em cofres seguros (como Azure Key Vault, AWS KMS, HashiCorp Vault).</p>
+</li>
+<li>
+<p>Faça <strong>rotação de chaves</strong> regularmente.</p>
+</li>
+<li>
+<p>Classifique dados sensíveis e só criptografe quando for realmente necessário (evite criptografia superficial).</p>
+</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%93%8B-exemplo-pr%C3%A1tico-de-falha">📋 Exemplo prático de falha</h2>
+<pre class="hljs"><code><div>Sistema armazena senhas dos usuários em texto puro no banco de dados.
+Um atacante obtém acesso ao banco (via SQL Injection ou vazamento) e tem todas as senhas.
+</div></code></pre>
+<p>Melhoria:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Em PHP</span>
+$passwordHash = password_hash($password, PASSWORD_BCRYPT);
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%93%8E-refer%C3%AAncia">📎 Referência</h2>
+<ul>
+<li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10: A02 - Cryptographic Failures</a></li>
+</ul>
+<hr>
+<p>Deseja exemplos de código com criptografia correta em alguma linguagem específica, como PHP, Python ou Go?</p>
+<h3 id="q2">Q2</h3>
+<blockquote>
+<p>Desejo em php</p>
+</blockquote>
+<p>Ótimo! Aqui vão exemplos práticos de <strong>criptografia segura em PHP</strong>, cobrindo os principais cenários:</p>
+<hr>
+<h2 id="%F0%9F%94%92-1-armazenar-senhas-com-seguran%C3%A7a">🔒 1. <strong>Armazenar senhas com segurança</strong></h2>
+<p>Nunca use <code>md5()</code> ou <code>sha1()</code>! Use <code>password_hash()</code> e <code>password_verify()</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Cadastro de usuário</span>
+$password = <span class="hljs-string">'minhaSenhaSecreta'</span>;
+$hash = password_hash($password, PASSWORD_BCRYPT); <span class="hljs-comment">// ou PASSWORD_ARGON2ID</span>
+
+<span class="hljs-comment">// Armazenar $hash no banco de dados</span>
+
+<span class="hljs-comment">// Login</span>
+$input = <span class="hljs-string">'minhaSenhaSecreta'</span>;
+<span class="hljs-keyword">if</span> (password_verify($input, $hash)) {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Senha correta!"</span>;
+} <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Senha incorreta!"</span>;
+}
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%A7%BE-2-criptografar-dados-sens%C3%ADveis-aes-256-gcm">🧾 2. <strong>Criptografar dados sensíveis (AES-256-GCM)</strong></h2>
+<p>Para dados que precisam ser descriptografados depois (ex: número de cartão), use criptografia simétrica com <strong>libsodium</strong> (PHP 7.2+).</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Gerar chave segura (guarde com segurança!)</span>
+$key = sodium_crypto_secretbox_keygen();
+
+<span class="hljs-comment">// Criptografar</span>
+$nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+$cipher = sodium_crypto_secretbox(<span class="hljs-string">"texto secreto"</span>, $nonce, $key);
+
+<span class="hljs-comment">// Armazenar $nonce e $cipher no banco</span>
+
+<span class="hljs-comment">// Descriptografar</span>
+$original = sodium_crypto_secretbox_open($cipher, $nonce, $key);
+</div></code></pre>
+<blockquote>
+<p>⚠️ <strong>Nunca reusar o mesmo <code>nonce</code> com a mesma <code>key</code>!</strong></p>
+</blockquote>
+<hr>
+<h2 id="%F0%9F%93%A6-3-exemplo-com-openssl-menos-recomendado-que-libsodium">📦 3. <strong>Exemplo com OpenSSL (menos recomendado que libsodium)</strong></h2>
+<p>Se precisar usar <code>openssl_encrypt</code>, faça assim:</p>
+<pre class="hljs"><code><div>$data = <span class="hljs-string">'Texto sensível'</span>;
+$key = openssl_random_pseudo_bytes(<span class="hljs-number">32</span>); <span class="hljs-comment">// 256 bits</span>
+$iv = openssl_random_pseudo_bytes(<span class="hljs-number">16</span>);  <span class="hljs-comment">// 128 bits</span>
+
+$cipher = openssl_encrypt($data, <span class="hljs-string">'aes-256-cbc'</span>, $key, <span class="hljs-number">0</span>, $iv);
+
+<span class="hljs-comment">// Armazenar $cipher e $iv com segurança</span>
+
+<span class="hljs-comment">// Descriptografar</span>
+$original = openssl_decrypt($cipher, <span class="hljs-string">'aes-256-cbc'</span>, $key, <span class="hljs-number">0</span>, $iv);
+</div></code></pre>
+<blockquote>
+<p>⚠️ Evite <code>aes-256-ecb</code>! O modo ECB <strong>não é seguro</strong>, pois revela padrões nos dados.</p>
+</blockquote>
+<hr>
+<h2 id="%F0%9F%9B%91-o-que-evitar">🛑 O que evitar</h2>
+<table>
+<thead>
+<tr>
+<th>Inseguro</th>
+<th>Motivo</th>
+<th>Substitua por</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>md5()</code></td>
+<td>Quebrado e rápido</td>
+<td><code>password_hash()</code></td>
+</tr>
+<tr>
+<td><code>sha1()</code></td>
+<td>Vulnerável a colisões</td>
+<td><code>password_hash()</code> ou SHA-256</td>
+</tr>
+<tr>
+<td><code>base64_encode()</code></td>
+<td>Não é criptografia!</td>
+<td>Use <code>sodium_crypto_*</code></td>
+</tr>
+<tr>
+<td><code>aes-256-ecb</code></td>
+<td>Revela padrões nos dados</td>
+<td>Use <code>aes-256-gcm</code> ou <code>cbc</code> com IV</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Quer que eu monte um exemplo completo (formulário de cadastro + login + criptografia de dados sensíveis) em PHP puro ou Laravel?</p>
+<h3 id="q3">Q3</h3>
+<blockquote>
+<p>Fale mais e uso incrreto ou nao uso de criptografia quando se deveria usar</p>
+</blockquote>
+<p>Claro, Rafael! O <strong>uso incorreto ou a ausência de criptografia quando necessária</strong> é uma das <strong>principais causas</strong> de vulnerabilidades do tipo <strong>A02 - Cryptographic Failures</strong> segundo o OWASP. Isso não significa apenas escolher um algoritmo ruim, mas também <strong>negligenciar totalmente a criptografia</strong> em momentos críticos. Vamos explorar isso em profundidade:</p>
+<hr>
+<h2 id="%E2%9A%A0%EF%B8%8F-exemplos-de-aus%C3%AAncia-ou-uso-incorreto-de-criptografia">⚠️ <strong>Exemplos de ausência ou uso incorreto de criptografia</strong></h2>
+<h3 id="1-transmiss%C3%A3o-de-dados-sem-https">1. <strong>Transmissão de dados sem HTTPS</strong></h3>
+<p>Enviar dados via HTTP (sem TLS) significa que <strong>qualquer um na rede pode interceptar os dados</strong> com ferramentas simples como Wireshark.</p>
+<p><strong>Errado:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"http://example.com/login"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span>&gt;</span>
+</div></code></pre>
+<p><strong>Correto:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"https://example.com/login"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span>&gt;</span>
+</div></code></pre>
+<p><strong>Consequência:</strong> senhas, tokens e informações sensíveis são enviados em <strong>texto puro</strong> pela rede.</p>
+<hr>
+<h3 id="2-armazenar-senhas-em-texto-puro-ou-hash-inseguro">2. <strong>Armazenar senhas em texto puro ou hash inseguro</strong></h3>
+<p><strong>Errado:</strong></p>
+<pre class="hljs"><code><div>$hash = md5($senha); <span class="hljs-comment">// Muito rápido e já quebrado</span>
+</div></code></pre>
+<p><strong>Correto:</strong></p>
+<pre class="hljs"><code><div>$hash = password_hash($senha, PASSWORD_ARGON2ID);
+</div></code></pre>
+<p><strong>Consequência:</strong> Se o banco for vazado, o atacante pode recuperar facilmente as senhas (com dicionários ou rainbow tables).</p>
+<hr>
+<h3 id="3-dados-sens%C3%ADveis-no-banco-sem-criptografia">3. <strong>Dados sensíveis no banco sem criptografia</strong></h3>
+<p>Imagine que você armazene CPF, RG, cartão de crédito ou dados médicos no banco <strong>sem criptografia</strong>. Se o banco for exposto por qualquer motivo (SQL Injection, acesso indevido, backup perdido), os dados estarão legíveis.</p>
+<p><strong>Solução:</strong> criptografar com AES (libsodium) ou criptografia de campo (ex: Laravel Encryption, Doctrine Encrypted types, etc).</p>
+<hr>
+<h3 id="4-armazenar-chaves-criptogr%C3%A1ficas-em-c%C3%B3digo-fonte">4. <strong>Armazenar chaves criptográficas em código-fonte</strong></h3>
+<p><strong>Errado:</strong></p>
+<pre class="hljs"><code><div>$key = <span class="hljs-string">'minha-chave-muito-secreta'</span>; <span class="hljs-comment">// hardcoded</span>
+</div></code></pre>
+<p><strong>Correto:</strong></p>
+<pre class="hljs"><code><div>$key = getenv(<span class="hljs-string">'APP_KEY'</span>); <span class="hljs-comment">// ou vindo de um cofre seguro</span>
+</div></code></pre>
+<p><strong>Consequência:</strong> se alguém acessar o repositório ou deploy, consegue descriptografar todos os dados.</p>
+<hr>
+<h3 id="5-usar-algoritmos-quebrados-ou-modos-errados">5. <strong>Usar algoritmos quebrados ou modos errados</strong></h3>
+<p><strong>Errado:</strong></p>
+<pre class="hljs"><code><div>openssl_encrypt($dados, <span class="hljs-string">'aes-256-ecb'</span>, $key);
+</div></code></pre>
+<ul>
+<li>Modo ECB é determinístico — <strong>padrões nos dados se repetem</strong> no ciphertext.</li>
+</ul>
+<p><strong>Correto:</strong></p>
+<pre class="hljs"><code><div>openssl_encrypt($dados, <span class="hljs-string">'aes-256-cbc'</span>, $key, <span class="hljs-number">0</span>, $iv); <span class="hljs-comment">// ou AES-GCM</span>
+</div></code></pre>
+<hr>
+<h3 id="6-falta-de-criptografia-em-backups">6. <strong>Falta de criptografia em backups</strong></h3>
+<p>Mesmo que os dados estejam criptografados em produção, se os <strong>backups estiverem em texto claro</strong>, todo o esforço é perdido.</p>
+<hr>
+<h3 id="7-sem-autentica%C3%A7%C3%A3o-de-integridade">7. <strong>Sem autenticação de integridade</strong></h3>
+<p>Você criptografa dados, mas não verifica se <strong>foram alterados</strong>. Um atacante pode modificar o ciphertext e causar problemas no sistema (ataques tipo padding oracle, por exemplo).</p>
+<p><strong>Solução:</strong> use <strong>criptografia autenticada</strong>, como <strong>AES-GCM</strong> ou libsodium, que já fazem isso automaticamente.</p>
+<hr>
+<h2 id="%E2%9C%85-quando-voc%C3%AA-deve-usar-criptografia">✅ Quando você deve usar criptografia?</h2>
+<table>
+<thead>
+<tr>
+<th>Situação</th>
+<th>Exemplo</th>
+<th>Proteção Recomendada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Autenticação</td>
+<td>Senhas, tokens de sessão</td>
+<td><code>password_hash</code>, TLS</td>
+</tr>
+<tr>
+<td>Armazenamento de dados sensíveis</td>
+<td>CPF, RG, cartão, dados médicos</td>
+<td>AES-256-GCM ou libsodium</td>
+</tr>
+<tr>
+<td>Transmissão de dados</td>
+<td>API, login, formulários</td>
+<td>HTTPS / TLS</td>
+</tr>
+<tr>
+<td>Dados em cache</td>
+<td>Dados temporários sensíveis</td>
+<td>Criptografia em cache</td>
+</tr>
+<tr>
+<td>Backups</td>
+<td>Dumps de banco com dados sensíveis</td>
+<td>Criptografia e controle de acesso</td>
+</tr>
+<tr>
+<td>Dados em cookies</td>
+<td>Informações de sessão, identificadores</td>
+<td>Cookies seguros + <code>HttpOnly</code> + <code>Secure</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Se quiser, posso revisar algum trecho de um código seu em PHP para ver se há falhas criptográficas ou sugerir melhorias. Deseja isso?</p>
+<h2 id="perplexity">Perplexity</h2>
+<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
+<h1 id="a022021---falhas-criptogr%C3%A1ficas-compreens%C3%A3o-riscos-e-medidas-de-preven%C3%A7%C3%A3o">A02:2021 - Falhas Criptográficas: Compreensão, Riscos e Medidas de Prevenção</h1>
+<p>A categoria A02:2021 - Falhas Criptográficas representa a segunda vulnerabilidade mais crítica na lista OWASP Top 10 de 2021. Anteriormente conhecida como &quot;Sensitive Data Exposure&quot; (Exposição de Dados Sensíveis), esta categoria foi renomeada para enfatizar as causas raiz das vulnerabilidades em vez de seus sintomas. As falhas criptográficas ocorrem quando dados sensíveis não são adequadamente protegidos devido a deficiências em algoritmos de criptografia, gerenciamento de chaves, métodos de transmissão e outras práticas criptográficas, podendo resultar em exposição de informações críticas e comprometimento de sistemas inteiros.</p>
+<h2 id="compreendendo-as-falhas-criptogr%C3%A1ficas">Compreendendo as Falhas Criptográficas</h2>
+<p>As falhas criptográficas referem-se a vulnerabilidades que surgem da implementação inadequada ou uso impróprio de sistemas criptográficos, levando à exposição de dados sensíveis ou ao comprometimento de sistemas. Esta categoria exige atenção especial para a proteção de dados como senhas, números de cartões de crédito, registros de saúde, informações pessoais e segredos empresariais, especialmente quando essas informações são protegidas por regulamentos como o GDPR ou o PCI DSS<a href="https://www.myrasecurity.com/en/knowledge-hub/owasp-top-10/">^18</a>.</p>
+<h3 id="causas-principais">Causas Principais</h3>
+<p>Uma das causas mais comuns de falhas criptográficas é o uso de algoritmos criptográficos fracos ou obsoletos. Por exemplo, funções hash como MD5 são conhecidas por serem vulneráveis a ataques, mas continuam sendo usadas em muitos sistemas<a href="https://www.youtube.com/watch?v=cftWboGdETE">^19</a>. Algoritmos criptográficos que eram considerados seguros no passado podem se tornar vulneráveis com o avanço da tecnologia e do poder computacional.</p>
+<p>O gerenciamento inadequado de chaves criptográficas representa outro problema crítico. Isso inclui armazenamento inseguro, geração fraca e manuseio inadequado das chaves utilizadas nos processos de criptografia<a href="https://www.youtube.com/watch?v=cftWboGdETE">^19</a>. Quando as chaves são mal protegidas, mesmo o algoritmo mais robusto pode ser comprometido.</p>
+<p>A transmissão de dados sensíveis através de canais não criptografados ou inseguros é outra falha comum. Sem a devida proteção durante a transmissão, os dados ficam vulneráveis à interceptação e acesso não autorizado<a href="https://bugxhunter.com/owasp-top-ten-a022021-cryptographic-failures/">^17</a>.</p>
+<h3 id="consequ%C3%AAncias-das-falhas-criptogr%C3%A1ficas">Consequências das Falhas Criptográficas</h3>
+<p>As falhas criptográficas podem ter consequências devastadoras. Um exemplo notável mencionado nos resultados de pesquisa é a violação de dados do Freecycle, onde o uso de algoritmos criptográficos fracos levou a uma grave exposição de informações<a href="https://www.youtube.com/watch?v=cftWboGdETE">^19</a>. Quando dados sensíveis são comprometidos, as organizações podem enfrentar danos financeiros, legais e reputacionais significativos.</p>
+<h2 id="preven%C3%A7%C3%A3o-de-falhas-criptogr%C3%A1ficas">Prevenção de Falhas Criptográficas</h2>
+<h3 id="melhores-pr%C3%A1ticas-e-estrat%C3%A9gias">Melhores Práticas e Estratégias</h3>
+<p>Para prevenir falhas criptográficas, a OWASP recomenda a implementação de protocolos de criptografia fortes e atualizados. É fundamental utilizar algoritmos que sejam resistentes a ataques modernos e que tenham passado por rigorosa revisão pela comunidade de segurança<a href="https://www.youtube.com/watch?v=cftWboGdETE">^19</a>.</p>
+<p>O gerenciamento adequado de chaves criptográficas é essencial. Isso inclui práticas como rotação regular de chaves, armazenamento seguro e controles de acesso rigorosos para limitar quem pode utilizar as chaves<a href="https://bugxhunter.com/owasp-top-ten-a022021-cryptographic-failures/">^17</a>.</p>
+<p>A criptografia deve ser aplicada tanto para dados em trânsito quanto para dados em repouso. Informações sensíveis não devem ser transmitidas em texto simples, e conexões seguras como HTTPS devem ser implementadas consistentemente<a href="https://www.myrasecurity.com/en/knowledge-hub/owasp-top-10/">^18</a>.</p>
+<h3 id="recursos-e-ferramentas">Recursos e Ferramentas</h3>
+<p>A OWASP oferece várias folhas de referência (cheat sheets) relacionadas à prevenção de falhas criptográficas:</p>
+<ul>
+<li>Cryptographic Storage Cheat Sheet</li>
+<li>Transport Layer Security Cheat Sheet</li>
+<li>HTTP Strict Transport Security Cheat Sheet</li>
+<li>Secrets Management Cheat Sheet</li>
+<li>Key Management Cheat Sheet</li>
+<li>Pinning Cheat Sheet<a href="https://bugxhunter.com/owasp-top-ten-a022021-cryptographic-failures/">^17</a></li>
+</ul>
+<p>Essas folhas de referência fornecem orientações detalhadas sobre como implementar corretamente práticas criptográficas seguras em diferentes contextos.</p>
+<h3 id="ferramentas-de-detec%C3%A7%C3%A3o-e-mitiga%C3%A7%C3%A3o">Ferramentas de Detecção e Mitigação</h3>
+<p>Diversas ferramentas podem ajudar a identificar e mitigar vulnerabilidades criptográficas:</p>
+<p>Ferramentas de código aberto:</p>
+<ul>
+<li>SAST (Análise Estática de Código): Bandit para Python</li>
+<li>DAST (Análise Dinâmica de Segurança): Zap</li>
+<li>Detecção de Segredos: GitLeaks</li>
+<li>SCA (Análise de Composição de Software): Trivy<a href="https://www.youtube.com/watch?v=cftWboGdETE">^19</a></li>
+</ul>
+<p>Estas ferramentas podem ser integradas a pipelines de CI/CD para identificar proativamente problemas criptográficos antes que eles se tornem vulnerabilidades exploráveis.</p>
+<h2 id="caso-de-estudo-a-viola%C3%A7%C3%A3o-de-dados-do-freecycle">Caso de Estudo: A Violação de Dados do Freecycle</h2>
+<p>Um exemplo importante mencionado nos resultados da pesquisa é a violação de dados do Freecycle. Este caso ilustra as consequências devastadoras do uso de algoritmos criptográficos fracos. A violação resultou na exposição de dados sensíveis dos usuários, destacando a importância de implementar práticas criptográficas robustas desde o início do desenvolvimento de aplicações<a href="https://www.youtube.com/watch?v=cftWboGdETE">^19</a>.</p>
+<h3 id="li%C3%A7%C3%B5es-aprendidas">Lições Aprendidas</h3>
+<p>O caso Freecycle enfatiza a necessidade de:</p>
+<ul>
+<li>Avaliar regularmente a força dos algoritmos criptográficos utilizados</li>
+<li>Atualizar sistemas para implementar algoritmos mais seguros</li>
+<li>Considerar a criptografia como um componente essencial do design de segurança, não como um adicional</li>
+</ul>
+<h2 id="aspectos-t%C3%A9cnicos-das-falhas-criptogr%C3%A1ficas">Aspectos Técnicos das Falhas Criptográficas</h2>
+<h3 id="algoritmos-criptogr%C3%A1ficos-comumente-vulner%C3%A1veis">Algoritmos Criptográficos Comumente Vulneráveis</h3>
+<p>Certos algoritmos criptográficos são conhecidamente vulneráveis e devem ser evitados:</p>
+<ul>
+<li>MD5 e SHA-1 para funções hash</li>
+<li>DES e 3DES para criptografia simétrica</li>
+<li>RSA com chaves curtas para criptografia assimétrica<a href="https://bugxhunter.com/owasp-top-ten-a022021-cryptographic-failures/">^17</a></li>
+</ul>
+<h3 id="implementa%C3%A7%C3%A3o-correta-de-protocolos-criptogr%C3%A1ficos">Implementação Correta de Protocolos Criptográficos</h3>
+<p>A implementação correta de protocolos criptográficos deve considerar:</p>
+<ul>
+<li>Uso apropriado de vetores de inicialização (IVs)</li>
+<li>Implementação de sal (salt) para hashing de senhas</li>
+<li>Seleção de modos de operação seguros para algoritmos de blocos criptográficos</li>
+<li>Validação adequada de certificados<a href="https://www.youtube.com/watch?v=cftWboGdETE">^17</a></li>
+</ul>
+<h2 id="conclus%C3%A3o">Conclusão</h2>
+<p>As falhas criptográficas representam um risco significativo para aplicações web modernas, ocupando a segunda posição na lista OWASP Top 10 de 2021. A proteção adequada de dados sensíveis requer uma abordagem abrangente que inclua a seleção cuidadosa de algoritmos criptográficos, gerenciamento apropriado de chaves, proteção de dados em trânsito e em repouso, e aplicação consistente de melhores práticas de segurança.</p>
+<p>As organizações devem considerar a criptografia como um componente fundamental de sua estratégia de segurança, não como um adicional. Implementar as recomendações da OWASP e utilizar as ferramentas disponíveis para detecção e mitigação de vulnerabilidades pode ajudar significativamente a reduzir o risco associado às falhas criptográficas.</p>
+<p>À medida que as ameaças evoluem e as técnicas de ataque se tornam mais sofisticadas, manter-se atualizado sobre as melhores práticas criptográficas e revisar regularmente implementações existentes torna-se cada vez mais importante para garantir a segurança contínua dos dados e sistemas.</p>
+<div style="text-align: center">⁂</div>
+
+</body>
+</html>

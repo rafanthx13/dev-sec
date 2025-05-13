@@ -162,7 +162,7 @@ Faça o seguinte, no mínimo, e consulte as referências:
 
 ## ChatGPT
 
-#### Q1
+### Q1
 
 > Fale sobre A02 - Cryptographic Failures do OWASP
 
